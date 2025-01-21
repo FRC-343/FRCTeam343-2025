@@ -1,0 +1,2 @@
+Dashboard python installs needed
+pip install pynetworktables PyOpenGL glfw imgui[glfw]
