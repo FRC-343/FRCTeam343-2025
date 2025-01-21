@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
@@ -23,6 +24,8 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.CommandCustomController;
+import frc.robot.util.MetalUtils;
+
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -139,8 +142,13 @@ public class RobotContainer {
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
+    // SmartDashboard.putData(MetalUtils.getQuickReefOne());
+
     // Configure the button bindings
     configureButtonBindings();
+
+    SmartDashboard.putNumber("QuickReefOne", MetalUtils.getStation());
+
   }
 
   /**
@@ -182,8 +190,8 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().whileTrue(m_Automation.ReefOnePath());
-    controller.x().whileTrue(m_Automation.LeftCoralPath());
+    controller.y().whileTrue(m_Automation.quickReefOnePath());
+    controller.x().whileTrue(m_Automation.quickCoralPath());
   }
 
   /**

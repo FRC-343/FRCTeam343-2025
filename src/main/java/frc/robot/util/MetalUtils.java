@@ -1,7 +1,9 @@
 package frc.robot.util;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.vision.OffsetTags;
 import frc.robot.subsystems.vision.VisionConstants;
 // import frc.robot.Constants.PathPlannerConstants;
@@ -56,6 +58,49 @@ public class MetalUtils {
       return OffsetTags.CORAL_TWO;
     } else {
       return OffsetTags.CORAL_ONE;
+    }
+  }
+
+  public static OffsetTags getQuickReefOne() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.REEF_FIVE;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.REEF_FOUR;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.REEF_TWO;
+    } else {
+      return OffsetTags.REEF_FIVE;
+    }
+
+  }
+
+  public static OffsetTags getQuickReefTwo() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.REEF_FOUR;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.REEF_THREE;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.REEF_ONE;
+    } else {
+      return OffsetTags.REEF_FOUR;
+    }
+  }
+
+  public static OffsetTags getQuickReefThree() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.REEF_SIX;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.REEF_FIVE;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.REEF_THREE;
+    } else {
+      return OffsetTags.REEF_SIX;
     }
   }
 }

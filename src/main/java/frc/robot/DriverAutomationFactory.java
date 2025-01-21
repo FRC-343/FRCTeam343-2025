@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.commands.PositionWithCoralStation;
 import frc.robot.commands.PositionWithReef;
 import frc.robot.subsystems.drive.Drive;
-import frc.robot.subsystems.vision.OffsetTags;
 import frc.robot.util.CommandCustomController;
 import frc.robot.util.MetalUtils;
 import java.util.Set;
@@ -25,11 +24,11 @@ public class DriverAutomationFactory {
     this.drive = drive;
   }
 
-  public Command LeftCoralPath() {
+  public Command quickCoralPath() {
     return MetalUtils.getCoralTag().getDeferredCommand();
   }
 
-  public Command LeftCoralAssist() {
+  public Command quickCoralAssist() {
     return Commands.defer(
         () ->
             new PositionWithCoralStation(
@@ -37,13 +36,15 @@ public class DriverAutomationFactory {
         Set.of(drive));
   }
 
-  public Command ReefOnePath() {
-    return OffsetTags.REEF_ONE.getDeferredCommand();
+  public Command quickReefOnePath() {
+    return MetalUtils.getQuickReefOne().getDeferredCommand();
   }
 
-  public Command ReefOneAssist() {
+  public Command quickReefOneAssist() {
     return Commands.defer(
-        () -> new PositionWithReef(() -> -driverController.getLeftX(), drive, OffsetTags.REEF_ONE),
+        () ->
+            new PositionWithReef(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getQuickReefOne()),
         Set.of(drive));
   }
 }
