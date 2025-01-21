@@ -25,9 +25,9 @@ public class MetalUtils {
   }
 
   public static int getStation() {
-    if (DriverStation.getAlliance().isPresent() == true){
-    return DriverStation.getLocation().getAsInt();
-    }else {
+    if (DriverStation.getAlliance().isPresent() == true) {
+      return DriverStation.getLocation().getAsInt();
+    } else {
       return 4;
     }
   }
