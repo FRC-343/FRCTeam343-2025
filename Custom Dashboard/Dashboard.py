@@ -34,6 +34,7 @@ class DriverDashboard:
         self.quick_reef_one = "UNKNOWN"  # Default value for Quick Reef One
         self.quick_reef_two = "UNKNOWN"  # Default value for Quick Reef Two
         self.quick_reef_three = "UNKNOWN"  # Default value for Quick Reef Three
+        self.selected_reef = "UNKNOWN"
 
         self.image_path = "2025 REEFSCAPE Blue.png"
         try:
@@ -67,6 +68,8 @@ class DriverDashboard:
         self.quick_reef_one = self.table.getString("QuickReefOne", "UNKNOWN")
         self.quick_reef_two = self.table.getString("QuickReefTwo", "UNKNOWN")
         self.quick_reef_three = self.table.getString("QuickReefThree", "UNKNOWN")
+        self.selected_reef = self.table.getString("SelectedReef", "UKNOWN")
+        
 
     def draw_image_with_labels(self):
         if self.image_texture:
