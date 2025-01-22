@@ -1,9 +1,7 @@
 package frc.robot.util;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.vision.OffsetTags;
 import frc.robot.subsystems.vision.VisionConstants;
 // import frc.robot.Constants.PathPlannerConstants;
@@ -73,7 +71,20 @@ public class MetalUtils {
     } else {
       return OffsetTags.REEF_FIVE;
     }
+  }
 
+  public static String getQuickReefOneTAGv() {
+    if (MetalUtils.getStation() == 1) {
+      return "5";
+    }
+    if (MetalUtils.getStation() == 2) {
+      return "4";
+    }
+    if (MetalUtils.getStation() == 3) {
+      return "2";
+    } else {
+      return "5";
+    }
   }
 
   public static OffsetTags getQuickReefTwo() {
@@ -90,6 +101,20 @@ public class MetalUtils {
     }
   }
 
+  public static String getQuickReefTwoTAGv() {
+    if (MetalUtils.getStation() == 1) {
+      return "4";
+    }
+    if (MetalUtils.getStation() == 2) {
+      return "3";
+    }
+    if (MetalUtils.getStation() == 3) {
+      return "1";
+    } else {
+      return "4";
+    }
+  }
+
   public static OffsetTags getQuickReefThree() {
     if (MetalUtils.getStation() == 1) {
       return OffsetTags.REEF_SIX;
@@ -101,6 +126,20 @@ public class MetalUtils {
       return OffsetTags.REEF_THREE;
     } else {
       return OffsetTags.REEF_SIX;
+    }
+  }
+
+  public static String getQuickReefThreeTAGv() {
+    if (MetalUtils.getStation() == 1) {
+      return "6";
+    }
+    if (MetalUtils.getStation() == 2) {
+      return "5";
+    }
+    if (MetalUtils.getStation() == 3) {
+      return "3";
+    } else {
+      return "6";
     }
   }
 }

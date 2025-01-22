@@ -25,7 +25,6 @@ import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.CommandCustomController;
 import frc.robot.util.MetalUtils;
-
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -147,7 +146,9 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    SmartDashboard.putNumber("QuickReefOne", MetalUtils.getStation());
+    SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
+    SmartDashboard.putString("QuickReefTwo", MetalUtils.getQuickReefTwoTAGv());
+    SmartDashboard.putString("QuickReefThree", MetalUtils.getQuickReefThreeTAGv());
 
   }
 

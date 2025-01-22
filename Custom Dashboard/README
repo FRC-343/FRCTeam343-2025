@@ -1,2 +1,6 @@
 Dashboard python installs needed
-pip install pynetworktables PyOpenGL glfw imgui[glfw]
+pip install imgui
+pip install glfw
+pip install PyOpenGL
+pip install pynetworktables
+pip install pillow
