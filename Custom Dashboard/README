@@ -4,3 +4,8 @@ pip install glfw
 pip install PyOpenGL
 pip install pynetworktables
 pip install pillow
+
+CMD Commands
+cd documents/github/frcteam343-2025/custom Dashboard
+
+python dashboard.py
