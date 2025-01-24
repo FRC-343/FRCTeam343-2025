@@ -14,9 +14,7 @@ import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
-  private final ElMotorIO io = new ElMotorIO() {
-    
-  };
+  private final ElMotorIO io = new ElMotorIO() {};
 
   private final ElMotorIOInputsAutoLogged inputs = new ElMotorIOInputsAutoLogged();
 

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.bobot_state.BobotState;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -43,6 +44,8 @@ public class RobotContainer {
   @SuppressWarnings("unused")
   private final BobotState m_BobotState;
 
+  private final Elevator elevator;
+
   // Controller
   private final CommandCustomController controller = new CommandCustomController(0);
 
@@ -71,6 +74,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision("BcamRight", VisionConstants.robotToCamera3));
         m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, null, drive);
+        elevator = new Elevator();
 
         break;
 
@@ -98,6 +102,8 @@ public class RobotContainer {
         m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, null, drive);
 
+        elevator = new Elevator();
+
         break;
 
       default:
@@ -118,6 +124,8 @@ public class RobotContainer {
                 new VisionIO() {});
         m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, null, drive);
+
+        elevator = new Elevator();
 
         break;
     }
@@ -178,6 +186,8 @@ public class RobotContainer {
 
     // Switch to X pattern when X button is pressed
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+
+    // elevator.setDefaultCommand();
 
     // Reset gyro to 0° when B button is pressed
     controller

@@ -1,7 +1,6 @@
 package frc.robot.subsystems.Elevator;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.subsystems.drive.ModuleIO.ModuleIOInputs;
 import org.littletonrobotics.junction.AutoLog;
 
 public interface ElMotorIO {
