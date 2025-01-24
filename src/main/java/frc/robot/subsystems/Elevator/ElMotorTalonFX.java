@@ -121,12 +121,12 @@ public class ElMotorTalonFX {
 
   @Override
   public void setElevatorVelocity(double velocityRotPerSecondLeft) {
-    masterTalon.setControl(velocityVoltage.withVelocity(velocityRotPerSecondLeft));
+    this.masterTalon.setControl(velocityVoltage.withVelocity(velocityRotPerSecondLeft));
   }
 
   @Override
   public void setElevatorPosition(double position){
-    masterTalon.setPosition(position);
+    this.masterTalon.setPosition(position);
   }
 
 }
