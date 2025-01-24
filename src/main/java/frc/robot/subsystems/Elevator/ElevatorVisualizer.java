@@ -35,7 +35,7 @@ public class ElevatorVisualizer {
   /** Update elevator visualizer with current elevator height */
   public void update(double positionInches) {
     elevator.setLength(Units.inchesToMeters(positionInches));
-    Logger.recordOutput("Elevator/Mechanisms/" + key + "/Mechanism2d", mechanism);
+    // Logger.recordOutput("Elevator/Mechanisms/" + key + "/Mechanism2d", mechanism);
 
     // Log 3d poses
     Pose3d elevator =

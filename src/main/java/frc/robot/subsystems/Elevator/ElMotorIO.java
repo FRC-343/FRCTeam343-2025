@@ -25,7 +25,7 @@ public interface ElMotorIO {
     public Rotation2d extentionPos = new Rotation2d();
   }
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(ModuleIOInputs inputs) {}
+  public default void updateInputs(ElMotorIOInputs inputs) {}
 
   /** Run the drive motor at the specified open loop value. */
   public default void setElevatorOpenLoop(double output) {}

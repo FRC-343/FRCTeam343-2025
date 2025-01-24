@@ -24,23 +24,23 @@ import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.Elevator.ElMotorIO.ElMotorIOInputs;
 import frc.robot.util.Constants;
 
-public class ElMotorTalonFX {
+public class ElMotorTalonFX implements ElMotorIO {
 
   private final TalonFX masterTalon = new TalonFX(Constants.elevatorConstants.masterID);
   private final TalonFX followerTalon = new TalonFX(Constants.elevatorConstants.followerID);
   private final CANcoder canCoder = new CANcoder(Constants.elevatorConstants.canCoderID);
 
   // Voltage control requests
-  private final VoltageOut voltageRequest = new VoltageOut(0);
-  private final PositionVoltage positionVoltageRequest = new PositionVoltage(0.0);
-  private final VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
+  // private final VoltageOut voltageRequest = new VoltageOut(0);
+  // private final PositionVoltage positionVoltageRequest = new PositionVoltage(0.0);
+  // private final VelocityVoltage velocityVoltageRequest = new VelocityVoltage(0.0);
 
-  // Torque-current control requests
-  private final TorqueCurrentFOC torqueCurrentRequest = new TorqueCurrentFOC(0);
-  private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
-      new PositionTorqueCurrentFOC(0.0);
-  private final VelocityTorqueCurrentFOC velocityTorqueCurrentRequest =
-      new VelocityTorqueCurrentFOC(0.0);
+  // // Torque-current control requests
+  // private final TorqueCurrentFOC torqueCurrentRequest = new TorqueCurrentFOC(0);
+  // private final PositionTorqueCurrentFOC positionTorqueCurrentRequest =
+  //     new PositionTorqueCurrentFOC(0.0);
+  // private final VelocityTorqueCurrentFOC velocityTorqueCurrentRequest =
+  //     new VelocityTorqueCurrentFOC(0.0);
 
   // Inputs from drive motor
   private final StatusSignal<Angle> masterPosition = masterTalon.getPosition();
@@ -55,9 +55,9 @@ public class ElMotorTalonFX {
   private final StatusSignal<Voltage> followerAppliedVolts = followerTalon.getMotorVoltage();
   private final StatusSignal<Current> followerCurrent = followerTalon.getStatorCurrent();
 
-  private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
-  private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
-  private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
+  // private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
+  // private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
+  // private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
 
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
