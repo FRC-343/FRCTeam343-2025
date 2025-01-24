@@ -37,4 +37,8 @@ public interface ElMotorIO {
   public default void setElevatorPosition(Double rotation) {}
 
   public default void setPercentOutput(double percentDecimal) {}
+
+  public default void stop() {
+    setElevatorVelocity(0);
+  }
 }
