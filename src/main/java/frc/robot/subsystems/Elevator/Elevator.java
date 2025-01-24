@@ -8,11 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.bobot_state.BobotState;
+import frc.robot.util.MetalUtils;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
-import frc.robot.util.MetalUtils;
 
 public class Elevator extends SubsystemBase {
   private final ElMotorIO io;
@@ -21,9 +20,8 @@ public class Elevator extends SubsystemBase {
 
   private final PIDController pidController =
       new PIDController(
-        0,              // Replace with actual PID values when on the bot
-         0, 
-         0);
+          0, // Replace with actual PID values when on the bot
+          0, 0);
 
   private double setpointInches = 0.0;
 
@@ -31,7 +29,6 @@ public class Elevator extends SubsystemBase {
       new ElevatorVisualizer("Measured", Color.kBlack);
   private final ElevatorVisualizer setpointVisualizer =
       new ElevatorVisualizer("Setpoint", Color.kGreen);
-
 
   @Override
   public void periodic() {
@@ -58,9 +55,7 @@ public class Elevator extends SubsystemBase {
   }
 
   private void setSetpoint(double setpoint) {
-    this.setpointInches =
-        MathUtil.clamp(
-            setpoint, 0, 56);
+    this.setpointInches = MathUtil.clamp(setpoint, 0, 56);
     this.pidController.setSetpoint(this.setpointInches);
   }
 
@@ -131,6 +126,4 @@ public class Elevator extends SubsystemBase {
   public Command runPercentOutputCommand(DoubleSupplier percentDecimal) {
     return new RunCommand(() -> this.runPercentOutput(percentDecimal.getAsDouble()), this);
   }
-
 }
-

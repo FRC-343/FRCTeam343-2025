@@ -36,6 +36,5 @@ public interface ElMotorIO {
   /** Run the turn motor to the specified rotation. */
   public default void setElevatorPosition(Double rotation) {}
 
-  public default void setPercentOutput(double percentDecimal) {
-  }
+  public default void setPercentOutput(double percentDecimal) {}
 }
