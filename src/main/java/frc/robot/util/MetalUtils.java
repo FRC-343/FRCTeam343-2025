@@ -24,6 +24,8 @@ public class MetalUtils {
     return MetalUtils.isRedAlliance() ? -1 : 1;
   }
 
+
+  
   public static int getStation() {
     if (DriverStation.getAlliance().isPresent() == true) {
       return DriverStation.getLocation().getAsInt();

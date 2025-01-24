@@ -1,9 +1,11 @@
 package frc.robot.subsystems.Elevator;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.TorqueCurrentFOC;
@@ -19,6 +21,7 @@ import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
+import frc.robot.subsystems.Elevator.ElMotorIO.ElMotorIOInputs;
 import frc.robot.util.Constants;
 
 public class ElMotorTalonFX {
@@ -58,23 +61,66 @@ public class ElMotorTalonFX {
 
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
-  public ElMotorTalonFX(int deviceID, boolean isInverted) {
-    this.masterTalon
-        .getConfigurator()
-        .apply(
-            new TalonFXConfiguration()
-                .withMotorOutput(
-                    new MotorOutputConfigs()
-                        .withNeutralMode(NeutralModeValue.Brake)
-                        .withInverted(
-                            isInverted
-                                ? InvertedValue.Clockwise_Positive
-                                : InvertedValue.CounterClockwise_Positive))
-                .withSlot0(new Slot0Configs().withKV(.12).withKP(.1).withKI(0).withKD(0)));
+  public ElMotorTalonFX() {
+    TalonFXConfiguration config =
+        new TalonFXConfiguration()
+            .withMotorOutput(
+                new MotorOutputConfigs()
+                    .withInverted(InvertedValue.Clockwise_Positive)
+                    .withNeutralMode(NeutralModeValue.Brake))
+            .withClosedLoopRamps(
+                new ClosedLoopRampsConfigs().withDutyCycleClosedLoopRampPeriod(1.0))
+            .withSlot0(new Slot0Configs().withKV(0.14).withKP(4.0).withKI(0).withKD(0));
+
     velocityVoltage.Slot = 0;
 
+    this.masterTalon.getConfigurator().apply(config);
+    this.followerTalon.getConfigurator().apply(config);
+
+    this.followerTalon.setControl(new Follower(masterTalon.getDeviceID(), false));
+
     StatusSignal.setUpdateFrequencyForAll(
-        50, masterPosition, masterVelocity, masterAppliedVolts, masterCurrent);
-    masterTalon.optimizeBusUtilization();
+        50,
+        masterAppliedVolts,
+        masterCurrent,
+        masterPosition,
+        masterVelocity,
+        followerAppliedVolts,
+        followerCurrent,
+        followerPosition,
+        followerVelocity);
+    this.masterTalon.optimizeBusUtilization();
+    this.followerTalon.optimizeBusUtilization();
+  }
+
+  @Override
+  public void updateInputs(ElMotorIOInputs inputs) {
+    StatusSignal.refreshAll(
+        masterAppliedVolts,
+        masterCurrent,
+        masterPosition,
+        masterVelocity,
+        followerAbsolutePosition,
+        followerAppliedVolts,
+        followerCurrent,
+        followerPosition,
+        followerVelocity);
+
+    inputs.masterAppliedVolts = masterAppliedVolts.getValueAsDouble();
+    inputs.masterCurrentAmps = masterCurrent.getValueAsDouble();
+    inputs.masterPositionRad = masterPosition.getValueAsDouble();
+    inputs.masterVelocityRadPerSec = masterVelocity.getValueAsDouble();
+
+    inputs.followerAppliedVolts = followerAppliedVolts.getValueAsDouble();
+    inputs.followerCurrentAmps = followerCurrent.getValueAsDouble();
+    inputs.followerPositionRad = followerPosition.getValueAsDouble();
+    inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
+
+    inputs.extentionAbsPos = followerAbsolutePosition.getValueAsDouble();
+  }
+
+  @Override
+  public void setElevatorVelocity(double velocityRotPerSecondLeft) {
+    masterTalon.setControl(velocityVoltage.withVelocity(velocityRotPerSecondLeft));
   }
 }

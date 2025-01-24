@@ -20,7 +20,8 @@ public interface ElMotorIO {
     public double followerAppliedVolts = 0.0;
     public double followerCurrentAmps = 0.0;
 
-    public Rotation2d extentionAbsPos = new Rotation2d();
+    public double extentionAbsPos = 0.0;
+
     public Rotation2d extentionPos = new Rotation2d();
   }
   /** Updates the set of loggable inputs. */
@@ -33,5 +34,8 @@ public interface ElMotorIO {
   public default void setElevatorVelocity(double velocityRadPerSec) {}
 
   /** Run the turn motor to the specified rotation. */
-  public default void setElevatorPosition(Rotation2d rotation) {}
+  public default void setElevatorPosition(Double rotation) {}
+
+  public default void setPercentOutput(double percentDecimal) {
+  }
 }
