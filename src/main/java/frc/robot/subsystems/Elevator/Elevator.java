@@ -20,7 +20,7 @@ public class Elevator extends SubsystemBase {
 
   private final PIDController pidController =
       new PIDController(
-          0, // Replace with actual PID values when on the bot
+          0.1, // Replace with actual PID values when on the bot
           0, 0);
 
   private double setpointInches = 0.0;

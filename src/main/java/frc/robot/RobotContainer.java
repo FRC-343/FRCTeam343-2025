@@ -202,6 +202,8 @@ public class RobotContainer {
 
     controller.y().whileTrue(m_Automation.quickReefOnePath());
     controller.x().whileTrue(m_Automation.quickCoralPath());
+
+    controller.pov(0).whileTrue(elevator.setSetpointCommand(20));
   }
 
   /**
