@@ -13,6 +13,7 @@ import frc.robot.bobot_state.BobotState;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Elevator.Elevator;
+import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -46,6 +47,8 @@ public class RobotContainer {
 
   private final Elevator elevator;
 
+  private final Intake intake;
+
   // Controller
   private final CommandCustomController controller = new CommandCustomController(0);
 
@@ -75,6 +78,7 @@ public class RobotContainer {
         m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, null, drive);
         elevator = new Elevator();
+        intake = new Intake();
 
         break;
 
@@ -103,7 +107,7 @@ public class RobotContainer {
         m_Automation = new DriverAutomationFactory(controller, null, drive);
 
         elevator = new Elevator();
-
+        intake = new Intake();
         break;
 
       default:
@@ -126,7 +130,7 @@ public class RobotContainer {
         m_Automation = new DriverAutomationFactory(controller, null, drive);
 
         elevator = new Elevator();
-
+        intake = new Intake();
         break;
     }
 
