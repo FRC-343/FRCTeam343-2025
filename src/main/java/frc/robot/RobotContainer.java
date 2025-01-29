@@ -178,7 +178,10 @@ public class RobotContainer {
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
 
-    controller.leftBumper().whileTrue(intake.runVelocity(10));
+    // intake.setDefaultCommand(getAutonomousCommand());
+    controller
+        .rightBumper()
+        .whileTrue(Commands.startEnd(() -> intake.runSpeed(-10), intake::stop, intake));
     // Lock to 0° when A button is held
     controller
         .a()
