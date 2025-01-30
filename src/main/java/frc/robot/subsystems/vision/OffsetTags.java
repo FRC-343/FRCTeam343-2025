@@ -2,6 +2,7 @@ package frc.robot.subsystems.vision;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -15,28 +16,28 @@ public enum OffsetTags {
   CORAL_ONE(
       VisionConstants.RED_CORAL_ONE,
       VisionConstants.BLUE_CORAL_ONE,
-      1.0,
+      .35,
       new Rotation3d(0, 0, Math.PI)),
   CORAL_TWO(
       VisionConstants.RED_CORAL_TWO,
       VisionConstants.BLUE_CORAL_TWO,
-      1.0,
+      .35,
       new Rotation3d(0, 0, Math.PI)),
-  REEF_ONE(VisionConstants.RED_REEF_ONE, VisionConstants.BLUE_REEF_ONE, 1.0),
-  REEF_TWO(VisionConstants.RED_REEF_TWO, VisionConstants.BLUE_REEF_TWO, 1.0),
-  REEF_THREE(VisionConstants.RED_REEF_THREE, VisionConstants.BLUE_REEF_THREE, 1.0),
-  REEF_FOUR(VisionConstants.RED_REEF_FOUR, VisionConstants.BLUE_REEF_FOUR, 1.0),
-  REEF_FIVE(VisionConstants.RED_REEF_FIVE, VisionConstants.BLUE_REEF_FIVE, 1.0),
-  REEF_SIX(VisionConstants.RED_REEF_SIX, VisionConstants.BLUE_REEF_SIX, 1.0),
+  REEF_ONE(VisionConstants.RED_REEF_ONE, VisionConstants.BLUE_REEF_ONE, .35),
+  REEF_TWO(VisionConstants.RED_REEF_TWO, VisionConstants.BLUE_REEF_TWO, .35),
+  REEF_THREE(VisionConstants.RED_REEF_THREE, VisionConstants.BLUE_REEF_THREE, .35),
+  REEF_FOUR(VisionConstants.RED_REEF_FOUR, VisionConstants.BLUE_REEF_FOUR, .35),
+  REEF_FIVE(VisionConstants.RED_REEF_FIVE, VisionConstants.BLUE_REEF_FIVE, .35),
+  REEF_SIX(VisionConstants.RED_REEF_SIX, VisionConstants.BLUE_REEF_SIX, .35),
   PROCESSOR(
       VisionConstants.RED_PROCESSOR,
       VisionConstants.BLUE_PROCESSOR,
-      1.0,
+      .35,
       new Rotation3d(0, 0, Math.PI)),
   OTHER_PROCESSOR(
       VisionConstants.BLUE_PROCESSOR,
       VisionConstants.RED_PROCESSOR,
-      1.0,
+      .35,
       new Rotation3d(0, 0, Math.PI));
 
   private final int redId;

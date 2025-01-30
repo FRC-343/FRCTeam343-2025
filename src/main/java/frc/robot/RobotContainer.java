@@ -13,13 +13,13 @@ import frc.robot.bobot_state.BobotState;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Elevator.Elevator;
-import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
@@ -179,9 +179,7 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // intake.setDefaultCommand(getAutonomousCommand());
-    controller
-        .rightBumper()
-        .whileTrue(Commands.startEnd(() -> intake.runSpeed(-10), intake::stop, intake));
+    controller.leftTrigger().whileTrue(intake.setPercentOutputThenStopCommand(20));
     // Lock to 0° when A button is held
     controller
         .a()

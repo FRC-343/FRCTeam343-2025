@@ -1,68 +1,113 @@
-package frc.robot.subsystems.Intake;
+package frc.robot.subsystems.intake;
 
-import static edu.wpi.first.units.Units.*;
-
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
+import com.pathplanner.lib.config.PIDConstants;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.littletonrobotics.junction.AutoLogOutput;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants;
+import frc.robot.beambreak.BeambreakDigitalInput;
+import frc.robot.beambreak.BeambreakIO;
+import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
+import frc.robot.beambreak.BeambreakIOSim;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {
-  private final IntakeIO io = new IntakeIO() {};
+  private final IntakeIO io;
+  private final BeambreakIO beambreak;
+
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
-  private final DigitalInput NoteDetector = new DigitalInput(8);
+  private final BeambreakIOInputsAutoLogged beambreakInputs = new BeambreakIOInputsAutoLogged();
+
+  public Intake() {
+    switch (Constants.currentMode) {
+      case REAL:
+        io = new IntakeIOTalonFX(21, false);
+        beambreak = new BeambreakDigitalInput(0);
+        break;
+      case SIM:
+        io = new IntakeIOSim(DCMotor.getKrakenX60(21), 3, 1, new PIDConstants(1, 0, 0));
+        beambreak = new BeambreakIOSim(0);
+        break;
+      case REPLAY:
+      default:
+        io = new IntakeIO() {};
+        beambreak = new BeambreakIO() {};
+
+        break;
+    }
+  }
 
   @Override
   public void periodic() {
     this.io.updateInputs(this.inputs);
-    Logger.processInputs("Intake", inputs);
-    // if (getNoteDetector() == false) {
-    //   stop();
-    // }
-  }
+    this.io.updateInputs(this.inputs);
+    this.beambreak.updateInputs(this.beambreakInputs);
 
-  public boolean getNoteDetector() {
-    return NoteDetector.get(); // false = note in intake
-  }
+    Logger.processInputs("Intake", this.inputs);
+    Logger.processInputs("Intake/Beambreak", this.beambreakInputs);
 
-  /** Run open loop at the specified voltage. */
-  public void runSpeed(double Speed) {
-    if (getNoteDetector() == true) {
-      io.setSpeed(Speed);
+    // Make sure the motor actually stops when the robot disabled
+    if (DriverStation.isDisabled()) {
+      this.io.stop();
     }
   }
 
-  public void runBypass(double speed) {
-    io.setSpeed(speed);
+  public Command setVelocityCommand(double velocityRotPerSecond) {
+    return new InstantCommand(() -> this.io.setVelocity(velocityRotPerSecond), this);
   }
 
-  /** Run closed loop at the specified velocity. */
-  public void runVelocity(double velocityRPM) {
-    var velocityRadPerSec = velocityRPM;
-    io.setVelocity(velocityRadPerSec);
-
-    // Log Intake setpoint
-    Logger.recordOutput("Intake/SetpointRPM", velocityRPM);
+  public Command setVelocityThenStopCommand(double velocityRotPerSecond) {
+    return new RunCommand(() -> this.io.setVelocity(velocityRotPerSecond), this)
+        .finallyDo(io::stop);
   }
 
-  public boolean DetectedNote(boolean Noted) {
-    return getNoteDetector();
+  public Command setVelocityBeambreakCommand(double velocityRotPerSecond) {
+    return new RunCommand(() -> this.io.setVelocity(velocityRotPerSecond), this)
+        .unless(beambreakIsObstructed())
+        .until(beambreakIsObstructed())
+        .andThen(stopCommand());
   }
 
-  /** Stops the Intake. */
-  public void stop() {
-    io.stop();
+  public Command setPercentOutputCommand(double velocityRotPerSecond) {
+    return new InstantCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
   }
 
-  /** Returns the current velocity in RPM. */
-  @AutoLogOutput
-  public double getVelocityRPM() {
-    return Units.radiansPerSecondToRotationsPerMinute(inputs.velocityRPS);
+  public Command setPercentOutputThenStopCommand(double percentDecimal) {
+    return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this).finallyDo(io::stop);
   }
 
-  /** Returns the current velocity in radians per second. */
-  public double getCharacterizationVelocity() {
-    return inputs.velocityRPS;
+  public Command setPercentOutputBeambreakCommand(double percentDecimal) {
+    return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this)
+        .unless(beambreakIsObstructed())
+        .until(beambreakIsObstructed())
+        .andThen(stopCommand());
+  }
+
+  public Command stopCommand() {
+    return new InstantCommand(this.io::stop, this);
+  }
+
+  // For testing and sim
+  public Command setBeambreakObstructedCommand(boolean value) {
+    return new InstantCommand(
+        () -> {
+          this.beambreak.overrideObstructed(value);
+        });
+  }
+
+  // For testing and sim
+  public Command toggleBeambreakObstructedCommand() {
+    return new InstantCommand(
+        () -> {
+          this.beambreak.overrideObstructed(!this.beambreakInputs.isObstructed);
+        });
+  }
+
+  public Trigger beambreakIsObstructed() {
+    return new Trigger(() -> this.beambreakInputs.isObstructed);
   }
 }

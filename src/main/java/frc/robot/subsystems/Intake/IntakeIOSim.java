@@ -1,54 +1,61 @@
-package frc.robot.subsystems.Intake;
+package frc.robot.subsystems.intake;
 
-import edu.wpi.first.math.MathUtil;
+import com.pathplanner.lib.config.PIDConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class IntakeIOSim implements IntakeIO {
-  private DCMotorSim sim = new DCMotorSim(null, DCMotor.getKrakenX60(2), 0, 5);
-  private PIDController pid = new PIDController(0.0, 0.0, 0.0);
+  // private static double momentOfInertiaKgMSquared = 0.0000032998;
+  private static double momentOfInertiaKgMSquared = 1.0;
+
+  private final DCMotorSim wheelSim;
+
+  private final PIDController controller;
+
+  public IntakeIOSim(DCMotor motorModel, double reduction, double moi, PIDConstants pidConstants) {
+    wheelSim =
+        new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, moi, reduction), motorModel);
+    controller = new PIDController(pidConstants.kP, pidConstants.kI, pidConstants.kD);
+  }
+
+  private double velocityRotPerSecond = 0.0;
 
   private boolean closedLoop = false;
-  private double ffVolts = 0.0;
-  private double appliedVolts = 0.0;
+  private double appliedVoltage = 0.0;
 
   @Override
   public void updateInputs(IntakeIOInputs inputs) {
     if (closedLoop) {
-      appliedVolts =
-          MathUtil.clamp(pid.calculate(sim.getAngularVelocityRadPerSec()) + ffVolts, -12.0, 12.0);
-      sim.setInputVoltage(appliedVolts);
+      appliedVoltage =
+          12.0
+              * controller.calculate(wheelSim.getAngularVelocityRPM() / 60.0, velocityRotPerSecond);
     }
 
-    sim.update(0.02);
+    wheelSim.setInputVoltage(appliedVoltage);
+    wheelSim.update(0.02); // 20 ms is the standard periodic loop time
 
-    inputs.positionRad = 0.0;
-    inputs.velocityRPS = sim.getAngularVelocityRadPerSec();
-    inputs.appliedVolts = appliedVolts;
-    inputs.currentAmps = new double[] {sim.getCurrentDrawAmps()};
+    inputs.appliedVoltage = appliedVoltage;
+    inputs.appliedDutyCycle = appliedVoltage / 12.0;
+    inputs.currentAmperage = wheelSim.getCurrentDrawAmps();
+    inputs.velocityRotPerSecond = wheelSim.getAngularVelocityRPM() / 60.0;
   }
 
   @Override
-  public void setSpeed(double Speed) {
-    closedLoop = false;
-    appliedVolts = Speed;
-    sim.setInputVoltage(Speed);
-  }
-
-  @Override
-  public void setVelocity(double velocityRadPerSec) {
+  public void setVelocity(double velocityRotPerSecond) {
     closedLoop = true;
-    pid.setSetpoint(velocityRadPerSec);
+    this.velocityRotPerSecond = velocityRotPerSecond;
   }
 
   @Override
-  public void stop() {
-    setSpeed(0.0);
+  public void setPercentOutput(double percentDecimal) {
+    setVelocity(12 * percentDecimal);
   }
 
   @Override
-  public void configurePID(double kP, double kI, double kD) {
-    pid.setPID(kP, kI, kD);
+  public void setVoltage(double voltage) {
+    closedLoop = false;
+    appliedVoltage = voltage;
   }
 }

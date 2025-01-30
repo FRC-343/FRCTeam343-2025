@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Intake;
+package frc.robot.subsystems.intake;
 
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -47,14 +47,14 @@ public class IntakeIOTalonFX implements IntakeIO {
 
   public void updateInputs(IntakeIOInputs inputs) {
     StatusSignal.refreshAll(velocity, dutyCycle, voltage);
-    inputs.appliedVolts = voltage.getValueAsDouble();
+    inputs.appliedVoltage = voltage.getValueAsDouble();
     inputs.appliedDutyCycle = dutyCycle.getValueAsDouble();
-    inputs.velocityRPS = velocity.getValueAsDouble() / 2.1;
+    inputs.velocityRotPerSecond = velocity.getValueAsDouble() / 3.0;
   }
 
   @Override
   public void setVelocity(double velocityRotPerSecond) {
-    talon.setControl(velocityVoltage.withVelocity(velocityRotPerSecond * 2.1));
+    talon.setControl(velocityVoltage.withVelocity(velocityRotPerSecond * 3.0));
   }
 
   @Override
