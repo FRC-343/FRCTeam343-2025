@@ -181,14 +181,14 @@ public class RobotContainer {
     // intake.setDefaultCommand(getAutonomousCommand());
     controller.leftTrigger().whileTrue(intake.setPercentOutputThenStopCommand(20));
     // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> new Rotation2d()));
+    // controller
+    //     .a()
+    //     .whileTrue(
+    //         DriveCommands.joystickDriveAtAngle(
+    //             drive,
+    //             () -> -controller.getLeftY(),
+    //             () -> -controller.getLeftX(),
+    //             () -> new Rotation2d()));
 
     // Switch to X pattern when X button is pressed
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
@@ -208,6 +208,7 @@ public class RobotContainer {
 
     controller.y().whileTrue(m_Automation.quickReefOnePath());
     controller.x().whileTrue(m_Automation.quickCoralPath());
+    controller.a().whileTrue(m_Automation.quickReefTwoPath());
 
     controller.pov(0).whileTrue(elevator.setSetpointCommand(20));
   }

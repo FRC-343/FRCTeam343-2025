@@ -47,4 +47,28 @@ public class DriverAutomationFactory {
                 () -> -driverController.getLeftX(), drive, MetalUtils.getQuickReefOne()),
         Set.of(drive));
   }
+
+  public Command quickReefTwoPath() {
+    return MetalUtils.getQuickReefTwo().getDeferredCommand();
+  }
+
+  public Command quickReefTwoAssist() {
+    return Commands.defer(
+        () ->
+            new PositionWithReef(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getQuickReefTwo()),
+        Set.of(drive));
+  }
+
+  public Command quickReefThreePath() {
+    return MetalUtils.getQuickReefThree().getDeferredCommand();
+  }
+
+  public Command quickReefThreeAssist() {
+    return Commands.defer(
+        () ->
+            new PositionWithReef(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getQuickReefThree()),
+        Set.of(drive));
+  }
 }
