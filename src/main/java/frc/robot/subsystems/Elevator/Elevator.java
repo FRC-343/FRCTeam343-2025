@@ -46,6 +46,8 @@ public class Elevator extends SubsystemBase {
     // Log Mechanisms
     measuredVisualizer.update(this.inputs.extentionAbsPos);
     setpointVisualizer.update(this.setpointInches);
+    // I'm not quite sure how this works, it is not working in sim.
+
 
     BobotState.setElevatorUp(this.inputs.extentionAbsPos <= 1.0);
   }
