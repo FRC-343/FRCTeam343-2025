@@ -19,3 +19,4 @@ public class BeambreakIOSim implements BeambreakIO {
     this.beambreakSim.setValue(!isObstructed);
   }
 }
+

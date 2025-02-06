@@ -12,3 +12,4 @@ public interface BeambreakIO {
 
   public default void overrideObstructed(boolean isObstructed) {}
 }
+

@@ -16,7 +16,7 @@ public interface IntakeIO {
   public default void setVelocity(double velocityRotPerSecond) {}
 
   public default void setPercentOutput(double percentDecimal) {}
-
+ 
   public default void setVoltage(double voltage) {}
 
   public default void stop() {
