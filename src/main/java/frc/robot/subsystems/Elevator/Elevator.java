@@ -13,6 +13,11 @@ import frc.robot.util.MetalUtils;
 import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
+/*
+ * self explanatory 
+ * Do note that out Visulizer is not currently working as of 2/6/2025
+ */
+
 public class Elevator extends SubsystemBase {
   private final ElMotorIO io = new ElMotorIO() {};
 

@@ -15,6 +15,11 @@ import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.beambreak.BeambreakIOSim;
 import org.littletonrobotics.junction.Logger;
 
+
+/*
+ * Intake is what we are using as an overarching name, it is tecnically our algea and coral manipulators,
+ * but because it is the same mech we are using intake to cover both
+ */
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final BeambreakIO beambreak;
