@@ -14,4 +14,3 @@ public class BeambreakDigitalInput implements BeambreakIO {
     inputs.isObstructed = !beambreak.get();
   }
 }
-

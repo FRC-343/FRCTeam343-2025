@@ -15,11 +15,6 @@ import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.beambreak.BeambreakIOSim;
 import org.littletonrobotics.junction.Logger;
 
-
-/*
- * Intake is what we are using as an overarching name, it is tecnically our algea and coral manipulators,
- * but because it is the same mech we are using intake to cover both
- */
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final BeambreakIO beambreak;
@@ -32,15 +27,15 @@ public class Intake extends SubsystemBase {
   public Intake() {
     switch (Constants.currentMode) {
       case REAL:
-        io = new IntakeIOTalonFX(21, false);
-        beambreak = new BeambreakDigitalInput(0);
-        beambreak2 = new BeambreakDigitalInput(1);
-        
+        io = new IntakeIOTalonFX(22, false);
+        beambreak = new BeambreakDigitalInput(3);
+        beambreak2 = new BeambreakDigitalInput(2);
+
         break;
       case SIM:
         io = new IntakeIOSim(DCMotor.getKrakenX60(21), 3, 1, new PIDConstants(1, 0, 0));
         beambreak = new BeambreakIOSim(0);
-        beambreak = new BeambreakIOSim(1);
+        beambreak2 = new BeambreakIOSim(1);
         break;
       case REPLAY:
       default:

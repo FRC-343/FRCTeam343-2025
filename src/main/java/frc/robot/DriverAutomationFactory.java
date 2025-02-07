@@ -11,7 +11,7 @@ import java.util.Set;
 
 public class DriverAutomationFactory {
   private final CommandCustomController driverController;
-  // private final CommandCustomController operatorController;
+  private final CommandCustomController operatorController;
 
   private final Drive drive;
 
@@ -20,7 +20,7 @@ public class DriverAutomationFactory {
       CommandCustomController operatorController,
       Drive drive) {
     this.driverController = driverController;
-    // this.operatorController = operatorController;
+    this.operatorController = operatorController;
     this.drive = drive;
   }
 

@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Elevator;
 
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.ClosedLoopRampsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -7,22 +8,22 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.math.filter.Debouncer;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.Elevator.ElMotorIO.ElMotorIOInputs;
-import frc.robot.util.Constants;
+import org.littletonrobotics.junction.Logger;
 
 public class ElMotorTalonFX implements ElMotorIO {
 
-  private final TalonFX masterTalon = new TalonFX(Constants.elevatorConstants.masterID);
-  private final TalonFX followerTalon = new TalonFX(Constants.elevatorConstants.followerID);
-  private final CANcoder canCoder = new CANcoder(Constants.elevatorConstants.canCoderID);
+  private final TalonFX masterTalon = new TalonFX(21);
+  private final TalonFX followerTalon = new TalonFX(23);
+  // private final CANcoder canCoder = new CANcoder(Constants.elevatorConstants.canCoderID);
 
   // Voltage control requests
   // private final VoltageOut voltageRequest = new VoltageOut(0);
@@ -43,15 +44,15 @@ public class ElMotorTalonFX implements ElMotorIO {
   private final StatusSignal<Current> masterCurrent = masterTalon.getStatorCurrent();
 
   // Inputs from turn motor
-  private final StatusSignal<Angle> followerAbsolutePosition = canCoder.getAbsolutePosition();
+  // private final StatusSignal<Angle> followerAbsolutePosition = canCoder.getAbsolutePosition();
   private final StatusSignal<Angle> followerPosition = followerTalon.getPosition();
   private final StatusSignal<AngularVelocity> followerVelocity = followerTalon.getVelocity();
   private final StatusSignal<Voltage> followerAppliedVolts = followerTalon.getMotorVoltage();
   private final StatusSignal<Current> followerCurrent = followerTalon.getStatorCurrent();
 
-  // private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
-  // private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
-  // private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
+  private final Debouncer driveConnectedDebounce = new Debouncer(0.5);
+  private final Debouncer turnConnectedDebounce = new Debouncer(0.5);
+  private final Debouncer turnEncoderConnectedDebounce = new Debouncer(0.5);
 
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
 
@@ -74,7 +75,7 @@ public class ElMotorTalonFX implements ElMotorIO {
     this.followerTalon.setControl(new Follower(masterTalon.getDeviceID(), false));
 
     StatusSignal.setUpdateFrequencyForAll(
-        50,
+        5,
         masterAppliedVolts,
         masterCurrent,
         masterPosition,
@@ -89,16 +90,19 @@ public class ElMotorTalonFX implements ElMotorIO {
 
   @Override
   public void updateInputs(ElMotorIOInputs inputs) {
+    var driveStatus =
+        BaseStatusSignal.refreshAll(
+            masterPosition, masterAppliedVolts, masterCurrent, masterVelocity);
     StatusSignal.refreshAll(
-        masterAppliedVolts,
-        masterCurrent,
-        masterPosition,
-        masterVelocity,
-        followerAbsolutePosition,
-        followerAppliedVolts,
-        followerCurrent,
-        followerPosition,
-        followerVelocity);
+        // masterAppliedVolts,
+        // masterCurrent,
+        // masterPosition,
+        // masterVelocity,
+        // followerAbsolutePosition,
+        followerAppliedVolts, followerCurrent, followerPosition, followerVelocity);
+
+    inputs.masterConnected = driveConnectedDebounce.calculate(driveStatus.isOK());
+
 
     inputs.masterAppliedVolts = masterAppliedVolts.getValueAsDouble();
     inputs.masterCurrentAmps = masterCurrent.getValueAsDouble();
@@ -110,11 +114,17 @@ public class ElMotorTalonFX implements ElMotorIO {
     inputs.followerPositionRad = followerPosition.getValueAsDouble();
     inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
 
-    inputs.extentionAbsPos = followerAbsolutePosition.getValueAsDouble();
+    // inputs.extentionAbsPos = followerAbsolutePosition.getValueAsDouble();
   }
 
   @Override
   public void setElevatorVelocity(double velocityRotPerSecondLeft) {
-    this.masterTalon.setControl(velocityVoltage.withVelocity(velocityRotPerSecondLeft));
+    this.masterTalon.setVoltage(velocityRotPerSecondLeft);
+    ;
+  }
+
+  @Override
+  public void setPercentOutput(double percentDecimal) {
+    this.masterTalon.setControl(velocityVoltage.withFeedForward(percentDecimal));
   }
 }

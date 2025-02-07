@@ -13,13 +13,13 @@ import frc.robot.bobot_state.BobotState;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Elevator.Elevator;
+import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.vision.Vision;
 import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.subsystems.vision.VisionIO;
@@ -52,6 +52,8 @@ public class RobotContainer {
   // Controller
   private final CommandCustomController controller = new CommandCustomController(0);
 
+  private final CommandCustomController controller2 = new CommandCustomController(1);
+
   private final DriverAutomationFactory m_Automation;
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
@@ -76,7 +78,7 @@ public class RobotContainer {
                 new VisionIOPhotonVision("BcanLeft", VisionConstants.robotToCamera2),
                 new VisionIOPhotonVision("BcamRight", VisionConstants.robotToCamera3));
         m_BobotState = new BobotState();
-        m_Automation = new DriverAutomationFactory(controller, null, drive);
+        m_Automation = new DriverAutomationFactory(controller, controller2, drive);
         elevator = new Elevator();
         intake = new Intake();
 
@@ -104,7 +106,7 @@ public class RobotContainer {
                     "BcamRight", VisionConstants.robotToCamera3, drive::getPose));
 
         m_BobotState = new BobotState();
-        m_Automation = new DriverAutomationFactory(controller, null, drive);
+        m_Automation = new DriverAutomationFactory(controller, controller2, drive);
 
         elevator = new Elevator();
         intake = new Intake();
@@ -127,7 +129,7 @@ public class RobotContainer {
                 new VisionIO() {},
                 new VisionIO() {});
         m_BobotState = new BobotState();
-        m_Automation = new DriverAutomationFactory(controller, null, drive);
+        m_Automation = new DriverAutomationFactory(controller, controller2, drive);
 
         elevator = new Elevator();
         intake = new Intake();
@@ -179,7 +181,9 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // intake.setDefaultCommand(getAutonomousCommand());
-    controller.leftTrigger().whileTrue(intake.setPercentOutputThenStopCommand(20));
+    controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-.2));
+    elevator.runPercentOutput(controller2.getRightY());
+    elevator.setVoltage(controller2.getLeftY());
     // Lock to 0° when A button is held
     // controller
     //     .a()
@@ -210,7 +214,9 @@ public class RobotContainer {
     controller.x().whileTrue(m_Automation.quickCoralPath());
     controller.a().whileTrue(m_Automation.quickReefTwoPath());
 
-    controller.pov(0).whileTrue(elevator.setSetpointCommand(20));
+    // elevator.setVoltage(controller2.getRightY());
+    // elevator.pidCommand();
+    controller2.pov(0).whileTrue(elevator.setSetpointCommand(20));
   }
 
   /**

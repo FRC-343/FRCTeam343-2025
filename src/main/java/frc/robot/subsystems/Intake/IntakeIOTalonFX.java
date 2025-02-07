@@ -11,7 +11,6 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
-import frc.robot.generated.TunerConstants;
 
 public class IntakeIOTalonFX implements IntakeIO {
   private final TalonFX talon;
@@ -22,7 +21,7 @@ public class IntakeIOTalonFX implements IntakeIO {
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
   public IntakeIOTalonFX(int deviceId, boolean isInverted) {
-    talon = new TalonFX(deviceId, TunerConstants.kCANBus);
+    talon = new TalonFX(deviceId);
     voltage = talon.getMotorVoltage();
     dutyCycle = talon.getDutyCycle();
     velocity = talon.getVelocity();

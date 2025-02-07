@@ -14,7 +14,7 @@ import java.util.function.DoubleSupplier;
 import org.littletonrobotics.junction.Logger;
 
 /*
- * self explanatory 
+ * self explanatory
  * Do note that out Visulizer is not currently working as of 2/6/2025
  */
 
@@ -25,7 +25,7 @@ public class Elevator extends SubsystemBase {
 
   private final PIDController pidController =
       new PIDController(
-          0.1, // Replace with actual PID values when on the bot
+          0.5, // Replace with actual PID values when on the bot
           0, 0);
 
   private double setpointInches = 0.0;
@@ -52,7 +52,6 @@ public class Elevator extends SubsystemBase {
     measuredVisualizer.update(this.inputs.extentionAbsPos);
     setpointVisualizer.update(this.setpointInches);
     // I'm not quite sure how this works, it is not working in sim.
-
 
     BobotState.setElevatorUp(this.inputs.extentionAbsPos <= 1.0);
   }
@@ -124,7 +123,7 @@ public class Elevator extends SubsystemBase {
     double output =
         MetalUtils.percentWithSoftStops(
             percentDecimal,
-            this.inputs.extentionAbsPos + this.inputs.masterVelocityRadPerSec,
+            this.inputs.masterPositionRad + this.inputs.masterVelocityRadPerSec,
             0,
             0);
     this.io.setPercentOutput(output);

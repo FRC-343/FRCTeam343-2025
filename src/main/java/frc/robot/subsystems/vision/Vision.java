@@ -22,7 +22,7 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 /*
- * Self explanatory 
+ * Self explanatory
  */
 
 public class Vision extends SubsystemBase {
