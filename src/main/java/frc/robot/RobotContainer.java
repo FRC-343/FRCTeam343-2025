@@ -182,8 +182,13 @@ public class RobotContainer {
 
     // intake.setDefaultCommand(getAutonomousCommand());
     controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-.2));
-    elevator.runPercentOutput(controller2.getRightY());
-    elevator.setVoltage(controller2.getLeftY());
+
+    controller2
+        .pov(0)
+        .whileTrue(elevator.setPercentOutputCommand(.02))
+        .whileFalse(elevator.setPercentOutputCommand(0));
+
+    // elevator.setVelocityCommand(controller2.getLeftY());
     // Lock to 0° when A button is held
     // controller
     //     .a()
@@ -216,7 +221,7 @@ public class RobotContainer {
 
     // elevator.setVoltage(controller2.getRightY());
     // elevator.pidCommand();
-    controller2.pov(0).whileTrue(elevator.setSetpointCommand(20));
+    // controller2.pov(0).whileTrue(elevator.setSetpointCommand(20));
   }
 
   /**

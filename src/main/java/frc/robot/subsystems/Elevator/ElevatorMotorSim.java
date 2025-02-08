@@ -1,20 +1,29 @@
 package frc.robot.subsystems.Elevator;
 
+import com.pathplanner.lib.config.PIDConstants;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
-public class ElMotorSim implements ElMotorIO {
+public class ElevatorMotorSim implements ElevatorMotorIO {
   private static final double kInchesPerRotation = 2 * Math.PI;
 
   private static final double momentOfInertiaKgMSquared =
       0.05; // Moment of intertia (totally wrong)
 
-  private final DCMotorSim sim =
-      new DCMotorSim(null, DCMotor.getKrakenX60(2), momentOfInertiaKgMSquared, 5);
-
+  private final DCMotorSim sim;
   private double appliedVoltage = 0.0;
+  private final PIDController controller;
 
-  public void updateInputs(ElMotorIOInputs inputs) {
+  public ElevatorMotorSim(
+      DCMotor motorModel, double reduction, double moi, PIDConstants pidConstants) {
+    sim =
+        new DCMotorSim(LinearSystemId.createDCMotorSystem(motorModel, moi, reduction), motorModel);
+    controller = new PIDController(pidConstants.kP, pidConstants.kI, pidConstants.kD);
+  }
+
+  public void updateInputs(ElevatorMotorIOInputs inputs) {
     sim.update(0.02);
 
     inputs.masterAppliedVolts = appliedVoltage;

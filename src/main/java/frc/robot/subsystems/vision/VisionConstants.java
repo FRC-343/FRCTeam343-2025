@@ -22,9 +22,9 @@ public class VisionConstants {
 
   // Camera names, must match names configured on coprocessor
   public static String camera0Name = "FcamLeft";
-  public static String camera1Name = "FcamRight";
+  public static String camera1Name = "FRight";
   public static String camera2Name = "BcamLeft";
-  public static String camera3Name = "BcamRight";
+  public static String camera3Name = "BRight";
 
   // Robot to camera transforms
   // This is Camera centered IE instead of XYZ its YXZ for the Transform

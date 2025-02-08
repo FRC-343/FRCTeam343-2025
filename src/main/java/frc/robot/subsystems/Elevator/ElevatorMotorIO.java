@@ -3,11 +3,11 @@ package frc.robot.subsystems.Elevator;
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface ElMotorIO {
+public interface ElevatorMotorIO {
 
   @AutoLog
-  public static class ElMotorIOInputs {
-    public boolean masterConnected = false;
+  public static class ElevatorMotorIOInputs {
+    public boolean masterConnected;
     public double masterPositionRad = 0.0;
     public double masterVelocityRadPerSec = 0.0;
     public double masterAppliedVolts = 0.0;
@@ -24,7 +24,7 @@ public interface ElMotorIO {
     public Rotation2d extentionPos = new Rotation2d();
   }
   /** Updates the set of loggable inputs. */
-  public default void updateInputs(ElMotorIOInputs inputs) {}
+  public default void updateInputs(ElevatorMotorIOInputs inputs) {}
 
   /** Run the drive motor at the specified open loop value. */
   public default void setElevatorOpenLoop(double output) {}
