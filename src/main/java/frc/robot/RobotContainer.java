@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.bobot_state.BobotState;
 import frc.robot.commands.DriveCommands;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.Intake.Intake;
 import frc.robot.subsystems.drive.Drive;
@@ -47,6 +48,8 @@ public class RobotContainer {
 
   private final Elevator elevator;
 
+  private final Climber climber;
+
   private final Intake intake;
 
   // Controller
@@ -81,6 +84,7 @@ public class RobotContainer {
         m_Automation = new DriverAutomationFactory(controller, controller2, drive);
         elevator = new Elevator();
         intake = new Intake();
+        climber = new Climber();
 
         break;
 
@@ -110,6 +114,7 @@ public class RobotContainer {
 
         elevator = new Elevator();
         intake = new Intake();
+        climber = new Climber();
         break;
 
       default:
@@ -133,6 +138,7 @@ public class RobotContainer {
 
         elevator = new Elevator();
         intake = new Intake();
+        climber = new Climber();
         break;
     }
 
@@ -187,6 +193,8 @@ public class RobotContainer {
         .pov(0)
         .whileTrue(elevator.setPercentOutputCommand(.02))
         .whileFalse(elevator.setPercentOutputCommand(0));
+
+    controller2.pov(180).whileTrue(climber.setPercentOutputCommand(.02));
 
     // elevator.setVelocityCommand(controller2.getLeftY());
     // Lock to 0° when A button is held
