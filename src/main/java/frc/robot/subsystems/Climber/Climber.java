@@ -1,10 +1,12 @@
 package frc.robot.subsystems.Climber;
 
 import com.pathplanner.lib.config.PIDConstants;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -51,7 +53,7 @@ public class Climber extends SubsystemBase {
     Logger.processInputs("Climber", this.inputs);
 
     if (DriverStation.isDisabled()) {
-      // this.setSetpoint(0.0);
+      this.setSetpoint(0.0);
       this.io.stop();
     }
 
@@ -69,31 +71,31 @@ public class Climber extends SubsystemBase {
     // io.setElevatorPosition(0.0);
   }
 
-  // private void setSetpoint(double setpoint) {
-  //   this.setpointInches = MathUtil.clamp(setpoint, 0, 56);
-  //   this.pidController.setSetpoint(this.setpointInches);
-  // }
+  private void setSetpoint(double setpoint) {
+    this.setpointInches = MathUtil.clamp(setpoint, 0, 56);//not real value
+    this.pidController.setSetpoint(this.setpointInches);
+  }
 
-  // public Command setSetpointCommand(double positionInches) {
-  //   return new InstantCommand(() -> this.setSetpoint(positionInches));
-  // }
+  public Command setSetpointCommand(double positionInches) {
+    return new InstantCommand(() -> this.setSetpoint(positionInches));
+  }
 
-  // public Command setSetpointCurrentCommand() {
-  //   return new InstantCommand(() -> this.setSetpoint(this.inputs.extentionAbsPos));
-  // }
+  public Command setSetpointCurrentCommand() {
+    return new InstantCommand(() -> this.setSetpoint(this.inputs.extentionAbsPos));
+  }
 
-  // public Command pidCommand() {
-  //   return new RunCommand(
-  //       () -> {
-  //         double output = this.pidController.calculate(this.inputs.extentionAbsPos);
-  //         setVoltage(output);
-  //       },
-  //       this);
-  // }
+  public Command pidCommand() {
+    return new RunCommand(
+        () -> {
+          double output = this.pidController.calculate(this.inputs.extentionAbsPos);
+          setVoltage(output);
+        },
+        this);
+  }
 
-  // public void setVoltage(double voltage) {
-  //   this.io.setElevatorVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
-  // }
+  public void setVoltage(double voltage) {
+    this.io.setClimberVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
+  }
 
   // public Command setVolatageCommand(double voltage) {
   //   return new RunCommand(() -> this.io.setElevatorVelocity(voltage), this);

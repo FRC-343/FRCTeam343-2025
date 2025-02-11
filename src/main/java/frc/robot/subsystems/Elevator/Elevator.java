@@ -1,14 +1,17 @@
 package frc.robot.subsystems.Elevator;
 
 import com.pathplanner.lib.config.PIDConstants;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.bobot_state.BobotState;
+import frc.robot.util.MetalUtils;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -52,7 +55,7 @@ public class Elevator extends SubsystemBase {
     Logger.processInputs("Elevator", this.inputs);
 
     if (DriverStation.isDisabled()) {
-      // this.setSetpoint(0.0);
+      this.setSetpoint(0.0);
       this.io.stop();
     }
 
@@ -70,35 +73,35 @@ public class Elevator extends SubsystemBase {
     // io.setElevatorPosition(0.0);
   }
 
-  // private void setSetpoint(double setpoint) {
-  //   this.setpointInches = MathUtil.clamp(setpoint, 0, 56);
-  //   this.pidController.setSetpoint(this.setpointInches);
-  // }
+  private void setSetpoint(double setpoint) {
+    this.setpointInches = MathUtil.clamp(setpoint, 0, 56);//not real value
+    this.pidController.setSetpoint(this.setpointInches);
+  }
 
-  // public Command setSetpointCommand(double positionInches) {
-  //   return new InstantCommand(() -> this.setSetpoint(positionInches));
-  // }
+  public Command setSetpointCommand(double positionInches) {
+    return new InstantCommand(() -> this.setSetpoint(positionInches));
+  }
 
-  // public Command setSetpointCurrentCommand() {
-  //   return new InstantCommand(() -> this.setSetpoint(this.inputs.extentionAbsPos));
-  // }
+  public Command setSetpointCurrentCommand() {
+    return new InstantCommand(() -> this.setSetpoint(this.inputs.extentionAbsPos));
+  }
 
-  // public Command pidCommand() {
-  //   return new RunCommand(
-  //       () -> {
-  //         double output = this.pidController.calculate(this.inputs.extentionAbsPos);
-  //         setVoltage(output);
-  //       },
-  //       this);
-  // }
+  public Command pidCommand() {
+    return new RunCommand(
+        () -> {
+          double output = this.pidController.calculate(this.inputs.extentionAbsPos);
+          setVoltage(output);
+        },
+        this);
+  }
 
-  // public void setVoltage(double voltage) {
-  //   this.io.setElevatorVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
-  // }
+  public void setVoltage(double voltage) {
+    this.io.setElevatorVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
+  }
 
-  // public Command setVolatageCommand(double voltage) {
-  //   return new RunCommand(() -> this.io.setElevatorVelocity(voltage), this);
-  // }
+  public Command setVolatageCommand(double voltage) {
+    return new RunCommand(() -> this.io.setElevatorVelocity(voltage), this);
+  }
 
   // public Command setVelocityCommand(double velocityRotPerSecond) {
   //   return new InstantCommand(() -> this.io.setElevatorVelocity(velocityRotPerSecond), this);
@@ -136,15 +139,15 @@ public class Elevator extends SubsystemBase {
   //               ElevatorConstants.kPivotClearanceHeightInches, this.inputs.positionInches, 1.0));
   // }
 
-  // public void runPercentOutput(double percentDecimal) {
-  //   double output =
-  //       MetalUtils.percentWithSoftStops(
-  //           percentDecimal,
-  //           this.inputs.masterPositionRad + this.inputs.masterVelocityRadPerSec,
-  //           0,
-  //           0);
-  //   this.io.setPercentOutput(output);
-  // }
+  public void runPercentOutput(double percentDecimal) {
+    double output =
+        MetalUtils.percentWithSoftStops(
+            percentDecimal,
+            this.inputs.extentionAbsPos + this.inputs.masterVelocityRadPerSec,
+            0,
+            0);
+    this.io.setPercentOutput(output);
+  }
 
   // public Command runPercentOutputCommand(Double percentDecimal) {
   //   return new InstantCommand(() -> this.runPercentOutput(percentDecimal), this);

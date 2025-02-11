@@ -8,6 +8,9 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.AbsoluteEncoder;
+import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -16,6 +19,10 @@ import frc.robot.subsystems.Elevator.ElevatorMotorIO.ElevatorMotorIOInputs;
 public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   private final TalonFX talon;
   private final TalonFX follower = new TalonFX(23);
+
+  private final SparkBase encoder = new SparkMax(25, null);
+  private final AbsoluteEncoder absEnc;
+
   private final StatusSignal<Voltage> voltage;
   private final StatusSignal<Double> dutyCycle;
   private final StatusSignal<AngularVelocity> velocity;
@@ -35,6 +42,8 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
     dutyCycle = talon.getDutyCycle();
     velocity = talon.getVelocity();
     position = talon.getPosition();
+
+    absEnc = encoder.getAbsoluteEncoder();
 
     talon
         .getConfigurator()
@@ -83,16 +92,30 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
     inputs.followerAppliedVolts = followerVoltage.getValueAsDouble();
     inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
     inputs.followerPositionRad = followerPosition.getValueAsDouble();
+
+    inputs.extentionAbsPos = absEnc.getPosition();
   }
 
-  // @Override
-  // public void setElevatorVelocity(double velocityRotPerSecond) {
-  //   talon.setControl(velocityVoltage.withVelocity(velocityRotPerSecond * 3.0));
-  // }
+  @Override
+  public void setElevatorVelocity(double velocityRotPerSecond) {
+    talon.setControl(dutyCycleOut.withOutput(velocityRotPerSecond));
+    this.follower.setControl(dutyCycleOut.withOutput(velocityRotPerSecond));
+  }
 
   @Override
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
     this.follower.setControl(dutyCycleOut.withOutput(percentDecimal));
+  }
+
+  @Override
+  public void setSetpoint(double setpoint) {
+    talon.setControl(dutyCycleOut.withOutput(setpoint));
+    this.follower.setControl(dutyCycleOut.withOutput(setpoint));
+  }
+
+  @Override
+  public void setVoltage(double voltage) {
+    talon.setControl(dutyCycleOut.withOutput(voltage));
   }
 }

@@ -37,6 +37,10 @@ public interface ClimberIO {
 
   public default void setPercentOutput(double percentDecimal) {}
 
+  public default void setSetpoint(double setpoint) {}
+
+  public default void setVoltage(double voltage) {}
+
   public default void stop() {
     setClimberVelocity(0);
   }
