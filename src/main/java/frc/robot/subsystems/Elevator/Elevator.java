@@ -74,7 +74,7 @@ public class Elevator extends SubsystemBase {
   }
 
   private void setSetpoint(double setpoint) {
-    this.setpointInches = MathUtil.clamp(setpoint, 0, 56);//not real value
+    this.setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
     this.pidController.setSetpoint(this.setpointInches);
   }
 

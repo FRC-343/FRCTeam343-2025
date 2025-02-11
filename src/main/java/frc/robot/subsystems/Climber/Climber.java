@@ -72,7 +72,7 @@ public class Climber extends SubsystemBase {
   }
 
   private void setSetpoint(double setpoint) {
-    this.setpointInches = MathUtil.clamp(setpoint, 0, 56);//not real value
+    this.setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
     this.pidController.setSetpoint(this.setpointInches);
   }
 
@@ -95,6 +95,14 @@ public class Climber extends SubsystemBase {
 
   public void setVoltage(double voltage) {
     this.io.setClimberVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
+  }
+
+  public Command engage(){
+    return new InstantCommand(() -> this.io.engage());
+  }
+
+  public Command disEngage() {
+    return new InstantCommand(() -> this.io.disEngage());
   }
 
   // public Command setVolatageCommand(double voltage) {

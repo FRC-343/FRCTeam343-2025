@@ -187,22 +187,7 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // intake.setDefaultCommand(getAutonomousCommand());
-    controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-1));
 
-    controller2
-        .pov(0)
-        .whileTrue(elevator.setPercentOutputCommand(.06))
-        .whileFalse(elevator.setPercentOutputCommand(0));
-
-    // controller2
-    //     .pov(180)
-    //     .whileTrue(climber.setPercentOutputCommand(-.2))
-    //     .whileFalse(climber.setPercentOutputCommand(0));
-
-    // controller2
-    //     .pov(0)
-    //     .whileTrue(climber.setPercentOutputCommand(.2))
-    //     .whileFalse(climber.setPercentOutputCommand(0));
 
     // elevator.setVelocityCommand(controller2.getLeftY());
     // Lock to 0° when A button is held
@@ -238,6 +223,38 @@ public class RobotContainer {
     // elevator.setVoltage(controller2.getRightY());
     // elevator.pidCommand();
     // controller2.pov(0).whileTrue(elevator.setSetpointCommand(20));
+
+
+
+
+    // Operator Controlls
+
+
+    controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-1));
+
+    controller2
+        .pov(0)
+        .whileTrue(elevator.setPercentOutputCommand(.06))
+        .whileFalse(elevator.setPercentOutputCommand(0.02));
+
+    // controller2
+    //     .pov(180)
+    //     .whileTrue(climber.setPercentOutputCommand(-.2))
+    //     .whileFalse(climber.setPercentOutputCommand(0));
+
+    // controller2
+    //     .pov(0)
+    //     .whileTrue(climber.setPercentOutputCommand(.2))
+    //     .whileFalse(climber.setPercentOutputCommand(0));
+
+
+    controller2.b().onTrue(climber.engage());
+    controller2.x().onTrue(climber.disEngage());
+
+
+
+
+
   }
 
   /**

@@ -22,6 +22,8 @@ public interface ClimberIO {
     public double extentionAbsPos = 0.0;
 
     public Rotation2d extentionPos = new Rotation2d();
+
+    public boolean engaged;
   }
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ClimberIOInputs inputs) {}
@@ -40,6 +42,13 @@ public interface ClimberIO {
   public default void setSetpoint(double setpoint) {}
 
   public default void setVoltage(double voltage) {}
+
+  public default void engage()  {}
+
+  public default void disEngage() {}
+
+
+
 
   public default void stop() {
     setClimberVelocity(0);

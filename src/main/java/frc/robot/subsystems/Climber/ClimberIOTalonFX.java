@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
+import edu.wpi.first.wpilibj.Servo;
 import frc.robot.subsystems.Climber.ClimberIO.ClimberIOInputs;
 
 public class ClimberIOTalonFX implements ClimberIO {
@@ -22,6 +23,9 @@ public class ClimberIOTalonFX implements ClimberIO {
 
   private final SparkBase encoder = new SparkMax(26, null);
   private final AbsoluteEncoder absEnc;
+
+  private final Servo Servo = new Servo(1);
+
 
   private final StatusSignal<Voltage> voltage;
   private final StatusSignal<Double> dutyCycle;
@@ -95,6 +99,7 @@ public class ClimberIOTalonFX implements ClimberIO {
 
     inputs.extentionAbsPos = absEnc.getPosition();
   }
+
   @Override
   public void setClimberVelocity(double velocityRotPerSecond) {
     talon.setControl(dutyCycleOut.withOutput(velocityRotPerSecond));
@@ -117,4 +122,23 @@ public class ClimberIOTalonFX implements ClimberIO {
   public void setVoltage(double voltage) {
     talon.setControl(dutyCycleOut.withOutput(voltage));
   }
+
+  @Override
+  public void engage() {
+    this.Servo.set(.5);
+    this.Servo.setAngle(180);
+  }
+
+  @Override
+  public void disEngage() {
+    this.Servo.set(-.5);
+    this.Servo.setAngle(0);
+  }
+
+
+
+
+
+
+
 }
