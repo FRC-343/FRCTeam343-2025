@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.bobot_state.BobotState;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -31,11 +30,11 @@ public class Climber extends SubsystemBase {
   public Climber() {
     switch (Constants.currentMode) {
       case REAL:
-        io = new ClimberIOTalonFX(21);
+        io = new ClimberIOTalonFX(24);
 
         break;
       case SIM:
-        io = new ClimebrIOSim(DCMotor.getKrakenX60(2), 3, 1, new PIDConstants(1, 0, 0));
+        io = new ClimberIOSim(DCMotor.getKrakenX60(2), 3, 1, new PIDConstants(1, 0, 0));
         break;
       case REPLAY:
       default:

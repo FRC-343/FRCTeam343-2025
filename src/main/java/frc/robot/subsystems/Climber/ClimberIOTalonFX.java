@@ -15,7 +15,7 @@ import frc.robot.subsystems.Climber.ClimberIO.ClimberIOInputs;
 
 public class ClimberIOTalonFX implements ClimberIO {
   private final TalonFX talon;
-  private final TalonFX follower = new TalonFX(22);
+  private final TalonFX follower = new TalonFX(20);
   private final StatusSignal<Voltage> voltage;
   private final StatusSignal<Double> dutyCycle;
   private final StatusSignal<AngularVelocity> velocity;

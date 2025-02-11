@@ -187,14 +187,22 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // intake.setDefaultCommand(getAutonomousCommand());
-    controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-.2));
+    controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-1));
 
     controller2
         .pov(0)
-        .whileTrue(elevator.setPercentOutputCommand(.02))
+        .whileTrue(elevator.setPercentOutputCommand(.06))
         .whileFalse(elevator.setPercentOutputCommand(0));
 
-    controller2.pov(180).whileTrue(climber.setPercentOutputCommand(.02));
+    // controller2
+    //     .pov(180)
+    //     .whileTrue(climber.setPercentOutputCommand(-.2))
+    //     .whileFalse(climber.setPercentOutputCommand(0));
+
+    // controller2
+    //     .pov(0)
+    //     .whileTrue(climber.setPercentOutputCommand(.2))
+    //     .whileFalse(climber.setPercentOutputCommand(0));
 
     // elevator.setVelocityCommand(controller2.getLeftY());
     // Lock to 0° when A button is held
