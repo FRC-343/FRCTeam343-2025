@@ -97,7 +97,7 @@ public class Climber extends SubsystemBase {
     this.io.setClimberVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
   }
 
-  public Command engage(){
+  public Command engage() {
     return new InstantCommand(() -> this.io.engage());
   }
 

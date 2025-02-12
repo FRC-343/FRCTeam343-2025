@@ -10,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -20,7 +21,7 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   private final TalonFX talon;
   private final TalonFX follower = new TalonFX(23);
 
-  private final SparkBase encoder = new SparkMax(25, null);
+  private final SparkBase encoder = new SparkMax(25, MotorType.kBrushed);
   private final AbsoluteEncoder absEnc;
 
   private final StatusSignal<Voltage> voltage;

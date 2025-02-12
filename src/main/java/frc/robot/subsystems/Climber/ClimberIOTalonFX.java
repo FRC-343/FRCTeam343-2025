@@ -10,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
@@ -21,11 +22,10 @@ public class ClimberIOTalonFX implements ClimberIO {
   private final TalonFX talon;
   private final TalonFX follower = new TalonFX(20);
 
-  private final SparkBase encoder = new SparkMax(26, null);
+  private final SparkBase encoder = new SparkMax(26, MotorType.kBrushed);
   private final AbsoluteEncoder absEnc;
 
   private final Servo Servo = new Servo(1);
-
 
   private final StatusSignal<Voltage> voltage;
   private final StatusSignal<Double> dutyCycle;
@@ -134,11 +134,4 @@ public class ClimberIOTalonFX implements ClimberIO {
     this.Servo.set(-.5);
     this.Servo.setAngle(0);
   }
-
-
-
-
-
-
-
 }

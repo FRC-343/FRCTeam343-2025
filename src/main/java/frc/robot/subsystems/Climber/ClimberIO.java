@@ -43,12 +43,9 @@ public interface ClimberIO {
 
   public default void setVoltage(double voltage) {}
 
-  public default void engage()  {}
+  public default void engage() {}
 
   public default void disEngage() {}
-
-
-
 
   public default void stop() {
     setClimberVelocity(0);
