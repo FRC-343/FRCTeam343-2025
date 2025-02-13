@@ -229,18 +229,27 @@ public class RobotContainer {
 
     controller2
         .pov(0)
+        .and(controller2.leftBumper())
         .whileTrue(elevator.setPercentOutputCommand(.06))
-        .whileFalse(elevator.setPercentOutputCommand(0.02));
+        .whileFalse(elevator.setPercentOutputCommand(0.018));
 
-    // controller2
-    //     .pov(180)
-    //     .whileTrue(climber.setPercentOutputCommand(-.2))
-    //     .whileFalse(climber.setPercentOutputCommand(0));
+    controller2
+        .pov(180)
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setPercentOutputCommand(-.06))
+        .whileFalse(elevator.setPercentOutputCommand(0.018));
 
-    // controller2
-    //     .pov(0)
-    //     .whileTrue(climber.setPercentOutputCommand(.2))
-    //     .whileFalse(climber.setPercentOutputCommand(0));
+    controller2
+        .pov(180)
+        .and(controller2.rightBumper())
+        .whileTrue(climber.setPercentOutputCommand(-.2))
+        .whileFalse(climber.setPercentOutputCommand(0));
+
+    controller2
+        .pov(0)
+        .and(controller2.rightBumper())
+        .whileTrue(climber.setPercentOutputCommand(1))
+        .whileFalse(climber.setPercentOutputCommand(0));
 
     controller2.b().onTrue(climber.engage());
     controller2.x().onTrue(climber.disEngage());

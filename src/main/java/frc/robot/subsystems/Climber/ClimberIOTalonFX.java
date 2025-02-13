@@ -103,19 +103,19 @@ public class ClimberIOTalonFX implements ClimberIO {
   @Override
   public void setClimberVelocity(double velocityRotPerSecond) {
     talon.setControl(dutyCycleOut.withOutput(velocityRotPerSecond));
-    this.follower.setControl(dutyCycleOut.withOutput(velocityRotPerSecond));
+    this.follower.setControl(dutyCycleOut.withOutput(-velocityRotPerSecond));
   }
 
   @Override
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
-    this.follower.setControl(dutyCycleOut.withOutput(percentDecimal));
+    this.follower.setControl(dutyCycleOut.withOutput(-percentDecimal));
   }
 
   @Override
   public void setSetpoint(double setpoint) {
     talon.setControl(dutyCycleOut.withOutput(setpoint));
-    this.follower.setControl(dutyCycleOut.withOutput(setpoint));
+    this.follower.setControl(dutyCycleOut.withOutput(-setpoint));
   }
 
   @Override
@@ -126,7 +126,7 @@ public class ClimberIOTalonFX implements ClimberIO {
   @Override
   public void engage() {
     this.Servo.set(.5);
-    this.Servo.setAngle(180);
+    this.Servo.setAngle(35);
   }
 
   @Override
