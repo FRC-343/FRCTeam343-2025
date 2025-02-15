@@ -251,8 +251,8 @@ public class RobotContainer {
         .whileTrue(climber.setPercentOutputCommand(1))
         .whileFalse(climber.setPercentOutputCommand(0));
 
-    controller2.b().onTrue(climber.engage());
-    controller2.x().onTrue(climber.disEngage());
+    controller2.b().onTrue(climber.Disengage());
+    controller2.x().onTrue(climber.Engage());
   }
 
   /**

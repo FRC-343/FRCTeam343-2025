@@ -50,24 +50,18 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
 
     absEnc = encoder.getAbsoluteEncoder();
 
-    
-
     talon
         .getConfigurator()
         .apply(
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
-                .withSlot0(new Slot0Configs()
-                .withKV(0.12)
-                .withKA(.01)
-                .withKP(1)
-                .withKI(0)
-                .withKD(0))
-                .withMotionMagic(new MotionMagicConfigs()
-                .withMotionMagicAcceleration(160)
-                .withMotionMagicCruiseVelocity(80)
-                .withMotionMagicJerk(1600)
-                ));
+                .withSlot0(
+                    new Slot0Configs().withKV(0.12).withKA(.01).withKP(1).withKI(0).withKD(0))
+                .withMotionMagic(
+                    new MotionMagicConfigs()
+                        .withMotionMagicAcceleration(160)
+                        .withMotionMagicCruiseVelocity(80)
+                        .withMotionMagicJerk(1600)));
     velocityVoltage.Slot = 0;
 
     this.follower
@@ -75,7 +69,13 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
         .apply(
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
-                .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0)));
+                .withSlot0(
+                  new Slot0Configs().withKV(0.12).withKA(.01).withKP(1).withKI(0).withKD(0))
+              .withMotionMagic(
+                  new MotionMagicConfigs()
+                      .withMotionMagicAcceleration(160)
+                      .withMotionMagicCruiseVelocity(80)
+                      .withMotionMagicJerk(1600)));
     velocityVoltage.Slot = 0;
 
     StatusSignal.setUpdateFrequencyForAll(
@@ -90,8 +90,6 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
         followerVoltage);
     talon.optimizeBusUtilization();
     this.follower.optimizeBusUtilization();
-
-    
 
     this.follower.setControl(new Follower(talon.getDeviceID(), false));
   }

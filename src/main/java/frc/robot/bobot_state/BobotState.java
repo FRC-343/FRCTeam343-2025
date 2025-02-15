@@ -38,6 +38,8 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean isElevatorUp = false;
 
+  private static boolean isClimberEngaged = false;
+
   private static AimingMode aimingMode = AimingMode.NONE;
 
   public static void updateRobotPose(Pose2d pose) {
@@ -155,6 +157,18 @@ public class BobotState extends VirtualSubsystem {
 
   public static void setElevatorUp(boolean isElevatorUp) {
     BobotState.isElevatorUp = isElevatorUp;
+  }
+
+  public static boolean isClimberEngaged() {
+    return BobotState.isClimberEngaged;
+  }
+
+  public static boolean isClimberDisengaged(){
+    return !BobotState.isClimberEngaged;
+  }
+
+  public static void setClibmerEngaged(boolean isClimberEngaged){
+    BobotState.isClimberEngaged = isClimberEngaged;
   }
 
   @Override

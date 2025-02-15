@@ -95,7 +95,7 @@ public class Elevator extends SubsystemBase {
         this);
   }
 
-  public void setElevatorPosition(double position){
+  public void setElevatorPosition(double position) {
     this.io.setElevatorPosition(position);
   }
 
