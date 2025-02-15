@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Elevator;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -41,6 +42,9 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
 
   private final MotionMagicVoltage Vrequest = new MotionMagicVoltage(0);
 
+  private final Orchestra m_orchestra = new Orchestra();
+
+
   public ElevatorMotorTalonFX(int deviceId) {
     talon = new TalonFX(deviceId);
     voltage = talon.getMotorVoltage();
@@ -49,6 +53,11 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
     position = talon.getPosition();
 
     absEnc = encoder.getAbsoluteEncoder();
+
+    this.m_orchestra.addInstrument(talon);
+    this.m_orchestra.addInstrument(this.follower);
+    this.m_orchestra.loadMusic("output.chrp");
+
 
     talon
         .getConfigurator()
@@ -124,6 +133,7 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   @Override
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
+    this.m_orchestra.play();
     // this.follower.setControl(dutyCycleOut.withOutput(percentDecimal));
   }
 

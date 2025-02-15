@@ -64,5 +64,6 @@ public class IntakeIOTalonFX implements IntakeIO {
   @Override
   public void setVoltage(double voltage) {
     talon.setVoltage(voltage);
+    // talon.setControl(p)
   }
 }
