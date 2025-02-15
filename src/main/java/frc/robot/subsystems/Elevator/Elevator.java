@@ -95,6 +95,10 @@ public class Elevator extends SubsystemBase {
         this);
   }
 
+  public void setElevatorPosition(double position){
+    this.io.setElevatorPosition(position);
+  }
+
   public void setVoltage(double voltage) {
     this.io.setElevatorVelocity(MathUtil.clamp(voltage, -12.0, 12.0));
   }
