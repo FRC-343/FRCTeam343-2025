@@ -19,6 +19,10 @@ public interface IntakeIO {
 
   public default void setVoltage(double voltage) {}
 
+  public default void playMusic() {}
+
+  public default void pauseMusic() {}
+
   public default void stop() {
     setVoltage(0.0);
   }

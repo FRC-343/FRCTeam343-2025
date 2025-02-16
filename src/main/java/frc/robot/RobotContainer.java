@@ -221,23 +221,29 @@ public class RobotContainer {
 
     // elevator.setVoltage(controller2.getRightY());
     // elevator.pidCommand();
-    // controller2.pov(0).whileTrue(elevator.setSetpointCommand(20));
 
     // Operator Controlls
 
     controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-1));
 
     controller2
+        .y()
+        .and(controller2.leftBumper().negate())
+        .whileTrue(intake.setPercentOutputThenStopCommand(1));
+
+    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(20));
+
+    controller2
         .pov(0)
         .and(controller2.leftBumper())
         .whileTrue(elevator.setPercentOutputCommand(.06))
-        .whileFalse(elevator.setPercentOutputCommand(0.018));
+        .whileFalse(elevator.setPercentOutputCommand(0.0));
 
     controller2
         .pov(180)
         .and(controller2.leftBumper())
         .whileTrue(elevator.setPercentOutputCommand(-.06))
-        .whileFalse(elevator.setPercentOutputCommand(0.018));
+        .whileFalse(elevator.setPercentOutputCommand(0.0));
 
     controller2
         .pov(180)
@@ -262,5 +268,13 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.get();
+  }
+
+  public void playMusic() {
+    intake.playMusic();
+  }
+
+  public void pauseMusic() {
+    intake.pauseMusic();
   }
 }

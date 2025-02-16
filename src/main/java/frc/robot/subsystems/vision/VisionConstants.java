@@ -21,9 +21,9 @@ public class VisionConstants {
       AprilTagFieldLayout.loadField(AprilTagFields.k2025ReefscapeWelded);
 
   // Camera names, must match names configured on coprocessor
-  public static String camera0Name = "FcamLeft";
+  public static String camera0Name = "FLeft";
   public static String camera1Name = "FRight";
-  public static String camera2Name = "BcamLeft";
+  public static String camera2Name = "BLeft";
   public static String camera3Name = "BRight";
 
   // Robot to camera transforms

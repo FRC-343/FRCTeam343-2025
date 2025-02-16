@@ -1,5 +1,6 @@
 package frc.robot.subsystems.Intake;
 
+import com.ctre.phoenix6.Orchestra;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
@@ -20,11 +21,16 @@ public class IntakeIOTalonFX implements IntakeIO {
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
+  private final Orchestra m_orchestra = new Orchestra();
+
   public IntakeIOTalonFX(int deviceId, boolean isInverted) {
     talon = new TalonFX(deviceId);
     voltage = talon.getMotorVoltage();
     dutyCycle = talon.getDutyCycle();
     velocity = talon.getVelocity();
+
+    this.m_orchestra.addInstrument(talon);
+    this.m_orchestra.loadMusic("output.chrp");
 
     talon
         .getConfigurator()
@@ -59,6 +65,17 @@ public class IntakeIOTalonFX implements IntakeIO {
   @Override
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
+    // m_orchestra.play();
+  }
+
+  @Override
+  public void playMusic() {
+    m_orchestra.play();
+  }
+
+  @Override
+  public void pauseMusic() {
+    m_orchestra.pause();
   }
 
   @Override

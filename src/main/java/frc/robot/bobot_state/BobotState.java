@@ -163,11 +163,11 @@ public class BobotState extends VirtualSubsystem {
     return BobotState.isClimberEngaged;
   }
 
-  public static boolean isClimberDisengaged(){
+  public static boolean isClimberDisengaged() {
     return !BobotState.isClimberEngaged;
   }
 
-  public static void setClibmerEngaged(boolean isClimberEngaged){
+  public static void setClibmerEngaged(boolean isClimberEngaged) {
     BobotState.isClimberEngaged = isClimberEngaged;
   }
 

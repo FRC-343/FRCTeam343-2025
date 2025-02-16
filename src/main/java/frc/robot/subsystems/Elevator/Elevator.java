@@ -95,8 +95,8 @@ public class Elevator extends SubsystemBase {
         this);
   }
 
-  public void setElevatorPosition(double position) {
-    this.io.setElevatorPosition(position);
+  public Command setElevatorPosition(double position) {
+    return new RunCommand(() -> this.io.setElevatorPosition(position), this);
   }
 
   public void setVoltage(double voltage) {

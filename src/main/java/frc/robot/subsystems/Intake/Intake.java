@@ -85,6 +85,7 @@ public class Intake extends SubsystemBase {
   }
 
   public Command setPercentOutputThenStopCommand(double percentDecimal) {
+    // playMusic();
     return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this).finallyDo(io::stop);
   }
 
@@ -117,5 +118,13 @@ public class Intake extends SubsystemBase {
 
   public Trigger beambreakIsObstructed() {
     return new Trigger(() -> this.beambreakInputs.isObstructed);
+  }
+
+  public void playMusic() {
+    this.io.playMusic();
+  }
+
+  public void pauseMusic() {
+    this.io.pauseMusic();
   }
 }

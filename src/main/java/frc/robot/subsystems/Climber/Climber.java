@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.bobot_state.BobotState;
-
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -162,14 +161,14 @@ public class Climber extends SubsystemBase {
   // public Command runPercentOutputCommand(Double percentDecimal) {
   //   return new InstantCommand(() -> this.runPercentOutput(percentDecimal), this);
   // }
-  
+
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
-    if (BobotState.isClimberDisengaged()){
-    return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
-  } else if (BobotState.isClimberEngaged() && velocityRotPerSecond<0){
-    return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
-  } else {
-    return null;
+    if (BobotState.isClimberDisengaged()) {
+      return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
+    } else if (BobotState.isClimberEngaged() && velocityRotPerSecond < 0) {
+      return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
+    } else {
+      return null;
+    }
   }
-}
 }

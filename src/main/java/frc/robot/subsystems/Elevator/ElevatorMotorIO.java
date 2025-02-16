@@ -33,7 +33,7 @@ public interface ElevatorMotorIO {
   public default void setElevatorVelocity(double velocityRadPerSec) {}
 
   /** Run the turn motor to the specified rotation. */
-  public default void setElevatorPosition(Double rotation) {}
+  public default void setElevatorPosition(double rotation) {}
 
   public default void setPercentOutput(double percentDecimal) {}
 

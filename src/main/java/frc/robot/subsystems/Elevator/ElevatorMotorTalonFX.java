@@ -12,9 +12,6 @@ import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -24,8 +21,8 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   private final TalonFX talon;
   private final TalonFX follower = new TalonFX(23);
 
-  private final SparkBase encoder = new SparkMax(25, null);
-  private final AbsoluteEncoder absEnc;
+  // private final SparkBase encoder = new SparkMax(25, null);
+  // private final AbsoluteEncoder absEnc;
 
   private final StatusSignal<Voltage> voltage;
   private final StatusSignal<Double> dutyCycle;
@@ -44,7 +41,6 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
 
   private final Orchestra m_orchestra = new Orchestra();
 
-
   public ElevatorMotorTalonFX(int deviceId) {
     talon = new TalonFX(deviceId);
     voltage = talon.getMotorVoltage();
@@ -52,12 +48,11 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
     velocity = talon.getVelocity();
     position = talon.getPosition();
 
-    absEnc = encoder.getAbsoluteEncoder();
+    // absEnc = encoder.getAbsoluteEncoder();
 
     this.m_orchestra.addInstrument(talon);
     this.m_orchestra.addInstrument(this.follower);
     this.m_orchestra.loadMusic("output.chrp");
-
 
     talon
         .getConfigurator()
@@ -79,12 +74,12 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
                 .withSlot0(
-                  new Slot0Configs().withKV(0.12).withKA(.01).withKP(1).withKI(0).withKD(0))
-              .withMotionMagic(
-                  new MotionMagicConfigs()
-                      .withMotionMagicAcceleration(160)
-                      .withMotionMagicCruiseVelocity(80)
-                      .withMotionMagicJerk(1600)));
+                    new Slot0Configs().withKV(0.12).withKA(.01).withKP(1).withKI(0).withKD(0))
+                .withMotionMagic(
+                    new MotionMagicConfigs()
+                        .withMotionMagicAcceleration(160)
+                        .withMotionMagicCruiseVelocity(80)
+                        .withMotionMagicJerk(1600)));
     velocityVoltage.Slot = 0;
 
     StatusSignal.setUpdateFrequencyForAll(
@@ -121,7 +116,7 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
     inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
     inputs.followerPositionRad = followerPosition.getValueAsDouble();
 
-    inputs.extentionAbsPos = absEnc.getPosition();
+    // inputs.extentionAbsPos = absEnc.getPosition();
   }
 
   @Override
@@ -133,7 +128,6 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   @Override
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
-    this.m_orchestra.play();
     // this.follower.setControl(dutyCycleOut.withOutput(percentDecimal));
   }
 
@@ -146,5 +140,10 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   @Override
   public void setVoltage(double voltage) {
     talon.setControl(Vrequest.withPosition(voltage));
+  }
+
+  @Override
+  public void setElevatorPosition(double rotation) {
+    talon.setControl(Vrequest.withPosition(rotation));
   }
 }
