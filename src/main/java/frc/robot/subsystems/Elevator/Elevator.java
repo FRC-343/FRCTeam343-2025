@@ -5,6 +5,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -28,6 +29,11 @@ public class Elevator extends SubsystemBase {
       new PIDController(
           0.5, // Replace with actual PID values when on the bot
           0, 0);
+
+  private final ElevatorVisualizer measuredVisualizer =
+      new ElevatorVisualizer("Measured", Color.kBlack);
+  private final ElevatorVisualizer setpointVisualizer =
+      new ElevatorVisualizer("Setpoint", Color.kGreen);
 
   private double setpointInches = 0.0;
 
@@ -61,9 +67,9 @@ public class Elevator extends SubsystemBase {
 
     Logger.recordOutput("Elevator/SetpointInches", setpointInches);
 
-    // // Log Mechanisms
-    // measuredVisualizer.update(this.inputs.extentionAbsPos);
-    // setpointVisualizer.update(this.setpointInches);
+    // Log Mechanisms
+    measuredVisualizer.update(this.inputs.masterPositionRad);
+    setpointVisualizer.update(this.setpointInches);
     // // I'm not quite sure how this works, it is not working in sim.
 
     BobotState.setElevatorUp(this.inputs.extentionAbsPos <= 1.0);
@@ -96,6 +102,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Command setElevatorPosition(double position) {
+    this.setpointInches = position;
     return new RunCommand(() -> this.io.setElevatorPosition(position), this);
   }
 
@@ -158,6 +165,7 @@ public class Elevator extends SubsystemBase {
   // }
 
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
+    this.setpointInches = velocityRotPerSecond;
     return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
   }
 }
