@@ -44,7 +44,7 @@ public class Elevator extends SubsystemBase {
 
         break;
       case SIM:
-        io = new ElevatorMotorSim(DCMotor.getKrakenX60(2), 3, 1, new PIDConstants(1, 0, 0));
+        io = new ElevatorMotorSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
         break;
       case REPLAY:
       default:
@@ -80,7 +80,7 @@ public class Elevator extends SubsystemBase {
   }
 
   private void setSetpoint(double setpoint) {
-    this.setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
+    setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
     this.pidController.setSetpoint(this.setpointInches);
   }
 
@@ -102,7 +102,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Command setElevatorPosition(double position) {
-    this.setpointInches = position;
+    setpointInches = position;
     return new RunCommand(() -> this.io.setElevatorPosition(position), this);
   }
 
@@ -165,7 +165,7 @@ public class Elevator extends SubsystemBase {
   // }
 
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
-    this.setpointInches = velocityRotPerSecond;
+    setpointInches = velocityRotPerSecond * 1000;
     return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
   }
 }

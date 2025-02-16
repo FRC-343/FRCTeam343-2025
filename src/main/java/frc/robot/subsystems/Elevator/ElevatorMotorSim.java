@@ -37,4 +37,15 @@ public class ElevatorMotorSim implements ElevatorMotorIO {
     appliedVoltage = voltage;
     sim.setInputVoltage(voltage);
   }
+
+  @Override
+  public void setPercentOutput(double percentDecimal) {
+    // sim.setState((percentDecimal * 1000) / kInchesPerRotation, sim.getAngularVelocityRadPerSec());
+    sim.setInputVoltage(percentDecimal);
+  }
+
+  @Override
+  public void setElevatorPosition(double rotation) {
+    sim.setAngle(rotation);
+  }
 }
