@@ -146,4 +146,9 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   public void setElevatorPosition(double rotation) {
     talon.setControl(Vrequest.withPosition(rotation));
   }
+
+  @Override
+  public void resetEncoder(){
+    talon.setPosition(0);
+  }
 }

@@ -40,7 +40,8 @@ public class ElevatorMotorSim implements ElevatorMotorIO {
 
   @Override
   public void setPercentOutput(double percentDecimal) {
-    // sim.setState((percentDecimal * 1000) / kInchesPerRotation, sim.getAngularVelocityRadPerSec());
+    // sim.setState((percentDecimal * 1000) / kInchesPerRotation,
+    // sim.getAngularVelocityRadPerSec());
     sim.setInputVoltage(percentDecimal);
   }
 

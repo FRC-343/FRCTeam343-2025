@@ -12,7 +12,6 @@ import frc.robot.Constants;
 import frc.robot.beambreak.BeambreakDigitalInput;
 import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
-import frc.robot.beambreak.BeambreakIOSim;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {
@@ -28,14 +27,14 @@ public class Intake extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new IntakeIOTalonFX(22, false);
-        beambreak = new BeambreakDigitalInput(3);
-        beambreak2 = new BeambreakDigitalInput(2);
+        beambreak = new BeambreakDigitalInput(9);
+        beambreak2 = new BeambreakDigitalInput(8);
 
         break;
       case SIM:
         io = new IntakeIOSim(DCMotor.getKrakenX60(21), 3, 1, new PIDConstants(1, 0, 0));
-        beambreak = new BeambreakIOSim(0);
-        beambreak2 = new BeambreakIOSim(1);
+        beambreak = new BeambreakDigitalInput(9);
+        beambreak2 = new BeambreakDigitalInput(8);
         break;
       case REPLAY:
       default:

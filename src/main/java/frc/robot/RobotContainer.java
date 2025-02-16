@@ -29,6 +29,7 @@ import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.CommandCustomController;
 import frc.robot.util.MetalUtils;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
+import frc.robot.util.Constant;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -202,8 +203,6 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
-    // elevator.setDefaultCommand();
-
     // Reset gyro to 0° when B button is pressed
     controller
         .b()
@@ -219,8 +218,6 @@ public class RobotContainer {
     controller.x().whileTrue(m_Automation.quickCoralPath());
     controller.a().whileTrue(m_Automation.quickReefTwoPath());
 
-    // elevator.setVoltage(controller2.getRightY());
-    // elevator.pidCommand();
 
     // Operator Controlls
 
@@ -231,7 +228,7 @@ public class RobotContainer {
         .and(controller2.leftBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(1));
 
-    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(20));
+    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L2AlgeaLevel));
 
     controller2
         .pov(0)

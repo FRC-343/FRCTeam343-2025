@@ -10,7 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.LimitSwitch.LimitSwitchDigitalInput;
+import frc.robot.LimitSwitch.LimitSwitchIO;
+import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
+import frc.robot.beambreak.BeambreakDigitalInput;
+import frc.robot.beambreak.BeambreakIO;
+import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.bobot_state.BobotState;
 import frc.robot.util.MetalUtils;
 import org.littletonrobotics.junction.Logger;
@@ -22,8 +29,15 @@ import org.littletonrobotics.junction.Logger;
 
 public class Elevator extends SubsystemBase {
   private final ElevatorMotorIO io;
+  private final BeambreakIO beambreak;
+  private final LimitSwitchIO LimitSwitch;
+  private final LimitSwitchIO LimitSwitchBackup;
 
   private final ElevatorMotorIOInputsAutoLogged inputs = new ElevatorMotorIOInputsAutoLogged();
+  private final BeambreakIOInputsAutoLogged beambreakInputs = new BeambreakIOInputsAutoLogged();
+  private final LimitSwitchIOInputsAutoLogged LimitSwitchInputs =
+      new LimitSwitchIOInputsAutoLogged();
+  private final LimitSwitchIOInputsAutoLogged LimitSwitchBackupInputs = new LimitSwitchIOInputsAutoLogged();
 
   private final PIDController pidController =
       new PIDController(
@@ -41,15 +55,26 @@ public class Elevator extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new ElevatorMotorTalonFX(21);
+        beambreak = new BeambreakDigitalInput(2); // 3 and 2
+        LimitSwitch = new LimitSwitchDigitalInput(0);
+        LimitSwitchBackup = new LimitSwitchDigitalInput(1);
+
 
         break;
       case SIM:
         io = new ElevatorMotorSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
+        beambreak = new BeambreakDigitalInput(0);
+        LimitSwitch = new LimitSwitchDigitalInput(0);
+        LimitSwitchBackup = new LimitSwitchDigitalInput(1);
+
+
         break;
       case REPLAY:
       default:
         io = new ElevatorMotorIO() {};
-
+        beambreak = new BeambreakIO() {};
+        LimitSwitch = new LimitSwitchIO() {};
+        LimitSwitchBackup = new LimitSwitchIO() {};
         break;
     }
   }
@@ -57,6 +82,9 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     this.io.updateInputs(this.inputs);
+    this.beambreak.updateInputs(this.beambreakInputs);
+    this.LimitSwitch.updateInputs(this.LimitSwitchInputs);
+    this.LimitSwitchBackup.updateInputs(this.LimitSwitchBackupInputs);
 
     Logger.processInputs("Elevator", this.inputs);
 
@@ -65,18 +93,20 @@ public class Elevator extends SubsystemBase {
       this.io.stop();
     }
 
+    Logger.processInputs("Elevator/Beambreak", this.beambreakInputs);
+    Logger.processInputs("Elevator/LimitSwitch", this.LimitSwitchInputs);
+    Logger.processInputs("Elevator/LimitSwitchBackup", this.LimitSwitchBackupInputs);
+
     Logger.recordOutput("Elevator/SetpointInches", setpointInches);
 
     // Log Mechanisms
     measuredVisualizer.update(this.inputs.masterPositionRad);
     setpointVisualizer.update(this.setpointInches);
-    // // I'm not quite sure how this works, it is not working in sim.
+    // // I'm not quite sure how this works, it is semi working in sim.
 
-    BobotState.setElevatorUp(this.inputs.extentionAbsPos <= 1.0);
-  }
+    resetEncoder();
 
-  public void reset() {
-    // io.setElevatorPosition(0.0);
+    BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
   }
 
   private void setSetpoint(double setpoint) {
@@ -103,7 +133,17 @@ public class Elevator extends SubsystemBase {
 
   public Command setElevatorPosition(double position) {
     setpointInches = position;
-    return new RunCommand(() -> this.io.setElevatorPosition(position), this);
+    if(this.LimitSwitchInputs.isObstructed == false){
+    return new RunCommand(() -> this.io.setElevatorPosition(position), this)
+        .unless(beambreakIsObstructed())
+        .andThen(stopCommand());
+    } else {
+      return null;
+    }
+  }
+
+  public Command stopCommand() {
+    return new InstantCommand(this.io::stop, this);
   }
 
   public void setVoltage(double voltage) {
@@ -114,55 +154,29 @@ public class Elevator extends SubsystemBase {
     return new RunCommand(() -> this.io.setElevatorVelocity(voltage), this);
   }
 
-  // public Command setVelocityCommand(double velocityRotPerSecond) {
-  //   return new InstantCommand(() -> this.io.setElevatorVelocity(velocityRotPerSecond), this);
-  // }
-  // public Trigger elevatorIsDown() {
-  //   return new Trigger(
-  //       () -> MathUtil.isNear(56, this.inputs.extentionAbsPos, 1.0));
-  // }
-
-  // public Trigger elevatorIsAtSubwooferShot() {
-  //   return new Trigger(
-  //       () ->
-  //           MathUtil.isNear(
-  //               ElevatorConstants.kSubwooferShotHeightInches, this.inputs.positionInches, 2.0));
-  // }
-
-  // public Trigger elevatorIsAtAmp() {
-  //   return new Trigger(
-  //       () ->
-  //           MathUtil.isNear(
-  //               ElevatorConstants.kAmpScoreHeightInches, this.inputs.positionInches, 1.0));
-  // }
-
-  // public Trigger elevatorIsAtTrap() {
-  //   return new Trigger(
-  //       () ->
-  //           MathUtil.isNear(
-  //               ElevatorConstants.kTrapScoreHeightInches, this.inputs.positionInches, 1.0));
-  // }
-
-  // public Trigger elevatorIsUp() {
-  //   return new Trigger(
-  //       () ->
-  //           MathUtil.isNear(
-  //               ElevatorConstants.kPivotClearanceHeightInches, this.inputs.positionInches, 1.0));
-  // }
-
-  public void runPercentOutput(double percentDecimal) {
-    double output =
-        MetalUtils.percentWithSoftStops(
-            percentDecimal,
-            this.inputs.extentionAbsPos + this.inputs.masterVelocityRadPerSec,
-            0,
-            0);
-    this.io.setPercentOutput(output);
+  public void resetEncoder(){
+    if(this.LimitSwitchInputs.isObstructed){
+    this.io.resetEncoder();
+    }
   }
 
-  // public Command runPercentOutputCommand(Double percentDecimal) {
-  //   return new InstantCommand(() -> this.runPercentOutput(percentDecimal), this);
-  // }
+  public Trigger beambreakIsObstructed() {
+    return new Trigger(() -> this.beambreakInputs.isObstructed);
+  }
+
+  public Trigger limitIsTriggered() {
+    return new Trigger(() -> this.LimitSwitchInputs.isObstructed);
+  }
+
+  public Trigger BackupLimitIsTriggerd(){
+    return new Trigger(() -> this.LimitSwitchBackupInputs.isObstructed);
+  }
+  
+
+  public Trigger elevatorIsDown() {
+    return new Trigger(() -> MathUtil.isNear(0, this.inputs.masterPositionRad, 1.0));
+  }
+
 
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
     setpointInches = velocityRotPerSecond * 1000;
