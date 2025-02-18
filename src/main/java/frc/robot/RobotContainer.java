@@ -27,9 +27,9 @@ import frc.robot.subsystems.vision.VisionIO;
 import frc.robot.subsystems.vision.VisionIOPhotonVision;
 import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.CommandCustomController;
+import frc.robot.util.Constant;
 import frc.robot.util.MetalUtils;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-import frc.robot.util.Constant;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -218,17 +218,27 @@ public class RobotContainer {
     controller.x().whileTrue(m_Automation.quickCoralPath());
     controller.a().whileTrue(m_Automation.quickReefTwoPath());
 
-
     // Operator Controlls
 
-    controller2.a().whileTrue(intake.setPercentOutputThenStopCommand(-1));
+    controller2
+        .a()
+        .and(controller2.leftBumper().negate())
+        .whileTrue(intake.setPercentOutputThenStopCommand(-1));
 
     controller2
         .y()
         .and(controller2.leftBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(1));
 
-    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L2AlgeaLevel));
+    controller2
+        .y()
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L1AlgeaLevel));
+
+    controller2
+        .a()
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
 
     controller2
         .pov(0)

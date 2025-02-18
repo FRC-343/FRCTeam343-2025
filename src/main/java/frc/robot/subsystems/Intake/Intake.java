@@ -27,12 +27,12 @@ public class Intake extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new IntakeIOTalonFX(22, false);
-        beambreak = new BeambreakDigitalInput(9);
+        beambreak = new BeambreakDigitalInput(2);
         beambreak2 = new BeambreakDigitalInput(8);
 
         break;
       case SIM:
-        io = new IntakeIOSim(DCMotor.getKrakenX60(21), 3, 1, new PIDConstants(1, 0, 0));
+        io = new IntakeIOSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
         beambreak = new BeambreakDigitalInput(9);
         beambreak2 = new BeambreakDigitalInput(8);
         break;

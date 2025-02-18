@@ -148,7 +148,7 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   }
 
   @Override
-  public void resetEncoder(){
+  public void resetEncoder() {
     talon.setPosition(0);
   }
 }

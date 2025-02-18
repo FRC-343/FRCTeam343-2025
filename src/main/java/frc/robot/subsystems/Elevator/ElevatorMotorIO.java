@@ -41,9 +41,7 @@ public interface ElevatorMotorIO {
 
   public default void setVoltage(double voltage) {}
 
-  public default void resetEncoder(){
-    
-  }
+  public default void resetEncoder() {}
 
   public default void stop() {
     setElevatorVelocity(0);

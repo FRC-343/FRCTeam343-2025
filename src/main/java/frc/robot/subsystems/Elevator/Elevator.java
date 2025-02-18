@@ -19,7 +19,6 @@ import frc.robot.beambreak.BeambreakDigitalInput;
 import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.bobot_state.BobotState;
-import frc.robot.util.MetalUtils;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -37,7 +36,8 @@ public class Elevator extends SubsystemBase {
   private final BeambreakIOInputsAutoLogged beambreakInputs = new BeambreakIOInputsAutoLogged();
   private final LimitSwitchIOInputsAutoLogged LimitSwitchInputs =
       new LimitSwitchIOInputsAutoLogged();
-  private final LimitSwitchIOInputsAutoLogged LimitSwitchBackupInputs = new LimitSwitchIOInputsAutoLogged();
+  private final LimitSwitchIOInputsAutoLogged LimitSwitchBackupInputs =
+      new LimitSwitchIOInputsAutoLogged();
 
   private final PIDController pidController =
       new PIDController(
@@ -55,10 +55,9 @@ public class Elevator extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new ElevatorMotorTalonFX(21);
-        beambreak = new BeambreakDigitalInput(2); // 3 and 2
+        beambreak = new BeambreakDigitalInput(3); // 3 and 2
         LimitSwitch = new LimitSwitchDigitalInput(0);
         LimitSwitchBackup = new LimitSwitchDigitalInput(1);
-
 
         break;
       case SIM:
@@ -66,7 +65,6 @@ public class Elevator extends SubsystemBase {
         beambreak = new BeambreakDigitalInput(0);
         LimitSwitch = new LimitSwitchDigitalInput(0);
         LimitSwitchBackup = new LimitSwitchDigitalInput(1);
-
 
         break;
       case REPLAY:
@@ -100,11 +98,11 @@ public class Elevator extends SubsystemBase {
     Logger.recordOutput("Elevator/SetpointInches", setpointInches);
 
     // Log Mechanisms
-    measuredVisualizer.update(this.inputs.masterPositionRad);
-    setpointVisualizer.update(this.setpointInches);
+    // measuredVisualizer.update(this.inputs.masterPositionRad);
+    // setpointVisualizer.update(this.setpointInches);
     // // I'm not quite sure how this works, it is semi working in sim.
 
-    resetEncoder();
+    // resetEncoder();
 
     BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
   }
@@ -133,12 +131,10 @@ public class Elevator extends SubsystemBase {
 
   public Command setElevatorPosition(double position) {
     setpointInches = position;
-    if(this.LimitSwitchInputs.isObstructed == false){
-    return new RunCommand(() -> this.io.setElevatorPosition(position), this)
-        .unless(beambreakIsObstructed())
-        .andThen(stopCommand());
+    if (position > 0 && this.beambreakInputs.isObstructed == false) {
+      return new RunCommand(() -> this.io.setElevatorPosition(position), this);
     } else {
-      return null;
+      return new RunCommand(() -> this.io.setElevatorPosition(0), this);
     }
   }
 
@@ -154,9 +150,9 @@ public class Elevator extends SubsystemBase {
     return new RunCommand(() -> this.io.setElevatorVelocity(voltage), this);
   }
 
-  public void resetEncoder(){
-    if(this.LimitSwitchInputs.isObstructed){
-    this.io.resetEncoder();
+  public void resetEncoder() {
+    if (this.LimitSwitchInputs.isObstructed || this.LimitSwitchBackupInputs.isObstructed) {
+      this.io.resetEncoder();
     }
   }
 
@@ -168,15 +164,13 @@ public class Elevator extends SubsystemBase {
     return new Trigger(() -> this.LimitSwitchInputs.isObstructed);
   }
 
-  public Trigger BackupLimitIsTriggerd(){
+  public Trigger BackupLimitIsTriggerd() {
     return new Trigger(() -> this.LimitSwitchBackupInputs.isObstructed);
   }
-  
 
   public Trigger elevatorIsDown() {
     return new Trigger(() -> MathUtil.isNear(0, this.inputs.masterPositionRad, 1.0));
   }
-
 
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
     setpointInches = velocityRotPerSecond * 1000;
