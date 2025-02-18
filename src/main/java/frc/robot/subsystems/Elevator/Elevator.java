@@ -91,6 +91,8 @@ public class Elevator extends SubsystemBase {
       this.io.stop();
     }
 
+
+
     Logger.processInputs("Elevator/Beambreak", this.beambreakInputs);
     Logger.processInputs("Elevator/LimitSwitch", this.LimitSwitchInputs);
     Logger.processInputs("Elevator/LimitSwitchBackup", this.LimitSwitchBackupInputs);
@@ -105,8 +107,13 @@ public class Elevator extends SubsystemBase {
     // resetEncoder();
 
     BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
+
+    limitIsTriggered().onTrue(resetEncoder());
   }
 
+
+  // These need to be reorganized
+  
   private void setSetpoint(double setpoint) {
     setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
     this.pidController.setSetpoint(this.setpointInches);
@@ -133,8 +140,11 @@ public class Elevator extends SubsystemBase {
     setpointInches = position;
     if (position > 0 && this.beambreakInputs.isObstructed == false) {
       return new RunCommand(() -> this.io.setElevatorPosition(position), this);
-    } else {
+    } else if (position <= 0 && (this.LimitSwitchInputs.isObstructed || this.LimitSwitchBackupInputs.isObstructed)){
+
       return new RunCommand(() -> this.io.setElevatorPosition(0), this);
+    } else {
+      return stopCommand();
     }
   }
 
@@ -150,10 +160,8 @@ public class Elevator extends SubsystemBase {
     return new RunCommand(() -> this.io.setElevatorVelocity(voltage), this);
   }
 
-  public void resetEncoder() {
-    if (this.LimitSwitchInputs.isObstructed || this.LimitSwitchBackupInputs.isObstructed) {
-      this.io.resetEncoder();
-    }
+  public Command resetEncoder() {
+    return new InstantCommand(this.io::resetEncoder, this);
   }
 
   public Trigger beambreakIsObstructed() {
