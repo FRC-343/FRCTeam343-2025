@@ -17,30 +17,30 @@ import org.littletonrobotics.junction.Logger;
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final BeambreakIO beambreak;
-  private final BeambreakIO beambreak2;
+  // private final BeambreakIO beambreak2;
 
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
   private final BeambreakIOInputsAutoLogged beambreakInputs = new BeambreakIOInputsAutoLogged();
-  private final BeambreakIOInputsAutoLogged beambreak2Inputs = new BeambreakIOInputsAutoLogged();
+  // private final BeambreakIOInputsAutoLogged beambreak2Inputs = new BeambreakIOInputsAutoLogged();
 
   public Intake() {
     switch (Constants.currentMode) {
       case REAL:
         io = new IntakeIOTalonFX(22, false);
-        beambreak = new BeambreakDigitalInput(2);
-        beambreak2 = new BeambreakDigitalInput(8);
+        beambreak = new BeambreakDigitalInput(3);
+        // beambreak2 = new BeambreakDigitalInput(8);
 
         break;
       case SIM:
         io = new IntakeIOSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
         beambreak = new BeambreakDigitalInput(9);
-        beambreak2 = new BeambreakDigitalInput(8);
+        // beambreak2 = new BeambreakDigitalInput(8);
         break;
       case REPLAY:
       default:
         io = new IntakeIO() {};
         beambreak = new BeambreakIO() {};
-        beambreak2 = new BeambreakIO() {};
+        // beambreak2 = new BeambreakIO() {};
 
         break;
     }
@@ -51,11 +51,11 @@ public class Intake extends SubsystemBase {
     this.io.updateInputs(this.inputs);
     this.io.updateInputs(this.inputs);
     this.beambreak.updateInputs(this.beambreakInputs);
-    this.beambreak2.updateInputs(this.beambreakInputs);
+    // this.beambreak2.updateInputs(this.beambreakInputs);
 
     Logger.processInputs("Intake", this.inputs);
     Logger.processInputs("Intake/Beambreak", this.beambreakInputs);
-    Logger.processInputs("Intake/Beambreak2", this.beambreak2Inputs);
+    // Logger.processInputs("Intake/Beambreak2", this.beambreak2Inputs);
 
     // Make sure the motor actually stops when the robot disabled
     if (DriverStation.isDisabled()) {

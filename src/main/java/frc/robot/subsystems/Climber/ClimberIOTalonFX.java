@@ -8,10 +8,6 @@ import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.AbsoluteEncoder;
-import com.revrobotics.spark.SparkBase;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
 import edu.wpi.first.units.measure.Voltage;
@@ -22,8 +18,8 @@ public class ClimberIOTalonFX implements ClimberIO {
   private final TalonFX talon;
   private final TalonFX follower = new TalonFX(20);
 
-  private final SparkBase encoder = new SparkMax(26, MotorType.kBrushed);
-  private final AbsoluteEncoder absEnc;
+  // private final SparkBase encoder = new SparkMax(26, MotorType.kBrushed);
+  // private final AbsoluteEncoder absEnc;
 
   private final Servo Servo = new Servo(1);
 
@@ -47,7 +43,7 @@ public class ClimberIOTalonFX implements ClimberIO {
     velocity = talon.getVelocity();
     position = talon.getPosition();
 
-    absEnc = encoder.getAbsoluteEncoder();
+    // absEnc = encoder.getAbsoluteEncoder();
 
     talon
         .getConfigurator()
@@ -97,7 +93,7 @@ public class ClimberIOTalonFX implements ClimberIO {
     inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
     inputs.followerPositionRad = followerPosition.getValueAsDouble();
 
-    inputs.extentionAbsPos = absEnc.getPosition();
+    // inputs.extentionAbsPos = absEnc.getPosition();
   }
 
   @Override

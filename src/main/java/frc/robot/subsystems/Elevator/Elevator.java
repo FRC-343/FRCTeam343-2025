@@ -55,7 +55,7 @@ public class Elevator extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new ElevatorMotorTalonFX(21);
-        beambreak = new BeambreakDigitalInput(3); // 3 and 2
+        beambreak = new BeambreakDigitalInput(2); // 3 and 2
         LimitSwitch = new LimitSwitchDigitalInput(0);
         LimitSwitchBackup = new LimitSwitchDigitalInput(1);
 
@@ -91,8 +91,6 @@ public class Elevator extends SubsystemBase {
       this.io.stop();
     }
 
-
-
     Logger.processInputs("Elevator/Beambreak", this.beambreakInputs);
     Logger.processInputs("Elevator/LimitSwitch", this.LimitSwitchInputs);
     Logger.processInputs("Elevator/LimitSwitchBackup", this.LimitSwitchBackupInputs);
@@ -109,11 +107,11 @@ public class Elevator extends SubsystemBase {
     BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
 
     limitIsTriggered().onTrue(resetEncoder());
+    BackupLimitIsTriggerd().onTrue(resetEncoder());
   }
 
-
   // These need to be reorganized
-  
+
   private void setSetpoint(double setpoint) {
     setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
     this.pidController.setSetpoint(this.setpointInches);
@@ -137,15 +135,20 @@ public class Elevator extends SubsystemBase {
   }
 
   public Command setElevatorPosition(double position) {
-    setpointInches = position;
-    if (position > 0 && this.beambreakInputs.isObstructed == false) {
-      return new RunCommand(() -> this.io.setElevatorPosition(position), this);
-    } else if (position <= 0 && (this.LimitSwitchInputs.isObstructed || this.LimitSwitchBackupInputs.isObstructed)){
+    return new RunCommand(() -> this.io.setElevatorPosition(position))
+        .unless(beambreakIsObstructed().and(elevatorIsDown()));
+    // if (this.beambreakInputs.isObstructed) {
+    //   return new RunCommand(() -> this.io.setElevatorPosition(0), this);
+    // }
+    // // else if (position <= 0
+    // //     && (this.LimitSwitchInputs.isObstructed || this.LimitSwitchBackupInputs.isObstructed))
+    // {
 
-      return new RunCommand(() -> this.io.setElevatorPosition(0), this);
-    } else {
-      return stopCommand();
-    }
+    // //   return new RunCommand(() -> this.io.setElevatorPosition(0), this);
+    // // }
+    // else {
+    //   return new RunCommand(() -> this.io.setElevatorPosition(position), this);
+    // }
   }
 
   public Command stopCommand() {
