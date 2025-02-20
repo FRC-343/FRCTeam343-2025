@@ -220,20 +220,28 @@ public class RobotContainer {
 
     // Operator Controlls
 
+    // "Intake" Controlls
     controller2
         .a()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(-1));
+        .whileTrue(intake.setPercentOutputThenStopCommand(-.5));
 
     controller2
         .y()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(1));
+        .whileTrue(intake.setPercentOutputThenStopCommand(.5));
+
+    // Elevator buttons
 
     controller2
-        .y()
+        .leftTrigger()
         .and(controller2.leftBumper())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L1AlgeaLevel));
+
+    controller2
+        .rightTrigger()
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L2AlgeaLevel));
 
     controller2
         .a()
@@ -241,16 +249,27 @@ public class RobotContainer {
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
 
     controller2
+        .x()
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
+
+    controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(6));
+
+    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.51));
+
+    controller2
         .pov(0)
         .and(controller2.leftBumper())
         .whileTrue(elevator.setPercentOutputCommand(.06))
-        .whileFalse(elevator.setPercentOutputCommand(0.0));
+        .onFalse(elevator.setPercentOutputCommand(0.0));
 
     controller2
         .pov(180)
         .and(controller2.leftBumper())
         .whileTrue(elevator.setPercentOutputCommand(-.06))
-        .whileFalse(elevator.setPercentOutputCommand(0.0));
+        .onFalse(elevator.setPercentOutputCommand(0.0));
+
+    // Climber Buttons
 
     controller2
         .pov(180)
@@ -264,8 +283,8 @@ public class RobotContainer {
         .whileTrue(climber.setPercentOutputCommand(1))
         .whileFalse(climber.setPercentOutputCommand(0));
 
-    controller2.b().onTrue(climber.Disengage());
-    controller2.x().onTrue(climber.Engage());
+    controller2.b().and(controller2.rightBumper()).onTrue(climber.Disengage());
+    controller2.x().and(controller2.rightBumper()).onTrue(climber.Engage());
   }
 
   /**

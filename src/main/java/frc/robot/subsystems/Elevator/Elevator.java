@@ -106,8 +106,8 @@ public class Elevator extends SubsystemBase {
 
     BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
 
-    limitIsTriggered().onTrue(resetEncoder());
-    BackupLimitIsTriggerd().onTrue(resetEncoder());
+    // limitIsTriggered().onTrue(resetEncoder());
+    // BackupLimitIsTriggerd().onTrue(resetEncoder());
   }
 
   // These need to be reorganized
@@ -180,7 +180,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Trigger elevatorIsDown() {
-    return new Trigger(() -> MathUtil.isNear(0, this.inputs.masterPositionRad, 1.0));
+    return new Trigger(() -> MathUtil.isNear(0, this.inputs.masterPositionRad, .50));
   }
 
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
