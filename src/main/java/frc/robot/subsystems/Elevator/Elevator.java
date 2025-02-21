@@ -108,7 +108,7 @@ public class Elevator extends SubsystemBase {
 
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());
-    elevatorIsDown().onFalse(resetEncoder());
+    // elevatorIsDown().onFalse(resetEncoder());
   }
 
   // These need to be reorganized
