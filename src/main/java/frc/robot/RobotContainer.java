@@ -77,10 +77,10 @@ public class RobotContainer {
         vision =
             new Vision(
                 drive::addVisionMeasurement,
-                new VisionIOPhotonVision("FcamLeft", VisionConstants.robotToCamera0),
-                new VisionIOPhotonVision("FcamRight", VisionConstants.robotToCamera1),
-                new VisionIOPhotonVision("BcanLeft", VisionConstants.robotToCamera2),
-                new VisionIOPhotonVision("BcamRight", VisionConstants.robotToCamera3));
+                new VisionIOPhotonVision("FLeft", VisionConstants.robotToCamera0),
+                new VisionIOPhotonVision("FRight", VisionConstants.robotToCamera1),
+                new VisionIOPhotonVision("BLeft", VisionConstants.robotToCamera2),
+                new VisionIOPhotonVision("BRight", VisionConstants.robotToCamera3));
         m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, controller2, drive);
         elevator = new Elevator();
@@ -255,7 +255,7 @@ public class RobotContainer {
 
     controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(6));
 
-    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.51));
+    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.05));
 
     controller2
         .pov(0)
