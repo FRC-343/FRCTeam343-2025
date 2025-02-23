@@ -78,7 +78,7 @@ public class PositionWithReef extends Command {
     double rotationSpeedRad = thetaController.calculate(yawMeasurementOffset, yawErrorRad);
 
     double xSpeedMeters =
-        MathUtil.clamp(xController.calculate(robotPose.getX(), targetPose.getX()), -4.06, 4.06);
+        MathUtil.clamp(xController.calculate(robotPose.getX(), targetPose.getX()), -5, 5);
 
     Logger.recordOutput(logRoot + "TargetID", tag.getId());
     Logger.recordOutput(logRoot + "TagPose", tagPose);
@@ -90,7 +90,7 @@ public class PositionWithReef extends Command {
 
     TeleopDrive.drive(
         drive,
-        MetalUtils.getFlipped() * xSpeedMeters / 4.06,
+        MetalUtils.getFlipped() * xSpeedMeters / 5,
         ySupplier.getAsDouble(),
         rotationSpeedRad / 3,
         false,

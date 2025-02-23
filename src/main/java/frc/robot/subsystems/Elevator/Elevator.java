@@ -62,7 +62,7 @@ public class Elevator extends SubsystemBase {
         break;
       case SIM:
         io = new ElevatorMotorSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
-        beambreak = new BeambreakDigitalInput(0);
+        beambreak = new BeambreakDigitalInput(2);
         LimitSwitch = new LimitSwitchDigitalInput(0);
         LimitSwitchBackup = new LimitSwitchDigitalInput(1);
 

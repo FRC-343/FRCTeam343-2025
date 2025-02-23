@@ -1,13 +1,10 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.bobot_state.BobotState;
 import frc.robot.commands.DriveCommands;
@@ -102,13 +99,13 @@ public class RobotContainer {
             new Vision(
                 drive::addVisionMeasurement,
                 new VisionIOPhotonVisionSim(
-                    "FcamLeft", VisionConstants.robotToCamera0, drive::getPose),
+                    VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    "FcamRight", VisionConstants.robotToCamera1, drive::getPose),
+                    VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    "BcamLeft", VisionConstants.robotToCamera2, drive::getPose),
+                    VisionConstants.camera2Name, VisionConstants.robotToCamera2, drive::getPose),
                 new VisionIOPhotonVisionSim(
-                    "BcamRight", VisionConstants.robotToCamera3, drive::getPose));
+                    VisionConstants.camera3Name, VisionConstants.robotToCamera3, drive::getPose));
 
         m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, controller2, drive);
@@ -204,20 +201,23 @@ public class RobotContainer {
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
-    controller
-        .b()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
+    // controller
+    //     .b()
+    //     .onTrue(
+    //         Commands.runOnce(
+    //                 () ->
+    //                     drive.setPose(
+    //                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+    //                 drive)
+    //             .ignoringDisable(true));
 
-    controller.y().whileTrue(m_Automation.quickReefOnePath());
-    controller.x().whileTrue(m_Automation.quickCoralPath());
-    controller.a().whileTrue(m_Automation.quickReefTwoPath());
+    controller.y().whileTrue(m_Automation.quickCoralPath());
 
+    controller.a().whileTrue(m_Automation.quickReefOnePath());
+    controller.b().whileTrue(m_Automation.quickReefTwoPath());
+    controller.x().whileTrue(m_Automation.quickReefThreePath());
+
+    controller.rightTrigger().whileTrue(m_Automation.processor());
     // Operator Controlls
 
     // "Intake" Controlls
