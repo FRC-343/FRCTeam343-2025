@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Auto.Test;
 import frc.robot.bobot_state.BobotState;
@@ -174,7 +175,8 @@ public class RobotContainer {
   }
 
   private void configureNamedCommands() {
-    NamedCommands.registerCommand("QuickReefCenter", m_Automation.quickReefOnePath());
+    NamedCommands.registerCommand(
+        "QuickReefCenter", Commands.deferredProxy(() -> m_Automation.quickReefOnePath()));
   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
