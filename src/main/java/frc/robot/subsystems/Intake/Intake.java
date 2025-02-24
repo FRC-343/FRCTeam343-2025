@@ -72,6 +72,12 @@ public class Intake extends SubsystemBase {
         .finallyDo(io::stop);
   }
 
+  public Command runForTime(double speed, double time) { // -.5 for out .5 for in
+    return new RunCommand(() -> this.io.setPercentOutput(speed), this)
+        .withTimeout(time)
+        .andThen(io::stop);
+  }
+
   public Command setVelocityBeambreakCommand(double velocityRotPerSecond) {
     return new RunCommand(() -> this.io.setVelocity(velocityRotPerSecond), this)
         .unless(beambreakIsObstructed())

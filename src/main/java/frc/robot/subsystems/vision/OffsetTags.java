@@ -10,6 +10,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 // import frc.util.GarageUtils;
+import frc.robot.util.MetalUtils;
 
 public enum OffsetTags {
   CORAL_ONE(VisionConstants.RED_CORAL_ONE, VisionConstants.BLUE_CORAL_ONE, .5),
@@ -83,8 +84,7 @@ public enum OffsetTags {
   }
 
   public Pose3d getOffsetPose() {
-    return getBlueOffsetPose(); // GarageUtils.isRedAlliance() ? getRedOffsetPose() :
-    // getBlueOffsetPose();
+    return MetalUtils.isRedAlliance() ? getRedOffsetPose() : getBlueOffsetPose();
   }
 
   public Pose3d getRedOffsetPose() {
@@ -119,7 +119,7 @@ public enum OffsetTags {
   }
 
   public int getId() {
-    return blueId; // GarageUtils.isRedAlliance() ? redId : blueId;
+    return MetalUtils.isRedAlliance() ? redId : blueId;
   }
 
   public int getRedId() {

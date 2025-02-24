@@ -53,7 +53,7 @@ public class VisionConstants {
           Units.inchesToMeters(8.055),
           new Rotation3d(0.0, Units.degreesToRadians(-15), Units.degreesToRadians(180 - 30)));
   // Basic filtering thresholds
-  public static double maxAmbiguity = 0.3;
+  public static double maxAmbiguity = 0.05;
   public static double maxZError = 0.75;
 
   // Standard deviation baselines, for 1 meter distance and 1 tag
@@ -66,7 +66,8 @@ public class VisionConstants {
   public static double[] cameraStdDevFactors =
       new double[] {
         1.0, // Camera 0
-        1.0 // Camera 1
+        1.0, // Camera 1
+        1.0, 1.0
       };
 
   // Multipliers to apply for MegaTag 2 observations

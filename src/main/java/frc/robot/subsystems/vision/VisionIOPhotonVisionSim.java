@@ -26,7 +26,7 @@ public class VisionIOPhotonVisionSim extends VisionIOPhotonVision {
       String name, Transform3d robotToCamera, Supplier<Pose2d> poseSupplier) {
     super(name, robotToCamera);
     this.poseSupplier = poseSupplier;
-    SimCameraProperties props = SimCameraConfig.ARDUCAM_OV9281_65.apply(new SimCameraProperties());
+    SimCameraProperties props = SimCameraConfig.ARDUCAM_OV9281_70.apply(new SimCameraProperties());
 
     // Initialize vision sim
     if (visionSim == null) {

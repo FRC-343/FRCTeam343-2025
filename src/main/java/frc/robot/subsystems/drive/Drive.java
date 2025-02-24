@@ -13,6 +13,7 @@ import com.pathplanner.lib.util.PathPlannerLogging;
 import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -32,11 +33,14 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.vision.VisionConstants;
 import frc.robot.util.LocalADStarAK;
+import frc.robot.util.MetalUtils;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import org.littletonrobotics.junction.AutoLogOutput;
@@ -147,6 +151,7 @@ public class Drive extends SubsystemBase {
 
   @Override
   public void periodic() {
+    IsNearQuickReefOneTagX();
     odometryLock.lock(); // Prevents odometry updates while reading data
     gyroIO.updateInputs(gyroInputs);
     Logger.processInputs("Drive/Gyro", gyroInputs);
@@ -352,5 +357,31 @@ public class Drive extends SubsystemBase {
       new Translation2d(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
       new Translation2d(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)
     };
+  }
+
+  @AutoLogOutput(key = "Vision/IsNearX")
+  public Trigger IsNearQuickReefOneTagX() {
+    return new Trigger(
+        () ->
+            MathUtil.isNear(
+                VisionConstants.aprilTagLayout
+                    .getTagPose(MetalUtils.getQuickReefOne().getId())
+                    .get()
+                    .getX(),
+                getPose().getX(),
+                .3));
+  }
+
+  @AutoLogOutput(key = "Vision/IsNearY")
+  public Trigger IsNearQuickReefOneTagY() {
+    return new Trigger(
+        () ->
+            MathUtil.isNear(
+                VisionConstants.aprilTagLayout
+                    .getTagPose(MetalUtils.getQuickReefOne().getId())
+                    .get()
+                    .getY(),
+                getPose().getY(),
+                .45));
   }
 }
