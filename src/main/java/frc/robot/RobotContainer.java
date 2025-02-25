@@ -283,8 +283,8 @@ public class RobotContainer {
     controller2
         .pov(180)
         .and(controller2.rightBumper())
-        .whileTrue(climber.setPercentOutputCommand(-.2))
-        .whileFalse(climber.setPercentOutputCommand(0));
+        .whileTrue(climber.runBack(-.2))
+        .whileFalse(climber.runBack(0));
 
     controller2
         .pov(0)

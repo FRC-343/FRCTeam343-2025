@@ -120,14 +120,14 @@ public class ClimberIOTalonFX implements ClimberIO {
   }
 
   @Override
-  public void engage() {
-    this.Servo.set(.5);
-    this.Servo.setAngle(35);
-  }
-
-  @Override
   public void disEngage() {
     this.Servo.set(-.5);
     this.Servo.setAngle(0);
+  }
+
+  @Override
+  public void engage() {
+    this.Servo.set(.5);
+    this.Servo.setAngle(260);
   }
 }

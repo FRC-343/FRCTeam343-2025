@@ -9,7 +9,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
+import frc.robot.LimitSwitch.LimitSwitchDigitalInput;
+import frc.robot.LimitSwitch.LimitSwitchIO;
+import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
 import frc.robot.bobot_state.BobotState;
 import org.littletonrobotics.junction.Logger;
 
@@ -20,9 +24,11 @@ import org.littletonrobotics.junction.Logger;
 
 public class Climber extends SubsystemBase {
   private final ClimberIO io;
+  private final LimitSwitchIO LimitSwitch;
 
   private final ClimberIOInputsAutoLogged inputs = new ClimberIOInputsAutoLogged();
-
+  private final LimitSwitchIOInputsAutoLogged LimitSwitchInputs =
+      new LimitSwitchIOInputsAutoLogged();
   private final PIDController pidController =
       new PIDController(
           0.5, // Replace with actual PID values when on the bot
@@ -34,15 +40,17 @@ public class Climber extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new ClimberIOTalonFX(24);
+        LimitSwitch = new LimitSwitchDigitalInput(6);
 
         break;
       case SIM:
         io = new ClimberIOSim(DCMotor.getKrakenX60(2), 3, 1, new PIDConstants(1, 0, 0));
+        LimitSwitch = new LimitSwitchDigitalInput(6);
         break;
       case REPLAY:
       default:
         io = new ClimberIO() {};
-
+        LimitSwitch = new LimitSwitchDigitalInput(6);
         break;
     }
   }
@@ -50,8 +58,10 @@ public class Climber extends SubsystemBase {
   @Override
   public void periodic() {
     this.io.updateInputs(this.inputs);
+    this.LimitSwitch.updateInputs(this.LimitSwitchInputs);
 
     Logger.processInputs("Climber", this.inputs);
+    Logger.processInputs("Climber/LimitSwitch", this.LimitSwitchInputs);
 
     if (DriverStation.isDisabled()) {
       this.setSetpoint(0.0);
@@ -162,13 +172,16 @@ public class Climber extends SubsystemBase {
   //   return new InstantCommand(() -> this.runPercentOutput(percentDecimal), this);
   // }
 
+  public Trigger limitIsTriggered() {
+    return new Trigger(() -> this.LimitSwitchInputs.isObstructed);
+  }
+
   public Command setPercentOutputCommand(double velocityRotPerSecond) {
-    if (BobotState.isClimberDisengaged()) {
-      return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
-    } else if (BobotState.isClimberEngaged() && velocityRotPerSecond < 0) {
-      return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
-    } else {
-      return null;
-    }
+    return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this)
+        .onlyIf(limitIsTriggered());
+  }
+
+  public Command runBack(double velocityRotPerSecond) {
+    return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
   }
 }
