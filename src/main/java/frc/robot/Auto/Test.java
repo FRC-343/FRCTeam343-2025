@@ -18,14 +18,19 @@ public class Test extends SequentialCommandGroup {
     Elevator m_Elevator = El;
     Intake m_Intake = in;
     addCommands(
-        m_Intake.runForTime(intakeReverse, .2),
         new ParallelDeadlineGroup(
             MetalUtils.getQuickReefThree().getDeferredCommand(),
             new SequentialCommandGroup(
                 new WaitCommand(1),
                 m_Elevator.setElevatorPosition(Constant.elevatorConstants.L4Level))),
         m_Intake.runForTime(intakeOut, 1),
+        // Grab New Coral
         new ParallelDeadlineGroup(
-            MetalUtils.getCoralTag().getDeferredCommand(), m_Elevator.setElevatorPosition(.1)));
+            MetalUtils.getCoralTag().getDeferredCommand(),
+            new WaitCommand(.5),
+            m_Elevator.setElevatorPosition(.1)),
+        m_Intake.setPercentOutputBeambreakCommand(.5, m_Elevator.beambreakIsObstructed()));
+    // Grab New Coral End
+
   }
 }

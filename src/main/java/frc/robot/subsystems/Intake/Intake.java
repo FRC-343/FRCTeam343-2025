@@ -94,10 +94,9 @@ public class Intake extends SubsystemBase {
     return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this).finallyDo(io::stop);
   }
 
-  public Command setPercentOutputBeambreakCommand(double percentDecimal) {
+  public Command setPercentOutputBeambreakCommand(double percentDecimal, Trigger test) {
     return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this)
-        .unless(beambreakIsObstructed())
-        .until(beambreakIsObstructed())
+        .onlyWhile(test)
         .andThen(stopCommand());
   }
 
