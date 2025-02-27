@@ -18,32 +18,32 @@ public enum OffsetTags {
   REEF_ONE(
       VisionConstants.RED_REEF_ONE,
       VisionConstants.BLUE_REEF_ONE,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_TWO(
       VisionConstants.RED_REEF_TWO,
       VisionConstants.BLUE_REEF_TWO,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_THREE(
       VisionConstants.RED_REEF_THREE,
       VisionConstants.BLUE_REEF_THREE,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_FOUR(
       VisionConstants.RED_REEF_FOUR,
       VisionConstants.BLUE_REEF_FOUR,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_FIVE(
       VisionConstants.RED_REEF_FIVE,
       VisionConstants.BLUE_REEF_FIVE,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_SIX(
       VisionConstants.RED_REEF_SIX,
       VisionConstants.BLUE_REEF_SIX,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   PROCESSOR(
       VisionConstants.RED_PROCESSOR,

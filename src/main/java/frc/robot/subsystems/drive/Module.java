@@ -131,4 +131,12 @@ public class Module {
   public double getFFCharacterizationVelocity() {
     return Units.radiansToRotations(inputs.driveVelocityRadPerSec);
   }
+
+  public void playMusic() {
+    this.io.playMusic();
+  }
+
+  public void pauseMusic() {
+    this.io.pauseMusic();
+  }
 }

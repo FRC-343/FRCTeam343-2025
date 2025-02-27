@@ -30,7 +30,7 @@ public class IntakeIOTalonFX implements IntakeIO {
     velocity = talon.getVelocity();
 
     this.m_orchestra.addInstrument(talon);
-    this.m_orchestra.loadMusic("output.chrp");
+    this.m_orchestra.loadMusic("output2.chrp");
 
     talon
         .getConfigurator()

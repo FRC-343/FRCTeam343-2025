@@ -2,6 +2,8 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -210,20 +212,21 @@ public class RobotContainer {
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
-    // controller
-    //     .b()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //                 () ->
-    //                     drive.setPose(
-    //                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-    //                 drive)
-    //             .ignoringDisable(true));
+    controller
+        .b()
+        .and(controller.leftBumper())
+        .whileTrue(
+            Commands.runOnce(
+                    () ->
+                        drive.setPose(
+                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                    drive)
+                .ignoringDisable(true));
 
     controller.y().whileTrue(m_Automation.quickCoralPath());
 
-    controller.a().whileTrue(m_Automation.quickReefOnePath());
-    controller.b().whileTrue(m_Automation.quickReefTwoPath());
+    controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
+    controller.b().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefTwoPath());
     controller.x().whileTrue(m_Automation.quickReefThreePath());
 
     controller.rightTrigger().whileTrue(m_Automation.processor());
@@ -233,12 +236,12 @@ public class RobotContainer {
     controller2
         .a()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(-.5));
+        .whileTrue(intake.setPercentOutputThenStopCommand(-.8));
 
     controller2
         .y()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(.5));
+        .whileTrue(intake.setPercentOutputThenStopCommand(.8));
 
     // Elevator buttons
 
@@ -307,9 +310,11 @@ public class RobotContainer {
 
   public void playMusic() {
     intake.playMusic();
+    drive.playMusic();
   }
 
   public void pauseMusic() {
     intake.pauseMusic();
+    drive.pauseMusic();
   }
 }
