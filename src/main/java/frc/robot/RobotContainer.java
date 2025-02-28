@@ -17,6 +17,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Leds.LED;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -54,6 +55,8 @@ public class RobotContainer {
   private final Climber climber;
 
   private final Intake intake;
+
+  private final LED led = LED.getInstance();
 
   // Controller
   private final CommandCustomController controller = new CommandCustomController(0);
@@ -212,6 +215,9 @@ public class RobotContainer {
     // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Reset gyro to 0° when B button is pressed
+    // new POVButton(m_driverControlle  r, 0).whileTrue(new Wantnote());
+    // controller2.b().whileTrue( ledWantNote());
+
     controller
         .b()
         .and(controller.leftBumper())
