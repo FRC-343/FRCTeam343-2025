@@ -37,6 +37,18 @@ public class DriverAutomationFactory {
         Set.of(drive));
   }
 
+  public Command CoralPath() {
+    return MetalUtils.getOtherCoralTag().getDeferredCommand();
+  }
+
+  public Command CoralAssist() {
+    return Commands.defer(
+        () ->
+            new PositionWithCoralStation(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getOtherCoralTag()),
+        Set.of(drive));
+  }
+
   public Command quickReefOnePath() {
     return MetalUtils.getQuickReefOne().getDeferredCommand();
   }
@@ -80,6 +92,40 @@ public class DriverAutomationFactory {
   public Command processorAssist() {
     return Commands.defer(
         () -> new PositionWithReef(() -> -driverController.getLeftX(), drive, OffsetTags.PROCESSOR),
+        Set.of(drive));
+  }
+
+  public Command ReefOnePath() {
+    return MetalUtils.getReefOne().getDeferredCommand();
+  }
+
+  public Command ReefOneAssist() {
+    return Commands.defer(
+        () ->
+            new PositionWithReef(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getReefOne()),
+        Set.of(drive));
+  }
+  public Command ReefTwoPath() {
+    return MetalUtils.getReefTwo().getDeferredCommand();
+  }
+
+  public Command ReefTwoAssist() {
+    return Commands.defer(
+        () ->
+            new PositionWithReef(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getReefTwo()),
+        Set.of(drive));
+  }
+  public Command ReefThreePath() {
+    return MetalUtils.getReefThree().getDeferredCommand();
+  }
+
+  public Command ReefThreeAssist() {
+    return Commands.defer(
+        () ->
+            new PositionWithReef(
+                () -> -driverController.getLeftX(), drive, MetalUtils.getReefThree()),
         Set.of(drive));
   }
 }

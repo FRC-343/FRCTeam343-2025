@@ -220,7 +220,7 @@ public class RobotContainer {
 
     controller
         .b()
-        .and(controller.leftBumper())
+        .and(controller.rightBumper())
         .whileTrue(
             Commands.runOnce(
                     () ->
@@ -229,11 +229,17 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().whileTrue(m_Automation.quickCoralPath());
+    controller.y().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickCoralPath());
 
     controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
     controller.b().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefTwoPath());
-    controller.x().whileTrue(m_Automation.quickReefThreePath());
+    controller.x().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefThreePath());
+
+    controller.y().and(controller.leftBumper()).whileTrue(m_Automation.CoralPath());
+
+    controller.a().and(controller.leftBumper()).whileTrue(m_Automation.ReefOnePath());
+    controller.b().and(controller.leftBumper()).whileTrue(m_Automation.ReefTwoPath());
+    controller.x().and(controller.leftBumper()).whileTrue(m_Automation.ReefThreePath());
 
     controller.rightTrigger().whileTrue(m_Automation.processor());
     // Operator Controlls

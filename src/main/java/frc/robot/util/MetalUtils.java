@@ -59,6 +59,20 @@ public class MetalUtils {
     }
   }
 
+  public static OffsetTags getOtherCoralTag() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.CORAL_TWO;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.CORAL_TWO;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.CORAL_ONE;
+    } else {
+      return OffsetTags.CORAL_ONE;
+    }
+  }
+
   public static OffsetTags getQuickReefOne() {
     if (MetalUtils.getStation() == 1) {
       return OffsetTags.REEF_FIVE;
@@ -140,6 +154,48 @@ public class MetalUtils {
       return "3";
     } else {
       return "6";
+    }
+  }
+
+  public static OffsetTags getReefOne() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.REEF_TWO;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.REEF_ONE;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.REEF_FIVE;
+    } else {
+      return OffsetTags.REEF_FIVE;
+    }
+  }
+
+  public static OffsetTags getReefTwo() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.REEF_ONE;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.REEF_SIX;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.REEF_FOUR;
+    } else {
+      return OffsetTags.REEF_FOUR;
+    }
+  }
+
+  public static OffsetTags getReefThree() {
+    if (MetalUtils.getStation() == 1) {
+      return OffsetTags.REEF_THREE;
+    }
+    if (MetalUtils.getStation() == 2) {
+      return OffsetTags.REEF_TWO;
+    }
+    if (MetalUtils.getStation() == 3) {
+      return OffsetTags.REEF_SIX;
+    } else {
+      return OffsetTags.REEF_SIX;
     }
   }
 }

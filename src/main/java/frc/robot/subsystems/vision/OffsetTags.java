@@ -18,7 +18,7 @@ public enum OffsetTags {
   REEF_ONE(
       VisionConstants.RED_REEF_ONE,
       VisionConstants.BLUE_REEF_ONE,
-      .3,
+      .5,
       new Rotation3d(0, 0, Math.PI)),
   REEF_TWO(
       VisionConstants.RED_REEF_TWO,
@@ -28,22 +28,22 @@ public enum OffsetTags {
   REEF_THREE(
       VisionConstants.RED_REEF_THREE,
       VisionConstants.BLUE_REEF_THREE,
-      .3,
+      .5,
       new Rotation3d(0, 0, Math.PI)),
   REEF_FOUR(
       VisionConstants.RED_REEF_FOUR,
       VisionConstants.BLUE_REEF_FOUR,
-      .3,
+      .5,
       new Rotation3d(0, 0, Math.PI)),
   REEF_FIVE(
       VisionConstants.RED_REEF_FIVE,
       VisionConstants.BLUE_REEF_FIVE,
-      .3,
+      .5,
       new Rotation3d(0, 0, Math.PI)),
   REEF_SIX(
       VisionConstants.RED_REEF_SIX,
       VisionConstants.BLUE_REEF_SIX,
-      .3,
+      .5,
       new Rotation3d(0, 0, Math.PI)),
   PROCESSOR(
       VisionConstants.RED_PROCESSOR,
@@ -102,7 +102,7 @@ public enum OffsetTags {
         () ->
             AutoBuilder.pathfindToPose(
                 getOffsetPose().toPose2d(),
-                new PathConstraints(5, 6, 4 * Math.PI, 5 * Math.PI),
+                new PathConstraints(10, 6, 4 * Math.PI, 5 * Math.PI),
                 0.0));
   }
 
