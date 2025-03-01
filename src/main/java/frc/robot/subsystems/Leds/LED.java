@@ -16,6 +16,7 @@ public class LED extends SubsystemBase {
   // Length is expensive to set, so only set it once, then just update data
 
   private int m_rainbowFirstPixelHue;
+  private boolean isRed = true;
 
   public static LED getInstance() {
     return m_instance;
@@ -36,6 +37,33 @@ public class LED extends SubsystemBase {
     m_led.start();
   }
 
+  public void cycleRedWhitePattern() {
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        if ((i / 4) % 2 == 0) {
+            m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+        } else {
+            m_ledBuffer.setRGB(i, 255, 255, 255); // White
+        }
+    }
+
+    m_led.setData(m_ledBuffer);
+}
+
+  public void cycleRedWhite() {
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        if (isRed) {
+            m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+        } else {
+            m_ledBuffer.setRGB(i, 255, 255, 255); // White
+        }
+    }
+    // Toggle the color for the next cycle
+    isRed = !isRed;
+
+    m_led.setData(m_ledBuffer);
+}
   public void rainbow() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
