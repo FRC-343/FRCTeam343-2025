@@ -39,31 +39,33 @@ public class LED extends SubsystemBase {
 
   public void cycleRedWhitePattern() {
     // For every pixel
-    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        if ((i / 4) % 2 == 0) {
-            m_ledBuffer.setRGB(i, 255, 0, 0); // Red
-        } else {
-            m_ledBuffer.setRGB(i, 255, 255, 255); // White
-        }
+    var i = 0;
+    for (i = 0; i < m_ledBuffer.getLength(); i++) {
+      if ((i / 4) % 2 == 0) {
+        m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+      } else {
+        m_ledBuffer.setRGB(i, 255, 255, 255); // White
+      }
     }
 
     m_led.setData(m_ledBuffer);
-}
+  }
 
   public void cycleRedWhite() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        if (isRed) {
-            m_ledBuffer.setRGB(i, 255, 0, 0); // Red
-        } else {
-            m_ledBuffer.setRGB(i, 255, 255, 255); // White
-        }
+      if (isRed) {
+        m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+      } else {
+        m_ledBuffer.setRGB(i, 255, 255, 255); // White
+      }
     }
     // Toggle the color for the next cycle
     isRed = !isRed;
 
     m_led.setData(m_ledBuffer);
-}
+  }
+
   public void rainbow() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {

@@ -233,7 +233,10 @@ public class RobotContainer {
 
     controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
     controller.b().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefTwoPath());
-    controller.x().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefThreePath());
+    controller
+        .x()
+        .and(controller.leftBumper().negate())
+        .whileTrue(m_Automation.quickReefThreePath());
 
     controller.y().and(controller.leftBumper()).whileTrue(m_Automation.CoralPath());
 
@@ -242,18 +245,25 @@ public class RobotContainer {
     controller.x().and(controller.leftBumper()).whileTrue(m_Automation.ReefThreePath());
 
     controller.rightTrigger().whileTrue(m_Automation.processor());
+
+    controller.leftTrigger().whileTrue(m_Automation.processorAssist());
     // Operator Controlls
 
     // "Intake" Controlls
     controller2
         .a()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(-.8));
+        .whileTrue(intake.setPercentOutputThenStopCommand(-.4));
 
     controller2
         .y()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(.8));
+        .whileTrue(intake.setPercentOutputThenStopCommand(.4));
+
+    controller2
+        .x()
+        .and(controller2.leftBumper().negate())
+        .whileTrue(intake.setPercentOutputThenStopCommand(-.8));
 
     // Elevator buttons
 
@@ -277,21 +287,21 @@ public class RobotContainer {
         .and(controller2.leftBumper())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
 
-    controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(6));
+    controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(7));
 
-    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.05));
+    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.1));
 
-    controller2
-        .pov(0)
-        .and(controller2.leftBumper())
-        .whileTrue(elevator.setPercentOutputCommand(.06))
-        .onFalse(elevator.setPercentOutputCommand(0.0));
+    // controller2
+    //     .pov(0)
+    //     .and(controller2.leftBumper())
+    //     .whileTrue(elevator.setPercentOutputCommand(.06))
+    //     .onFalse(elevator.setPercentOutputCommand(0.0));
 
-    controller2
-        .pov(180)
-        .and(controller2.leftBumper())
-        .whileTrue(elevator.setPercentOutputCommand(-.06))
-        .onFalse(elevator.setPercentOutputCommand(0.0));
+    // controller2
+    //     .pov(180)
+    //     .and(controller2.leftBumper())
+    //     .whileTrue(elevator.setPercentOutputCommand(-.06))
+    //     .onFalse(elevator.setPercentOutputCommand(0.0));
 
     // Climber Buttons
 

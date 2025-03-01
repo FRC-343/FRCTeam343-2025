@@ -106,6 +106,7 @@ public class DriverAutomationFactory {
                 () -> -driverController.getLeftX(), drive, MetalUtils.getReefOne()),
         Set.of(drive));
   }
+
   public Command ReefTwoPath() {
     return MetalUtils.getReefTwo().getDeferredCommand();
   }
@@ -117,6 +118,7 @@ public class DriverAutomationFactory {
                 () -> -driverController.getLeftX(), drive, MetalUtils.getReefTwo()),
         Set.of(drive));
   }
+
   public Command ReefThreePath() {
     return MetalUtils.getReefThree().getDeferredCommand();
   }

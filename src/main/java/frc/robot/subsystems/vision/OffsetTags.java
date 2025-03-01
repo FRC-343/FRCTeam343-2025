@@ -13,12 +13,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.util.MetalUtils;
 
 public enum OffsetTags {
-  CORAL_ONE(VisionConstants.RED_CORAL_ONE, VisionConstants.BLUE_CORAL_ONE, .5),
-  CORAL_TWO(VisionConstants.RED_CORAL_TWO, VisionConstants.BLUE_CORAL_TWO, .5),
+  CORAL_ONE(VisionConstants.RED_CORAL_ONE, VisionConstants.BLUE_CORAL_ONE, .2),
+  CORAL_TWO(VisionConstants.RED_CORAL_TWO, VisionConstants.BLUE_CORAL_TWO, .2),
   REEF_ONE(
       VisionConstants.RED_REEF_ONE,
       VisionConstants.BLUE_REEF_ONE,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_TWO(
       VisionConstants.RED_REEF_TWO,
@@ -28,32 +28,32 @@ public enum OffsetTags {
   REEF_THREE(
       VisionConstants.RED_REEF_THREE,
       VisionConstants.BLUE_REEF_THREE,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_FOUR(
       VisionConstants.RED_REEF_FOUR,
       VisionConstants.BLUE_REEF_FOUR,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_FIVE(
       VisionConstants.RED_REEF_FIVE,
       VisionConstants.BLUE_REEF_FIVE,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   REEF_SIX(
       VisionConstants.RED_REEF_SIX,
       VisionConstants.BLUE_REEF_SIX,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   PROCESSOR(
       VisionConstants.RED_PROCESSOR,
       VisionConstants.BLUE_PROCESSOR,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI)),
   OTHER_PROCESSOR(
       VisionConstants.BLUE_PROCESSOR,
       VisionConstants.RED_PROCESSOR,
-      .5,
+      .3,
       new Rotation3d(0, 0, Math.PI));
 
   private final int redId;
@@ -102,7 +102,7 @@ public enum OffsetTags {
         () ->
             AutoBuilder.pathfindToPose(
                 getOffsetPose().toPose2d(),
-                new PathConstraints(10, 6, 4 * Math.PI, 5 * Math.PI),
+                new PathConstraints(12, 10, 4 * Math.PI, 5 * Math.PI),
                 0.0));
   }
 

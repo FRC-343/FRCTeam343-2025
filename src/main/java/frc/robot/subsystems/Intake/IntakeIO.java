@@ -9,6 +9,11 @@ public interface IntakeIO {
     public double appliedDutyCycle = 0.0;
     public double velocityRotPerSecond = 0.0;
     public double currentAmperage = 0.0;
+
+    public double appliedVoltage2 = 0.0;
+    public double appliedDutyCycle2 = 0.0;
+    public double velocityRotPerSecond2 = 0.0;
+    public double currentAmperage2 = 0.0;
   }
 
   public default void updateInputs(IntakeIOInputs inputs) {}

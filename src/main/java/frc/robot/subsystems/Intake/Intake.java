@@ -26,7 +26,7 @@ public class Intake extends SubsystemBase {
   public Intake() {
     switch (Constants.currentMode) {
       case REAL:
-        io = new IntakeIOTalonFX(22, false);
+        io = new IntakeIOTalonFX(22, false, 26);
         beambreak = new BeambreakDigitalInput(3);
         // beambreak2 = new BeambreakDigitalInput(8);
 
