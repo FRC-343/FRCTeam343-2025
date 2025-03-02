@@ -1,4 +1,4 @@
-package frc.robot.subsystems.vision;
+package frc.robot.subsystems.vision2;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import org.photonvision.simulation.SimCameraProperties;

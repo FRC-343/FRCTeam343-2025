@@ -18,7 +18,7 @@ import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
 import frc.robot.beambreak.BeambreakDigitalInput;
 import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
-import frc.robot.bobot_state.BobotState;
+// import frc.robot.bobot_state.BobotState;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -104,7 +104,7 @@ public class Elevator extends SubsystemBase {
 
     // resetEncoder();
 
-    BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
+    // BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
 
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());

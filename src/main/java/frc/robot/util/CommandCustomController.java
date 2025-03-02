@@ -1,13 +1,13 @@
 package frc.robot.util;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class CommandCustomController extends CommandXboxController {
-  private final double joystickDeadband = 0.05;
-  private final double triggerPressedThreshold = 0.1;
-
   /**
    * Construct an instance of a command controller.
    *
@@ -17,72 +17,68 @@ public class CommandCustomController extends CommandXboxController {
     super(port);
   }
 
-  /**
-   * {@inheritDoc} (Processed with function below).
-   *
-   * @see #processJoystickValue
-   */
   @Override
   public double getLeftX() {
-    return this.processJoystickValue(super.getLeftX());
+    return applyJoystickDeadband(super.getLeftX());
   }
 
-  /**
-   * {@inheritDoc} (Processed with function below).
-   *
-   * @see #processJoystickValue
-   */
+  public double getLeftXSquared() {
+    return squareJoystickValue(getLeftX());
+  }
+
   @Override
   public double getLeftY() {
-    return this.processJoystickValue(super.getLeftY());
+    return applyJoystickDeadband(super.getLeftY());
   }
 
-  /**
-   * {@inheritDoc} (Processed with function below).
-   *
-   * @see #processJoystickValue
-   */
+  public double getLeftYSquared() {
+    return squareJoystickValue(getLeftY());
+  }
+
   @Override
   public double getRightX() {
-    return this.processJoystickValue(super.getRightX());
+    return applyJoystickDeadband(super.getRightX());
   }
 
-  /**
-   * {@inheritDoc} (Processed with function below).
-   *
-   * @see #processJoystickValue
-   */
+  public double getRightXSquared() {
+    return squareJoystickValue(getRightX());
+  }
+
   @Override
   public double getRightY() {
-    return this.processJoystickValue(super.getRightY());
+    return applyJoystickDeadband(super.getRightY());
+  }
+
+  public double getRightYSquared() {
+    return squareJoystickValue(getRightY());
   }
 
   /**
    * @return Trigger instance that is true when the Left Stick's X is not 0.
    */
   public Trigger leftX() {
-    return new Trigger(() -> this.getLeftX() != 0);
+    return new Trigger(() -> getLeftX() != 0);
   }
 
   /**
    * @return Trigger instance that is true when the Left Stick's Y is not 0.
    */
   public Trigger leftY() {
-    return new Trigger(() -> this.getLeftY() != 0);
+    return new Trigger(() -> getLeftY() != 0);
   }
 
   /**
    * @return Trigger instance that is true when the Right Stick's X is not 0.
    */
   public Trigger rightX() {
-    return new Trigger(() -> this.getRightX() != 0);
+    return new Trigger(() -> getRightX() != 0);
   }
 
   /**
    * @return Trigger instance that is true when the Right Stick's Y is not 0.
    */
   public Trigger rightY() {
-    return new Trigger(() -> this.getRightY() != 0);
+    return new Trigger(() -> getRightY() != 0);
   }
 
   /**
@@ -94,7 +90,7 @@ public class CommandCustomController extends CommandXboxController {
    */
   @Override
   public Trigger leftTrigger() {
-    return this.leftTrigger(this.triggerPressedThreshold);
+    return leftTrigger(.1);
   }
 
   /**
@@ -106,19 +102,27 @@ public class CommandCustomController extends CommandXboxController {
    */
   @Override
   public Trigger rightTrigger() {
-    return this.rightTrigger(this.triggerPressedThreshold);
+    return rightTrigger(.1);
   }
 
-  /**
-   * Processes joystick value like so: { (deadband(v)^2) * signum(v) }.<br>
-   * The squaring is done to improve precision. The signum multiplication is to get the negativeness
-   * back (if it was there).
-   *
-   * @param value Value to process
-   * @return Processed value
-   */
-  private double processJoystickValue(double value) {
-    return Math.pow(applyJoystickDeadband(value), 2) * Math.signum(value);
+  public Command rumble(double strength) {
+    return Commands.startEnd(
+        () -> setRumble(RumbleType.kBothRumble, strength),
+        () -> setRumble(RumbleType.kBothRumble, 0));
+  }
+
+  public Command rumbleSeconds(double strength, double time) {
+    return rumble(strength).withTimeout(time);
+  }
+
+  public Command rumbleOnOff(double strength, double rumbleTime, double waitTime, int loops) {
+    return Commands.repeatingSequence(
+            rumbleSeconds(strength, rumbleTime), Commands.waitSeconds(waitTime))
+        .withTimeout((rumbleTime + waitTime) * loops);
+  }
+
+  private double squareJoystickValue(double value) {
+    return Math.abs(value) * value;
   }
 
   /**
@@ -128,6 +132,6 @@ public class CommandCustomController extends CommandXboxController {
    * @return Joystick's value with a deadband applied
    */
   private double applyJoystickDeadband(double stickValue) {
-    return MathUtil.applyDeadband(stickValue, this.joystickDeadband);
+    return MathUtil.applyDeadband(stickValue, .02);
   }
 }

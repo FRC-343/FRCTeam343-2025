@@ -14,7 +14,7 @@ import frc.robot.Constants;
 import frc.robot.LimitSwitch.LimitSwitchDigitalInput;
 import frc.robot.LimitSwitch.LimitSwitchIO;
 import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
-import frc.robot.bobot_state.BobotState;
+// import frc.robot.bobot_state.BobotState;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -109,12 +109,12 @@ public class Climber extends SubsystemBase {
   }
 
   public Command Disengage() {
-    BobotState.setClibmerEngaged(false);
+    // BobotState.setClibmerEngaged(false);
     return new InstantCommand(() -> this.io.engage());
   }
 
   public Command Engage() {
-    BobotState.setClibmerEngaged(true);
+    // BobotState.setClibmerEngaged(true);
     return new InstantCommand(() -> this.io.disEngage());
   }
 

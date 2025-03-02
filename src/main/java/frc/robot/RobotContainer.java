@@ -1,18 +1,19 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.Auto.Test;
-import frc.robot.bobot_state.BobotState;
+// import frc.robot.Auto.Test;
+import frc.robot.bobot_state2.BobotState;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.DrivePerpendicularToPoseCommand;
+import frc.robot.commands.DriveToPoseCommand;
+import frc.robot.field.FieldUtils;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Elevator.Elevator;
@@ -24,14 +25,13 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import frc.robot.subsystems.vision.Vision;
-import frc.robot.subsystems.vision.VisionConstants;
-import frc.robot.subsystems.vision.VisionIO;
-import frc.robot.subsystems.vision.VisionIOPhotonVision;
-import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
+import frc.robot.subsystems.vision2.Vision;
+// import frc.robot.subsystems.vision.VisionIO;
+// import frc.robot.subsystems.vision.VisionIOPhotonVision;
+// import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.CommandCustomController;
 import frc.robot.util.Constant;
-import frc.robot.util.MetalUtils;
+import frc.robot.util.PoseUtils;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -44,11 +44,8 @@ public class RobotContainer {
   // Subsystems
   private final Drive drive;
 
-  @SuppressWarnings("unused")
-  private final Vision vision;
-
-  @SuppressWarnings("unused")
-  private final BobotState m_BobotState;
+  // @SuppressWarnings("unused")
+  // private final Vision vision;
 
   private final Elevator elevator;
 
@@ -69,6 +66,9 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    new BobotState();
+    new Vision();
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -79,14 +79,7 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.FrontRight),
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVision("FLeft", VisionConstants.robotToCamera0),
-                new VisionIOPhotonVision("FRight", VisionConstants.robotToCamera1),
-                new VisionIOPhotonVision("BLeft", VisionConstants.robotToCamera2),
-                new VisionIOPhotonVision("BRight", VisionConstants.robotToCamera3));
-        m_BobotState = new BobotState();
+
         m_Automation = new DriverAutomationFactory(controller, controller2, drive);
         elevator = new Elevator();
         intake = new Intake();
@@ -103,19 +96,19 @@ public class RobotContainer {
                 new ModuleIOSim(TunerConstants.FrontRight),
                 new ModuleIOSim(TunerConstants.BackLeft),
                 new ModuleIOSim(TunerConstants.BackRight));
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIOPhotonVisionSim(
-                    VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    VisionConstants.camera2Name, VisionConstants.robotToCamera2, drive::getPose),
-                new VisionIOPhotonVisionSim(
-                    VisionConstants.camera3Name, VisionConstants.robotToCamera3, drive::getPose));
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIOPhotonVisionSim(
+        //             VisionConstants.camera0Name, VisionConstants.robotToCamera0, drive::getPose),
+        //         new VisionIOPhotonVisionSim(
+        //             VisionConstants.camera1Name, VisionConstants.robotToCamera1, drive::getPose),
+        //         new VisionIOPhotonVisionSim(
+        //             VisionConstants.camera2Name, VisionConstants.robotToCamera2, drive::getPose),
+        //         new VisionIOPhotonVisionSim(
+        //             VisionConstants.camera3Name, VisionConstants.robotToCamera3,
+        // drive::getPose));
 
-        m_BobotState = new BobotState();
         m_Automation = new DriverAutomationFactory(controller, controller2, drive);
 
         elevator = new Elevator();
@@ -132,14 +125,13 @@ public class RobotContainer {
                 new ModuleIO() {},
                 new ModuleIO() {},
                 new ModuleIO() {});
-        vision =
-            new Vision(
-                drive::addVisionMeasurement,
-                new VisionIO() {},
-                new VisionIO() {},
-                new VisionIO() {},
-                new VisionIO() {});
-        m_BobotState = new BobotState();
+        // vision =
+        //     new Vision(
+        //         drive::addVisionMeasurement,
+        //         new VisionIO() {},
+        //         new VisionIO() {},
+        //         new VisionIO() {},
+        //         new VisionIO() {});
         m_Automation = new DriverAutomationFactory(controller, controller2, drive);
 
         elevator = new Elevator();
@@ -166,23 +158,24 @@ public class RobotContainer {
         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
     autoChooser.addOption(
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
-    autoChooser.addOption("Test Auto Pathing", new Test(elevator, intake));
+
+    // autoChooser.addOption("Test Auto Pathing", new Test(elevator, intake));
 
     // SmartDashboard.putData(MetalUtils.getQuickReefOne());
 
     // Configure the button bindings
     configureButtonBindings();
-    configureNamedCommands();
+    // configureNamedCommands();
 
-    SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
-    SmartDashboard.putString("QuickReefTwo", MetalUtils.getQuickReefTwoTAGv());
-    SmartDashboard.putString("QuickReefThree", MetalUtils.getQuickReefThreeTAGv());
+    //     SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
+    //     SmartDashboard.putString("QuickReefTwo", MetalUtils.getQuickReefTwoTAGv());
+    //     SmartDashboard.putString("QuickReefThree", MetalUtils.getQuickReefThreeTAGv());
   }
 
-  private void configureNamedCommands() {
-    NamedCommands.registerCommand(
-        "QuickReefCenter", Commands.deferredProxy(() -> m_Automation.quickReefOnePath()));
-  }
+  //   private void configureNamedCommands() {
+  //     // NamedCommands.registerCommand(
+  //     //     "QuickReefCenter", Commands.deferredProxy(() -> m_Automation.quickReefOnePath()));
+  //   }
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -219,6 +212,17 @@ public class RobotContainer {
     // controller2.b().whileTrue( ledWantNote());
 
     controller
+        .rightTrigger()
+        .whileTrue(
+            DrivePerpendicularToPoseCommand.withJoystickRumble(
+                drive,
+                () -> FieldUtils.getClosestReef().rightPole.getPose(),
+                () -> -controller.getLeftYSquared(),
+                Commands.parallel(
+                    controller.rumbleOnOff(1, 0.25, 0.25, 2),
+                    controller2.rumbleOnOff(1, 0.25, 0.25, 2))));
+
+    controller
         .b()
         .and(controller.rightBumper())
         .whileTrue(
@@ -229,24 +233,33 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.y().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickCoralPath());
+    // controller.y().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickCoralPath());
 
-    controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
-    controller.b().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefTwoPath());
+    // controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
+    // controller.b().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefTwoPath());
+    // controller
+    //     .x()
+    //     .and(controller.leftBumper().negate())
+    //     .whileTrue(m_Automation.quickReefThreePath());
+
+    // controller.y().and(controller.leftBumper()).whileTrue(m_Automation.CoralPath());
+
+    // controller.a().and(controller.leftBumper()).whileTrue(m_Automation.ReefOnePath());
+    // controller.b().and(controller.leftBumper()).whileTrue(m_Automation.ReefTwoPath());
+    // controller.x().and(controller.leftBumper()).whileTrue(m_Automation.ReefThreePath());
+
     controller
-        .x()
-        .and(controller.leftBumper().negate())
-        .whileTrue(m_Automation.quickReefThreePath());
+        .leftTrigger()
+        .whileTrue(
+            new DriveToPoseCommand(
+                drive,
+                () ->
+                    PoseUtils.plusRotation(
+                        FieldUtils.getClosestReef().leftPole.getPerpendicularOffsetPose(.3),
+                        Rotation2d.kPi)));
+    // controller.rightTrigger().whileTrue(m_Automation.processor());
 
-    controller.y().and(controller.leftBumper()).whileTrue(m_Automation.CoralPath());
-
-    controller.a().and(controller.leftBumper()).whileTrue(m_Automation.ReefOnePath());
-    controller.b().and(controller.leftBumper()).whileTrue(m_Automation.ReefTwoPath());
-    controller.x().and(controller.leftBumper()).whileTrue(m_Automation.ReefThreePath());
-
-    controller.rightTrigger().whileTrue(m_Automation.processor());
-
-    controller.leftTrigger().whileTrue(m_Automation.processorAssist());
+    // controller.leftTrigger().whileTrue(m_Automation.processorAssist());
     // Operator Controlls
 
     // "Intake" Controlls
