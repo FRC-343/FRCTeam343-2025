@@ -38,8 +38,7 @@ public class BobotState extends VirtualSubsystem {
   private static List<TargetAngleTracker> autoAlignmentTrackers =
       List.of(BobotState.hpsTracker, BobotState.reefTracker);
 
-
-  public static void updateElevatorBeam(boolean beam){
+  public static void updateElevatorBeam(boolean beam) {
     BobotState.ElevatorBeam = beam;
   }
 
@@ -100,7 +99,7 @@ public class BobotState extends VirtualSubsystem {
   @Override
   public void periodic() {
 
-    Logger.recordOutput(logRoot + "Elevator Beam",  ElevatorBeam);
+    Logger.recordOutput(logRoot + "Elevator Beam", ElevatorBeam);
 
     {
       reefTracker.update();
