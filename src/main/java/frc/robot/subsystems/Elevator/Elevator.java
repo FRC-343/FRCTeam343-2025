@@ -18,6 +18,8 @@ import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
 import frc.robot.beambreak.BeambreakDigitalInput;
 import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
+import frc.robot.bobot_state2.BobotState;
+
 // import frc.robot.bobot_state.BobotState;
 import org.littletonrobotics.junction.Logger;
 
@@ -31,6 +33,8 @@ public class Elevator extends SubsystemBase {
   private final BeambreakIO beambreak;
   private final LimitSwitchIO LimitSwitch;
   private final LimitSwitchIO LimitSwitchBackup;
+
+  boolean test = false;
 
   private final ElevatorMotorIOInputsAutoLogged inputs = new ElevatorMotorIOInputsAutoLogged();
   private final BeambreakIOInputsAutoLogged beambreakInputs = new BeambreakIOInputsAutoLogged();
@@ -106,6 +110,8 @@ public class Elevator extends SubsystemBase {
 
     // BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
 
+    BobotState.updateElevatorBeam(test=(beambreakIsObstructed().getAsBoolean() && elevatorIsDown().getAsBoolean()));
+
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());
     // elevatorIsDown().onFalse(resetEncoder());
@@ -166,6 +172,10 @@ public class Elevator extends SubsystemBase {
 
   public Command resetEncoder() {
     return new InstantCommand(this.io::resetEncoder, this);
+  }
+
+  public Command triggerBeam(){
+    return new InstantCommand(this.beambreakInputs.overrideObstructed(true));
   }
 
   public Trigger beambreakIsObstructed() {

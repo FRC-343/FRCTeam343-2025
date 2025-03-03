@@ -1,15 +1,13 @@
 /*
  * TO DO
- * 
+ *
  * Break File into Akit Style system
- * Add L/R Commands for feeding 
+ * Add L/R Commands for feeding
  * Add Climber Engage/Disengage color and command
- * 
+ *
  */
 
-
 package frc.robot.subsystems.Leds;
-
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -52,19 +50,18 @@ public class LED extends SubsystemBase {
     int shift = 0;
     // Shift pattern by one pixel each cycle
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
-        if (((i + shift) / 4) % 2 == 0) {
-            m_ledBuffer.setRGB(i, 255, 0, 0); // Red
-        } else {
-            m_ledBuffer.setRGB(i, 255, 255, 255); // White
-        }
+      if (((i + shift) / 4) % 2 == 0) {
+        m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+      } else {
+        m_ledBuffer.setRGB(i, 255, 255, 255); // White
+      }
     }
 
     // Increment shift for next cycle
-    shift = (shift + 1) % (m_ledBuffer.getLength() * 2); 
+    shift = (shift + 1) % (m_ledBuffer.getLength() * 2);
 
     m_led.setData(m_ledBuffer);
-}
-
+  }
 
   public void cycleRedWhite() {
     // For every pixel

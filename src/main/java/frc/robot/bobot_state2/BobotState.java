@@ -29,12 +29,19 @@ public class BobotState extends VirtualSubsystem {
 
   private static Pose2d globalPose = new Pose2d();
 
+  private static boolean ElevatorBeam;
+
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
 
   private static List<TargetAngleTracker> autoAlignmentTrackers =
       List.of(BobotState.hpsTracker, BobotState.reefTracker);
+
+
+  public static void updateElevatorBeam(boolean beam){
+    BobotState.ElevatorBeam = beam;
+  }
 
   public static void offerVisionObservation(PoseObservation observation) {
     BobotState.poseObservations.offer(observation);
@@ -92,6 +99,8 @@ public class BobotState extends VirtualSubsystem {
 
   @Override
   public void periodic() {
+
+    Logger.recordOutput(logRoot + "Elevator Beam",  ElevatorBeam);
 
     {
       reefTracker.update();
