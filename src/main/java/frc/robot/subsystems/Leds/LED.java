@@ -1,4 +1,15 @@
+/*
+ * TO DO
+ * 
+ * Break File into Akit Style system
+ * Add L/R Commands for feeding 
+ * Add Climber Engage/Disengage color and command
+ * 
+ */
+
+
 package frc.robot.subsystems.Leds;
+
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
@@ -26,7 +37,7 @@ public class LED extends SubsystemBase {
     m_led.setLength(m_ledBuffer.getLength());
     for (var i = 0; i < 72; i++) {
       // Sets the specified LED to the RGB values for red
-      m_ledBuffer.setRGB(i, 0, 255, 0);
+      m_ledBuffer.setRGB(i, 255, 0, 0);
     }
     for (var i = 72; i >= 72 && i < 144; i++) {
       // Sets the specified LED to the RGB values for red
@@ -38,18 +49,22 @@ public class LED extends SubsystemBase {
   }
 
   public void cycleRedWhitePattern() {
-    // For every pixel
-    var i = 0;
-    for (i = 0; i < m_ledBuffer.getLength(); i++) {
-      if ((i / 4) % 2 == 0) {
-        m_ledBuffer.setRGB(i, 255, 0, 0); // Red
-      } else {
-        m_ledBuffer.setRGB(i, 255, 255, 255); // White
-      }
+    int shift = 0;
+    // Shift pattern by one pixel each cycle
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        if (((i + shift) / 4) % 2 == 0) {
+            m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+        } else {
+            m_ledBuffer.setRGB(i, 255, 255, 255); // White
+        }
     }
 
+    // Increment shift for next cycle
+    shift = (shift + 1) % (m_ledBuffer.getLength() * 2); 
+
     m_led.setData(m_ledBuffer);
-  }
+}
+
 
   public void cycleRedWhite() {
     // For every pixel
@@ -69,6 +84,40 @@ public class LED extends SubsystemBase {
   public void rainbow() {
     // For every pixel
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      // Set the value
+      m_ledBuffer.setHSV(i, hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    m_rainbowFirstPixelHue += 3;
+    // Check bounds
+    m_rainbowFirstPixelHue %= 180;
+
+    m_led.setData(m_ledBuffer);
+  }
+
+  public void rainbowLeft() {
+    // For every pixel
+    for (var i = 0; i < 72; i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      // Set the value
+      m_ledBuffer.setHSV(i, hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    m_rainbowFirstPixelHue += 3;
+    // Check bounds
+    m_rainbowFirstPixelHue %= 180;
+
+    m_led.setData(m_ledBuffer);
+  }
+
+  public void rainbowRight() {
+    // For every pixel
+    for (var i = 72; i < 145; i++) {
       // Calculate the hue - hue is easier for rainbows because the color
       // shape is a circle so only one value needs to precess
       final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;

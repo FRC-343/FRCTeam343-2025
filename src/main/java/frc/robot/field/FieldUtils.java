@@ -44,21 +44,21 @@ public class FieldUtils {
     return closestReef;
   }
 
-  public static AprilTagStruct getClosestHPSTag() {
-    List<AprilTagStruct> hpsTags =
+  public static HPSFace getClosestHPSTag() {
+    List<HPSFace> hpsTags =
         FieldUtils.isBlueAlliance() ? FieldConstants.blueHPSTags : FieldConstants.redHPSTags;
 
     Translation2d robotTranslation = BobotState.getGlobalPose().getTranslation();
 
-    AprilTagStruct closestTag =
+    HPSFace closestTag =
         hpsTags.stream()
             .reduce(
-                (AprilTagStruct tag1, AprilTagStruct tag2) ->
-                    robotTranslation.getDistance(tag1.pose().getTranslation().toTranslation2d())
+                (HPSFace HPS1, HPSFace HPS2) ->
+                    robotTranslation.getDistance(HPS1.tag.pose().getTranslation().toTranslation2d())
                             < robotTranslation.getDistance(
-                                tag2.pose().getTranslation().toTranslation2d())
-                        ? tag1
-                        : tag2)
+                                HPS2.tag.pose().getTranslation().toTranslation2d())
+                        ? HPS1
+                        : HPS2)
             .get();
 
     return closestTag;

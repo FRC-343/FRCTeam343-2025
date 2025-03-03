@@ -74,7 +74,7 @@ public class DrivePerpendicularToPoseCommand extends Command {
     ChassisSpeeds speeds =
         new ChassisSpeeds(
             perpendicularInput.get() * drive.getMaxLinearSpeedMetersPerSec(),
-            parallelSpeed,
+            parallelSpeed * 2,
             angularSpeed);
 
     drive.runVelocity(speeds);

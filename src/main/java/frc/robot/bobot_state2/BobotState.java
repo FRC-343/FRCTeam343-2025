@@ -110,7 +110,7 @@ public class BobotState extends VirtualSubsystem {
       hpsTracker.update();
 
       String calcLogRoot = logRoot + "HPS/";
-      Logger.recordOutput(calcLogRoot + "Closest Tag", FieldUtils.getClosestHPSTag());
+      Logger.recordOutput(calcLogRoot + "Closest Tag", FieldUtils.getClosestHPSTag().HPS);
       Logger.recordOutput(calcLogRoot + "Distance", BobotState.hpsTracker.getDistanceMeters());
       Logger.recordOutput(calcLogRoot + "IsClose", BobotState.nearHumanPlayer());
       Logger.recordOutput(

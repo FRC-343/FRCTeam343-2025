@@ -225,13 +225,20 @@ public class RobotContainer {
     controller
         .a()
         .whileTrue(
-            new DriveToPoseCommand(drive, () -> FieldUtils.getClosestHPSTag().pose().toPose2d()));
+            new DriveToPoseCommand(
+                drive,
+                () ->
+                    PoseUtils.plusRotation(
+                        FieldUtils.getClosestHPSTag().HPS.getPerpendicularOffsetPose(0.5),
+                        Rotation2d.kZero)));
     controller
         .b()
         .whileTrue(
             DrivePerpendicularToPoseCommand.withJoystickRumble(
                 drive,
-                () -> FieldUtils.getClosestHPSTag().pose().toPose2d(),
+                () ->
+                    PoseUtils.plusRotation(
+                        FieldUtils.getClosestHPSTag().HPS.getPose(), Rotation2d.kPi),
                 () -> -controller.getLeftYSquared(),
                 Commands.parallel(
                     controller.rumbleOnOff(1, 0.25, 0.2, 2),
@@ -270,7 +277,7 @@ public class RobotContainer {
                 drive,
                 () ->
                     PoseUtils.plusRotation(
-                        FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.2),
+                        FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.5),
                         Rotation2d.kPi)));
     // controller.rightTrigger().whileTrue(m_Automation.processor());
 

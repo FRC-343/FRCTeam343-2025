@@ -24,10 +24,10 @@ public class FieldConstants {
   /*
    * April Tag Lookup
    */
-  public static final AprilTagStruct blueHPSDriverRight =
-      new AprilTagStruct(12, VisionConstants.fieldLayout.getTagPose(12).get());
-  public static final AprilTagStruct blueHPSDriverLeft =
-      new AprilTagStruct(13, VisionConstants.fieldLayout.getTagPose(13).get());
+  public static final HPSFace blueHPSDriverRight =
+      new HPSFace(new AprilTagStruct(12, VisionConstants.fieldLayout.getTagPose(12).get()));
+  public static final HPSFace blueHPSDriverLeft =
+      new HPSFace(new AprilTagStruct(13, VisionConstants.fieldLayout.getTagPose(13).get()));
 
   public static final Integer blueProcessor = 16;
   public static final AprilTagStruct blueBarge =
@@ -47,10 +47,10 @@ public class FieldConstants {
   public static final ReefFace blueReefKL =
       new ReefFace(new AprilTagStruct(19, VisionConstants.fieldLayout.getTagPose(19).get()));
 
-  public static final AprilTagStruct redHPSDriverLeft =
-      new AprilTagStruct(1, VisionConstants.fieldLayout.getTagPose(1).get());
-  public static final AprilTagStruct redHPSDriverRight =
-      new AprilTagStruct(2, VisionConstants.fieldLayout.getTagPose(2).get());
+  public static final HPSFace redHPSDriverLeft =
+      new HPSFace(new AprilTagStruct(1, VisionConstants.fieldLayout.getTagPose(1).get()));
+  public static final HPSFace redHPSDriverRight =
+      new HPSFace(new AprilTagStruct(2, VisionConstants.fieldLayout.getTagPose(2).get()));
 
   public static final Integer redProcessor = 3;
   public static final AprilTagStruct redBarge =
@@ -74,8 +74,6 @@ public class FieldConstants {
   public static final List<ReefFace> redReefTags =
       List.of(redReefAB, redReefCD, redReefEF, redReefGH, redReefIJ, redReefKL);
 
-  public static final List<AprilTagStruct> blueHPSTags =
-      List.of(blueHPSDriverLeft, blueHPSDriverRight);
-  public static final List<AprilTagStruct> redHPSTags =
-      List.of(redHPSDriverLeft, redHPSDriverRight);
+  public static final List<HPSFace> blueHPSTags = List.of(blueHPSDriverLeft, blueHPSDriverRight);
+  public static final List<HPSFace> redHPSTags = List.of(redHPSDriverLeft, redHPSDriverRight);
 }

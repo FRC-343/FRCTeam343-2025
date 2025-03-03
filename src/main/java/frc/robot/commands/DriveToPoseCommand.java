@@ -46,7 +46,7 @@ public class DriveToPoseCommand extends Command {
     double angularSpeed = angleController.calculate(error.getRotation().getRadians(), 0);
     angularSpeed = !angleController.atSetpoint() ? angularSpeed : 0;
 
-    ChassisSpeeds speeds = new ChassisSpeeds(perpendicularSpeed, parallelSpeed, angularSpeed);
+    ChassisSpeeds speeds = new ChassisSpeeds(perpendicularSpeed, parallelSpeed * 2, angularSpeed);
 
     drive.runVelocity(speeds);
   }
