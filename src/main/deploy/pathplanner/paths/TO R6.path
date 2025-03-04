@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.61475,
-        "y": 6.404
+        "x": 7.538522727272728,
+        "y": 6.672457386363636
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.579235578537925,
-        "y": 6.157358700149347
+        "x": 5.849356953923868,
+        "y": 5.948477199562994
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.2455,
-        "y": 5.2925
+        "x": 5.3348011363636365,
+        "y": 5.306349431818182
       },
       "prevControl": {
-        "x": 5.653964947803296,
-        "y": 5.447085425764223
+        "x": 6.28858469945698,
+        "y": 5.8431230773626055
       },
       "nextControl": null,
-      "isLocked": false,
-      "linkedName": null
+      "isLocked": true,
+      "linkedName": "R6 Elevator Point"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.35775354279123
+    "rotation": -119.79461720416613
   },
   "reversed": false,
-  "folder": null,
+  "folder": "LEFT START PATHS",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -179.24115987573146
+    "rotation": 178.293821705553
   },
   "useDefaultConstraints": true
 }

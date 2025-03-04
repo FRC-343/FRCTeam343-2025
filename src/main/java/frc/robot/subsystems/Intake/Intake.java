@@ -12,6 +12,7 @@ import frc.robot.Constants;
 import frc.robot.beambreak.BeambreakDigitalInput;
 import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
+import frc.robot.bobot_state2.BobotState;
 import org.littletonrobotics.junction.Logger;
 
 public class Intake extends SubsystemBase {
@@ -61,6 +62,17 @@ public class Intake extends SubsystemBase {
     if (DriverStation.isDisabled()) {
       this.io.stop();
     }
+
+    BobotState.nearHumanPlayer().whileTrue(HPintake()).onFalse(stopCommand());
+  }
+
+  public Command HPintake() {
+    return new RunCommand(() -> this.io.setPercentOutput(-.4), this)
+        .until(BobotState.ElevatorBeam())
+        .andThen(
+            new RunCommand(() -> this.io.setPercentOutput(-.1), this)
+                .until(BobotState.ElevatorBeam().negate())
+                .andThen(stopCommand()));
   }
 
   public Command setVelocityCommand(double velocityRotPerSecond) {

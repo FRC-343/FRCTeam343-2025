@@ -1,0 +1,68 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.16528409090909,
+        "y": 5.146803977272728
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.873267045454546,
+        "y": 5.73512784090909
+      },
+      "isLocked": false,
+      "linkedName": "R6 REEF POINT"
+    },
+    {
+      "anchor": {
+        "x": 1.286335227272727,
+        "y": 7.061349431818181
+      },
+      "prevControl": {
+        "x": 2.1344104749263306,
+        "y": 6.644568437493653
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.2767154105736638,
+      "constraints": {
+        "maxVelocity": 3.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 6.0,
+    "maxAcceleration": 8.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -52.926926682689604
+  },
+  "reversed": false,
+  "folder": "LEFT START PATHS",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -122.39139320663368
+  },
+  "useDefaultConstraints": true
+}

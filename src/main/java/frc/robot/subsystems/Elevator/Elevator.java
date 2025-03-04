@@ -107,16 +107,22 @@ public class Elevator extends SubsystemBase {
     // resetEncoder();
 
     // BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
-
-    BobotState.updateElevatorBeam(
-        test = (beambreakIsObstructed().getAsBoolean() && elevatorIsDown().getAsBoolean()));
+    test = (beambreakIsObstructed().getAsBoolean() && elevatorIsDown().getAsBoolean());
+    BobotState.updateElevatorBeam(test);
 
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());
     // elevatorIsDown().onFalse(resetEncoder());
   }
 
-  // These need to be reorganized
+  // These needs to be reorganized
+
+  public Command overrideBeambreakObstructedCommand(boolean value) {
+    return new InstantCommand(
+        () -> {
+          this.beambreak.overrideObstructed(value);
+        });
+  }
 
   private void setSetpoint(double setpoint) {
     setpointInches = MathUtil.clamp(setpoint, 0, 56); // not real value
@@ -186,7 +192,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Trigger elevatorIsDown() {
-    return new Trigger(() -> MathUtil.isNear(0, this.inputs.masterPositionRad, .50));
+    return new Trigger(() -> MathUtil.isNear(0, this.inputs.masterPositionRad, 1));
   }
 
   public Command setPercentOutputCommand(double velocityRotPerSecond) {

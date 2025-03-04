@@ -7,8 +7,9 @@ public class Constant {
     public static int followerID = 23;
     // public static int canCoderID = 23;
 
+    public static double FEED = .1;
     public static double L1Level = 0.0; // Placeholder replace with real value from robot
-    public static double L2Level = 0.0; // Placeholder replace with real value from robot
+    public static double L2Level = 7.2; // Placeholder replace with real value from robot
     public static double L1AlgeaLevel = 12; // Placeholder replace with real value from robot
     public static double L3Level = 14.6; // Placeholder replace with real value from robot
     public static double L2AlgeaLevel = 20; // possibly the real value

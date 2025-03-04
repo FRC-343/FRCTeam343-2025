@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -18,7 +19,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.Intake.Intake;
-import frc.robot.subsystems.Leds.LED;
+import frc.robot.subsystems.Leds.LEDInput;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -53,7 +54,7 @@ public class RobotContainer {
 
   private final Intake intake;
 
-  private final LED led = LED.getInstance();
+  private final LEDInput led;
 
   // Controller
   private final CommandCustomController controller = new CommandCustomController(0);
@@ -68,6 +69,7 @@ public class RobotContainer {
   public RobotContainer() {
     new BobotState();
     new Vision();
+    led = new LEDInput();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -165,17 +167,31 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-    // configureNamedCommands();
+    configureNamedCommands();
 
     //     SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
     //     SmartDashboard.putString("QuickReefTwo", MetalUtils.getQuickReefTwoTAGv());
     //     SmartDashboard.putString("QuickReefThree", MetalUtils.getQuickReefThreeTAGv());
   }
 
-  //   private void configureNamedCommands() {
-  //     // NamedCommands.registerCommand(
-  //     //     "QuickReefCenter", Commands.deferredProxy(() -> m_Automation.quickReefOnePath()));
-  //   }
+  private void configureNamedCommands() {
+    NamedCommands.registerCommand(
+        "L4 Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
+    NamedCommands.registerCommand(
+        "L3 ELevator", elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
+    NamedCommands.registerCommand(
+        "L2 Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
+    NamedCommands.registerCommand(
+        "Feed", elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
+    NamedCommands.registerCommand("Out take", intake.runForTime(-.8, .8));
+
+    // DEBUG COMMANDS
+    NamedCommands.registerCommand(
+        "DEBUG INTAKE STOP PT1", elevator.overrideBeambreakObstructedCommand(true));
+    NamedCommands.registerCommand(
+        "DEBUG INTAKE STOP PT2", elevator.overrideBeambreakObstructedCommand(false));
+  }
+
   /**
    * Use this method to define your button->command mappings. Buttons can be created by
    * instantiating a {@link GenericHID} or one of its subclasses ({@link
@@ -256,6 +272,14 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
+    controller.x().onTrue(intake.HPintake()).onFalse(intake.stopCommand());
+    controller
+        .pov(0)
+        .onTrue(elevator.overrideBeambreakObstructedCommand(true))
+        .onFalse(elevator.overrideBeambreakObstructedCommand(false));
+
+    controller.povLeft().onTrue(led.Left());
+
     // controller.y().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickCoralPath());
 
     // controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
@@ -323,9 +347,15 @@ public class RobotContainer {
         .and(controller2.leftBumper())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
 
-    controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(7.2));
+    controller2
+        .b()
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
 
-    controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.1));
+    controller2
+        .y()
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
 
     // controller2
     //     .pov(0)

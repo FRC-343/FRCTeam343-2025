@@ -11,9 +11,8 @@ package frc.robot.subsystems.Leds;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class LED extends SubsystemBase {
+public class LED implements LEDIO {
   private static LED m_instance = new LED();
   // PWM port 9
   // Must be a PWM header, not MXP or DIO
@@ -27,6 +26,7 @@ public class LED extends SubsystemBase {
   private int m_rainbowFirstPixelHue;
   private boolean isRed = true;
   private int shift = 0;
+  private String mode = "";
 
   public static LED getInstance() {
     return m_instance;
@@ -45,6 +45,28 @@ public class LED extends SubsystemBase {
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
+  }
+
+  public void updateInputs(LEDIOInputs inputs) {
+    inputs.mode = this.mode;
+  }
+
+  @Override
+  public void Idle() {
+    cycleRedWhitePattern();
+    mode = "Idle";
+  }
+
+  @Override
+  public void Left() {
+    rainbowLeft();
+    mode = "Left";
+  }
+
+  @Override
+  public void Right() {
+    rainbowRight();
+    mode = "Right";
   }
 
   public void cycleRedWhitePattern() {

@@ -96,6 +96,10 @@ public class BobotState extends VirtualSubsystem {
         .get();
   }
 
+  public static Trigger ElevatorBeam() {
+    return new Trigger(() -> BobotState.ElevatorBeam);
+  }
+
   @Override
   public void periodic() {
 
