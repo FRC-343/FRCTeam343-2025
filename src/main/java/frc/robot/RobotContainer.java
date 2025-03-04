@@ -190,6 +190,17 @@ public class RobotContainer {
         "DEBUG INTAKE STOP PT1", elevator.overrideBeambreakObstructedCommand(true));
     NamedCommands.registerCommand(
         "DEBUG INTAKE STOP PT2", elevator.overrideBeambreakObstructedCommand(false));
+
+    // TEST COMMANDS
+
+    NamedCommands.registerCommand(
+        "Drive test",
+        new DriveToPoseCommand(
+            drive,
+            () ->
+                PoseUtils.plusRotation(
+                    FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.5),
+                    Rotation2d.kPi)));
   }
 
   /**
