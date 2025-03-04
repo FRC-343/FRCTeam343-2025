@@ -6,7 +6,6 @@ import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
-import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
@@ -77,7 +76,7 @@ public class IntakeIOTalonFX implements IntakeIO {
     talon.optimizeBusUtilization();
     talon2.optimizeBusUtilization();
 
-    talon2.setControl(new Follower(talon.getDeviceID(), true));
+    // talon2.setControl(new Follower(talon.getDeviceID(), true));
   }
 
   public void updateInputs(IntakeIOInputs inputs) {
@@ -100,6 +99,7 @@ public class IntakeIOTalonFX implements IntakeIO {
   @Override
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
+    talon2.setControl(dutyCycleOut.withOutput(-(percentDecimal * 2)));
 
     // m_orchestra.play();
   }
@@ -117,6 +117,6 @@ public class IntakeIOTalonFX implements IntakeIO {
   @Override
   public void setVoltage(double voltage) {
     talon.setVoltage(voltage);
-    // talon.setControl(p)
+    talon2.setVoltage(voltage * 2);
   }
 }

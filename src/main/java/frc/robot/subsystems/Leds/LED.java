@@ -26,6 +26,7 @@ public class LED extends SubsystemBase {
 
   private int m_rainbowFirstPixelHue;
   private boolean isRed = true;
+  private int shift = 0;
 
   public static LED getInstance() {
     return m_instance;
@@ -47,7 +48,7 @@ public class LED extends SubsystemBase {
   }
 
   public void cycleRedWhitePattern() {
-    int shift = 0;
+
     // Shift pattern by one pixel each cycle
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       if (((i + shift) / 4) % 2 == 0) {

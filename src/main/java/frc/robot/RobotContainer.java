@@ -231,6 +231,7 @@ public class RobotContainer {
                     PoseUtils.plusRotation(
                         FieldUtils.getClosestHPSTag().HPS.getPerpendicularOffsetPose(0.5),
                         Rotation2d.kZero)));
+
     controller
         .b()
         .whileTrue(
@@ -288,12 +289,12 @@ public class RobotContainer {
     controller2
         .a()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(-.4));
+        .whileTrue(intake.setPercentOutputThenStopCommand(-.1));
 
     controller2
         .y()
         .and(controller2.leftBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(.4));
+        .whileTrue(intake.setPercentOutputThenStopCommand(.8));
 
     controller2
         .x()
@@ -322,7 +323,7 @@ public class RobotContainer {
         .and(controller2.leftBumper())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
 
-    controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(7));
+    controller2.b().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(7.2));
 
     controller2.y().and(controller2.leftBumper()).whileTrue(elevator.setElevatorPosition(.1));
 
