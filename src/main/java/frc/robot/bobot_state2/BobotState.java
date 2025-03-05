@@ -97,6 +97,7 @@ public class BobotState extends VirtualSubsystem {
   }
 
   public static Trigger ElevatorBeam() {
+    System.out.println(BobotState.ElevatorBeam);
     return new Trigger(() -> BobotState.ElevatorBeam);
   }
 

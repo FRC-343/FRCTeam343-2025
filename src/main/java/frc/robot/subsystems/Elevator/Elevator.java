@@ -107,8 +107,8 @@ public class Elevator extends SubsystemBase {
     // resetEncoder();
 
     // BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
-    test = (beambreakIsObstructed().getAsBoolean() && elevatorIsDown().getAsBoolean());
-    BobotState.updateElevatorBeam(test);
+
+    BobotState.updateElevatorBeam(beambreakIsObstructed().getAsBoolean());
 
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());

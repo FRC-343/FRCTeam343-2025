@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.beambreak.BeambreakDigitalInput;
@@ -62,17 +63,21 @@ public class Intake extends SubsystemBase {
     if (DriverStation.isDisabled()) {
       this.io.stop();
     }
-
-    BobotState.nearHumanPlayer().whileTrue(HPintake()).onFalse(stopCommand());
   }
 
   public Command HPintake() {
-    return new RunCommand(() -> this.io.setPercentOutput(-.4), this)
+    return new RunCommand(() -> this.io.setPercentOutput(-.2), this)
         .until(BobotState.ElevatorBeam())
+        .andThen(new WaitCommand(.3))
         .andThen(
             new RunCommand(() -> this.io.setPercentOutput(-.1), this)
                 .until(BobotState.ElevatorBeam().negate())
                 .andThen(stopCommand()));
+  }
+
+  public Command intakewithstop() {
+    return new RunCommand(() -> this.io.setPercentOutput(-.1), this)
+        .until(BobotState.ElevatorBeam());
   }
 
   public Command setVelocityCommand(double velocityRotPerSecond) {

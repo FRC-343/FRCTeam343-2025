@@ -5,40 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "TO R6"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "L4 Elevator"
-          }
-        },
-        {
-          "type": "sequential",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "SCORE R6"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Out take"
-                }
-              }
-            ]
           }
         }
       ]
     }
   },
-  "resetOdom": true,
+  "resetOdom": false,
   "folder": null,
   "choreoAuto": false
 }

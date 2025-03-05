@@ -168,6 +168,7 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
     configureNamedCommands();
+    // configureAutomation();
 
     //     SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
     //     SmartDashboard.putString("QuickReefTwo", MetalUtils.getQuickReefTwoTAGv());
@@ -209,6 +210,10 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
+  //   private void configureAutomation() {
+  //     // BobotState.nearHumanPlayer().whileTrue(intake.HPintake()).onFalse(intake.stopCommand());
+  //   }
+
   private void configureButtonBindings() {
     // Default command, normal field-relative drive
     drive.setDefaultCommand(
@@ -283,13 +288,11 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
 
-    controller.x().onTrue(intake.HPintake()).onFalse(intake.stopCommand());
-    controller
-        .pov(0)
-        .onTrue(elevator.overrideBeambreakObstructedCommand(true))
-        .onFalse(elevator.overrideBeambreakObstructedCommand(false));
+    // controller.x().onTrue(intake.HPintake()).onFalse(intake.stopCommand());
+    // controller
 
-    controller.povLeft().onTrue(led.Left());
+    // controller.povLeft().onTrue(led.Left());
+    // controller.pov(90).whileTrue(led.Right());
 
     // controller.y().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickCoralPath());
 
@@ -335,6 +338,8 @@ public class RobotContainer {
         .x()
         .and(controller2.leftBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(-.8));
+
+    controller2.b().and(controller2.leftBumper().negate()).onTrue(intake.intakewithstop());
 
     // Elevator buttons
 
