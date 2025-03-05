@@ -66,11 +66,11 @@ public class Intake extends SubsystemBase {
   }
 
   public Command HPintake() {
-    return new RunCommand(() -> this.io.setPercentOutput(-.2), this)
+    return new InstantCommand(() -> this.io.setPercentOutput(-.2), this)
         .until(BobotState.ElevatorBeam())
         .andThen(new WaitCommand(.3))
         .andThen(
-            new RunCommand(() -> this.io.setPercentOutput(-.1), this)
+            new InstantCommand(() -> this.io.setPercentOutput(-.1), this)
                 .until(BobotState.ElevatorBeam().negate())
                 .andThen(stopCommand()));
   }

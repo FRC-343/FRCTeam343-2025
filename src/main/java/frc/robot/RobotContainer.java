@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 // import frc.robot.Auto.Test;
 import frc.robot.bobot_state2.BobotState;
@@ -19,6 +20,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Climber.Climber;
 import frc.robot.subsystems.Elevator.Elevator;
 import frc.robot.subsystems.Intake.Intake;
+import frc.robot.subsystems.Leds.LED;
 import frc.robot.subsystems.Leds.LEDInput;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -55,6 +57,8 @@ public class RobotContainer {
   private final Intake intake;
 
   private final LEDInput led;
+
+  private final LED m_LEDs = LED.getInstance();
 
   // Controller
   private final CommandCustomController controller = new CommandCustomController(0);
@@ -177,20 +181,20 @@ public class RobotContainer {
 
   private void configureNamedCommands() {
     NamedCommands.registerCommand(
-        "L4 Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
+        "L4 Elevator", new InstantCommand(() -> elevator.setElevatorPosition(Constant.elevatorConstants.L4Level)));
     NamedCommands.registerCommand(
-        "L3 ELevator", elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
+        "L3 ELevator", new InstantCommand(() ->elevator.setElevatorPosition(Constant.elevatorConstants.L3Level)));
     NamedCommands.registerCommand(
-        "L2 Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
+        "L2 Elevator", new InstantCommand(() ->elevator.setElevatorPosition(Constant.elevatorConstants.L2Level)));
     NamedCommands.registerCommand(
-        "Feed", elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
+        "Feed", new InstantCommand(() ->elevator.setElevatorPosition(Constant.elevatorConstants.FEED)));
     NamedCommands.registerCommand("Out take", intake.runForTime(-.8, .8));
 
     // DEBUG COMMANDS
     NamedCommands.registerCommand(
-        "DEBUG INTAKE STOP PT1", elevator.overrideBeambreakObstructedCommand(true));
+        "DEBUG INTAKE STOP PT1", new InstantCommand(() ->elevator.overrideBeambreakObstructedCommand(true)));
     NamedCommands.registerCommand(
-        "DEBUG INTAKE STOP PT2", elevator.overrideBeambreakObstructedCommand(false));
+        "DEBUG INTAKE STOP PT2", new InstantCommand(() ->elevator.overrideBeambreakObstructedCommand(false)));
 
     // TEST COMMANDS
 
@@ -291,23 +295,9 @@ public class RobotContainer {
     // controller.x().onTrue(intake.HPintake()).onFalse(intake.stopCommand());
     // controller
 
-    // controller.povLeft().onTrue(led.Left());
-    // controller.pov(90).whileTrue(led.Right());
+    controller.povLeft().onTrue(new InstantCommand(() -> m_LEDs.Left()));
+    controller.povRight().onTrue(new InstantCommand(() -> m_LEDs.Right()));
 
-    // controller.y().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickCoralPath());
-
-    // controller.a().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefOnePath());
-    // controller.b().and(controller.leftBumper().negate()).whileTrue(m_Automation.quickReefTwoPath());
-    // controller
-    //     .x()
-    //     .and(controller.leftBumper().negate())
-    //     .whileTrue(m_Automation.quickReefThreePath());
-
-    // controller.y().and(controller.leftBumper()).whileTrue(m_Automation.CoralPath());
-
-    // controller.a().and(controller.leftBumper()).whileTrue(m_Automation.ReefOnePath());
-    // controller.b().and(controller.leftBumper()).whileTrue(m_Automation.ReefTwoPath());
-    // controller.x().and(controller.leftBumper()).whileTrue(m_Automation.ReefThreePath());
 
     controller
         .leftTrigger()

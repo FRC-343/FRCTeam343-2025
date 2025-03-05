@@ -127,6 +127,13 @@ public class LED implements LEDIO {
       // Set the value
       m_ledBuffer.setHSV(i, hue, 255, 128);
     }
+
+    for (var i = 72; i > 71; i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      m_ledBuffer.setRGB(i, 0, 0, 0);
+
+    }
     // Increase by to make the rainbow "move"
     m_rainbowFirstPixelHue += 3;
     // Check bounds
@@ -138,11 +145,16 @@ public class LED implements LEDIO {
   public void rainbowRight() {
     // For every pixel
     for (var i = 72; i < 145; i++) {
-      // Calculate the hue - hue is easier for rainbows because the color
-      // shape is a circle so only one value needs to precess
+
       final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
       // Set the value
       m_ledBuffer.setHSV(i, hue, 255, 128);
+    }
+
+    for (var i = 0; i < 72; i++) {
+
+      m_ledBuffer.setRGB(i, 0, 0, 0);
+
     }
     // Increase by to make the rainbow "move"
     m_rainbowFirstPixelHue += 3;
