@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 // import frc.robot.Auto.Test;
 import frc.robot.bobot_state2.BobotState;
@@ -71,6 +72,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
     new BobotState();
     new Vision();
     led = new LEDInput();
@@ -145,6 +147,7 @@ public class RobotContainer {
         climber = new Climber();
         break;
     }
+    configureNamedCommands();
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -171,7 +174,6 @@ public class RobotContainer {
 
     // Configure the button bindings
     configureButtonBindings();
-    configureNamedCommands();
     // configureAutomation();
 
     //     SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
@@ -180,21 +182,27 @@ public class RobotContainer {
   }
 
   private void configureNamedCommands() {
+
     NamedCommands.registerCommand(
-        "L4 Elevator", new InstantCommand(() -> elevator.setElevatorPosition(Constant.elevatorConstants.L4Level)));
+        "L4Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
+
     NamedCommands.registerCommand(
-        "L3 ELevator", new InstantCommand(() ->elevator.setElevatorPosition(Constant.elevatorConstants.L3Level)));
+        "L3ELevator", elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
     NamedCommands.registerCommand(
-        "L2 Elevator", new InstantCommand(() ->elevator.setElevatorPosition(Constant.elevatorConstants.L2Level)));
+        "L2Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
     NamedCommands.registerCommand(
-        "Feed", new InstantCommand(() ->elevator.setElevatorPosition(Constant.elevatorConstants.FEED)));
-    NamedCommands.registerCommand("Out take", intake.runForTime(-.8, .8));
+        "Feed", elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
+    NamedCommands.registerCommand("Outtake", intake.runForTime(-.8, .8));
+
+    NamedCommands.registerCommand("HPIntake", intake.HPintake());
 
     // DEBUG COMMANDS
     NamedCommands.registerCommand(
-        "DEBUG INTAKE STOP PT1", new InstantCommand(() ->elevator.overrideBeambreakObstructedCommand(true)));
+        "DEBUG INTAKE STOP PT1",
+        new InstantCommand(() -> elevator.overrideBeambreakObstructedCommand(true)));
     NamedCommands.registerCommand(
-        "DEBUG INTAKE STOP PT2", new InstantCommand(() ->elevator.overrideBeambreakObstructedCommand(false)));
+        "DEBUG INTAKE STOP PT2",
+        new InstantCommand(() -> elevator.overrideBeambreakObstructedCommand(false)));
 
     // TEST COMMANDS
 
@@ -295,10 +303,6 @@ public class RobotContainer {
     // controller.x().onTrue(intake.HPintake()).onFalse(intake.stopCommand());
     // controller
 
-    controller.povLeft().onTrue(new InstantCommand(() -> m_LEDs.Left()));
-    controller.povRight().onTrue(new InstantCommand(() -> m_LEDs.Right()));
-
-
     controller
         .leftTrigger()
         .whileTrue(
@@ -314,22 +318,40 @@ public class RobotContainer {
     // Operator Controlls
 
     // "Intake" Controlls
+
+    controller2
+        .povLeft()
+        .whileTrue(new RunCommand(() -> m_LEDs.Left()))
+        .onFalse(new InstantCommand(() -> m_LEDs.cycleRedWhitePattern()));
+
+    controller2
+        .povRight()
+        .whileTrue(new RunCommand(() -> m_LEDs.Right()))
+        .onFalse(new InstantCommand(() -> m_LEDs.cycleRedWhitePattern()));
+
     controller2
         .a()
         .and(controller2.leftBumper().negate())
+        .and(controller2.rightBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(-.1));
 
     controller2
         .y()
         .and(controller2.leftBumper().negate())
+        .and(controller2.rightBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(.8));
 
     controller2
         .x()
         .and(controller2.leftBumper().negate())
+        .and(controller2.rightBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(-.8));
 
-    controller2.b().and(controller2.leftBumper().negate()).onTrue(intake.intakewithstop());
+    controller2
+        .b()
+        .and(controller2.leftBumper().negate())
+        .and(controller2.rightBumper().negate())
+        .onTrue(intake.HPintake());
 
     // Elevator buttons
 
@@ -378,6 +400,11 @@ public class RobotContainer {
     // Climber Buttons
 
     controller2
+        .rightBumper()
+        .whileTrue(new RunCommand(() -> m_LEDs.servoState()))
+        .onFalse(new InstantCommand(() -> m_LEDs.Idle()));
+
+    controller2
         .pov(180)
         .and(controller2.rightBumper())
         .whileTrue(climber.runBack(-.2))
@@ -388,6 +415,9 @@ public class RobotContainer {
         .and(controller2.rightBumper())
         .whileTrue(climber.setPercentOutputCommand(1))
         .whileFalse(climber.setPercentOutputCommand(0));
+
+    controller2.y().and(controller2.rightBumper()).onTrue(climber.goForRotForward(60));
+    controller2.a().and(controller2.rightBumper()).onTrue(climber.goForRotBack(30));
 
     controller2.b().and(controller2.rightBumper()).onTrue(climber.Disengage());
     controller2.x().and(controller2.rightBumper()).onTrue(climber.Engage());

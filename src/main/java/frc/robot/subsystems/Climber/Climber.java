@@ -14,7 +14,7 @@ import frc.robot.Constants;
 import frc.robot.LimitSwitch.LimitSwitchDigitalInput;
 import frc.robot.LimitSwitch.LimitSwitchIO;
 import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
-// import frc.robot.bobot_state.BobotState;
+import frc.robot.bobot_state2.BobotState;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -76,6 +76,7 @@ public class Climber extends SubsystemBase {
     // // I'm not quite sure how this works, it is not working in sim.
 
     // BobotState.setElevatorUp(this.inputs.extentionAbsPos <= 1.0);
+    BobotState.updateClimberState(this.LimitSwitchInputs.isObstructed);
   }
 
   public void reset() {
@@ -109,12 +110,10 @@ public class Climber extends SubsystemBase {
   }
 
   public Command Disengage() {
-    // BobotState.setClibmerEngaged(false);
     return new InstantCommand(() -> this.io.engage());
   }
 
   public Command Engage() {
-    // BobotState.setClibmerEngaged(true);
     return new InstantCommand(() -> this.io.disEngage());
   }
 
@@ -183,5 +182,13 @@ public class Climber extends SubsystemBase {
 
   public Command runBack(double velocityRotPerSecond) {
     return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
+  }
+
+  public Command goForRotForward(double rot) {
+    return new RunCommand(() -> this.io.goForRotForward(rot), this).onlyIf(limitIsTriggered());
+  }
+
+  public Command goForRotBack(double rot) {
+    return new RunCommand(() -> this.io.goForRotBack(rot), this);
   }
 }

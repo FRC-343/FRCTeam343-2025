@@ -47,6 +47,10 @@ public interface ClimberIO {
 
   public default void disEngage() {}
 
+  public default void goForRotForward(double voltage) {}
+
+  public default void goForRotBack(double voltage) {}
+
   public default void stop() {
     setClimberVelocity(0);
   }

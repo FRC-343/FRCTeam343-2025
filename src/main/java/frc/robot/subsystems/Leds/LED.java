@@ -11,6 +11,7 @@ package frc.robot.subsystems.Leds;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import frc.robot.bobot_state2.BobotState;
 
 public class LED implements LEDIO {
   private static LED m_instance = new LED();
@@ -128,11 +129,10 @@ public class LED implements LEDIO {
       m_ledBuffer.setHSV(i, hue, 255, 128);
     }
 
-    for (var i = 72; i > 71; i++) {
+    for (var i = 72; i >= 72 && i < 144; i++) {
       // Calculate the hue - hue is easier for rainbows because the color
       // shape is a circle so only one value needs to precess
       m_ledBuffer.setRGB(i, 0, 0, 0);
-
     }
     // Increase by to make the rainbow "move"
     m_rainbowFirstPixelHue += 3;
@@ -144,9 +144,9 @@ public class LED implements LEDIO {
 
   public void rainbowRight() {
     // For every pixel
-    for (var i = 72; i < 145; i++) {
+    for (var i = 72; i >= 72 && i < 144; i++) {
 
-      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / 72)) % 180;
       // Set the value
       m_ledBuffer.setHSV(i, hue, 255, 128);
     }
@@ -154,7 +154,6 @@ public class LED implements LEDIO {
     for (var i = 0; i < 72; i++) {
 
       m_ledBuffer.setRGB(i, 0, 0, 0);
-
     }
     // Increase by to make the rainbow "move"
     m_rainbowFirstPixelHue += 3;
@@ -197,5 +196,24 @@ public class LED implements LEDIO {
       m_ledBuffer.setRGB(i, 0, 0, 255);
     }
     m_led.setData(m_ledBuffer);
+  }
+
+  public void servoState() {
+    if (BobotState.getClimberState()) {
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, 0, 0, 255);
+      }
+      m_led.setData(m_ledBuffer);
+    } else if (!BobotState.getClimberState()) {
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, 255, 0, 0);
+      }
+      m_led.setData(m_ledBuffer);
+    } else {
+      for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+        m_ledBuffer.setRGB(i, 0, 0, 0);
+      }
+      m_led.setData(m_ledBuffer);
+    }
   }
 }

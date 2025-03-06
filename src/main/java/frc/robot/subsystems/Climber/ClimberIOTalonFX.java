@@ -1,10 +1,12 @@
 package frc.robot.subsystems.Climber;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.DutyCycleOut;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -36,6 +38,8 @@ public class ClimberIOTalonFX implements ClimberIO {
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 
+  private final MotionMagicVoltage Vrequest = new MotionMagicVoltage(0);
+
   public ClimberIOTalonFX(int deviceId) {
     talon = new TalonFX(deviceId);
     voltage = talon.getMotorVoltage();
@@ -50,7 +54,12 @@ public class ClimberIOTalonFX implements ClimberIO {
         .apply(
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
-                .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0)));
+                .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0))
+                .withMotionMagic(
+                    new MotionMagicConfigs()
+                        .withMotionMagicAcceleration(2)
+                        .withMotionMagicCruiseVelocity(5)
+                        .withMotionMagicJerk(5)));
     velocityVoltage.Slot = 0;
 
     this.follower
@@ -58,7 +67,12 @@ public class ClimberIOTalonFX implements ClimberIO {
         .apply(
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
-                .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0)));
+                .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0))
+                .withMotionMagic(
+                    new MotionMagicConfigs()
+                        .withMotionMagicAcceleration(2)
+                        .withMotionMagicCruiseVelocity(5)
+                        .withMotionMagicJerk(5)));
     velocityVoltage.Slot = 0;
 
     StatusSignal.setUpdateFrequencyForAll(
@@ -121,13 +135,25 @@ public class ClimberIOTalonFX implements ClimberIO {
 
   @Override
   public void disEngage() {
-    this.Servo.set(-.5);
+    this.Servo.set(-1);
     this.Servo.setAngle(0);
   }
 
   @Override
   public void engage() {
-    this.Servo.set(.5);
+    this.Servo.set(1);
     this.Servo.setAngle(260);
+  }
+
+  @Override
+  public void goForRotForward(double voltage) {
+    talon.setControl(Vrequest.withPosition(voltage));
+    this.follower.setControl(Vrequest.withPosition(-voltage));
+  }
+
+  @Override
+  public void goForRotBack(double voltage) {
+    talon.setControl(Vrequest.withPosition(voltage));
+    this.follower.setControl(Vrequest.withPosition(-voltage));
   }
 }

@@ -31,6 +31,8 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean ElevatorBeam;
 
+  private static boolean climberState;
+
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
@@ -40,6 +42,10 @@ public class BobotState extends VirtualSubsystem {
 
   public static void updateElevatorBeam(boolean beam) {
     BobotState.ElevatorBeam = beam;
+  }
+
+  public static void updateClimberState(boolean state) {
+    BobotState.climberState = state;
   }
 
   public static void offerVisionObservation(PoseObservation observation) {
@@ -56,6 +62,10 @@ public class BobotState extends VirtualSubsystem {
 
   public static Pose2d getGlobalPose() {
     return BobotState.globalPose;
+  }
+
+  public static boolean getClimberState() {
+    return BobotState.climberState;
   }
 
   public static Trigger onTeamSide() {

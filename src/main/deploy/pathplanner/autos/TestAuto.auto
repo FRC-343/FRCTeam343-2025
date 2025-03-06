@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "L4 Elevator"
+                  "name": "L2Elevator"
                 }
               },
               {
@@ -33,55 +33,6 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.01
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Out take"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.0
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "TO HPS"
-                }
-              },
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 0.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Feed"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Drive test"
           }
         }
       ]
