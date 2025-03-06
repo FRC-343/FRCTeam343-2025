@@ -14,7 +14,6 @@ import frc.robot.Constants;
 import frc.robot.LimitSwitch.LimitSwitchDigitalInput;
 import frc.robot.LimitSwitch.LimitSwitchIO;
 import frc.robot.LimitSwitch.LimitSwitchIOInputsAutoLogged;
-import frc.robot.bobot_state2.BobotState;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -76,7 +75,7 @@ public class Climber extends SubsystemBase {
     // // I'm not quite sure how this works, it is not working in sim.
 
     // BobotState.setElevatorUp(this.inputs.extentionAbsPos <= 1.0);
-    BobotState.updateClimberState(this.LimitSwitchInputs.isObstructed);
+    // BobotState.updateClimberState(this.LimitSwitchInputs.isObstructed);
   }
 
   public void reset() {

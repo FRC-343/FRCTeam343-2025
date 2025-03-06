@@ -7,19 +7,7 @@
         {
           "type": "named",
           "data": {
-            "name": "HPIntake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Outtake"
+            "name": "Drive test"
           }
         }
       ]

@@ -19,6 +19,7 @@ import frc.robot.beambreak.BeambreakDigitalInput;
 import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.bobot_state2.BobotState;
+import frc.robot.util.Constant;
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -149,18 +150,36 @@ public class Elevator extends SubsystemBase {
   public Command setElevatorPosition(double position) {
     return new RunCommand(() -> this.io.setElevatorPosition(position))
         .unless(beambreakIsObstructed().and(elevatorIsDown()));
-    // if (this.beambreakInputs.isObstructed) {
-    //   return new RunCommand(() -> this.io.setElevatorPosition(0), this);
-    // }
-    // // else if (position <= 0
-    // //     && (this.LimitSwitchInputs.isObstructed || this.LimitSwitchBackupInputs.isObstructed))
-    // {
+  }
 
-    // //   return new RunCommand(() -> this.io.setElevatorPosition(0), this);
-    // // }
-    // else {
-    //   return new RunCommand(() -> this.io.setElevatorPosition(position), this);
-    // }
+  public Command setElevatorPositionL4() {
+    System.out.println(elevatorNearL4().getAsBoolean());
+
+    return new RunCommand(() -> setElevatorPosition(Constant.elevatorConstants.L4Level), this)
+        .until(elevatorNearL4());
+  }
+  public Command setElevatorPositionL3() {
+    System.out.println(elevatorNearL4().getAsBoolean());
+
+    return new RunCommand(() -> setElevatorPosition(Constant.elevatorConstants.L4Level), this)
+        .until(elevatorNearL4());
+  }
+  public Trigger elevatorNearL4() {
+    return new Trigger(
+        () ->
+            MathUtil.isNear(Constant.elevatorConstants.L4Level, this.inputs.masterPositionRad, 1));
+  }
+
+  public Trigger elevatorNearL3() {
+    return new Trigger(
+        () ->
+            MathUtil.isNear(Constant.elevatorConstants.L3Level, this.inputs.masterPositionRad, 1));
+  }
+
+  public Trigger elevatorNearL2() {
+    return new Trigger(
+        () ->
+            MathUtil.isNear(Constant.elevatorConstants.L2Level, this.inputs.masterPositionRad, 1));
   }
 
   public Command stopCommand() {

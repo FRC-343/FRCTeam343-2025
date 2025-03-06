@@ -183,11 +183,10 @@ public class RobotContainer {
 
   private void configureNamedCommands() {
 
-    NamedCommands.registerCommand(
-        "L4Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
+    NamedCommands.registerCommand("L4Elevator", elevator.setElevatorPositionL4());
 
     NamedCommands.registerCommand(
-        "L3ELevator", elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
+        "L3ELevator", elevator.setElevatorPositionL3());
     NamedCommands.registerCommand(
         "L2Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
     NamedCommands.registerCommand(

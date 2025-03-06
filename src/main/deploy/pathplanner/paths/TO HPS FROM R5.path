@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.15,
-        "y": 5.16
+        "x": 3.8290909090909087,
+        "y": 5.156775568181818
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.857982954545457,
-        "y": 5.7483238636363625
+        "x": 2.695105224958345,
+        "y": 6.014094659341636
       },
       "isLocked": false,
-      "linkedName": "R6 REEF POINT"
+      "linkedName": "R5 Reef point"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 7.061349431818181
       },
       "prevControl": {
-        "x": 2.1344104749263306,
-        "y": 6.644568437493653
+        "x": 1.0846142206326623,
+        "y": 7.215288993106377
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.0,
-      "maxWaypointRelativePos": 0.2767154105736638,
+      "minWaypointRelativePos": 0,
+      "maxWaypointRelativePos": 0.14398200224971572,
       "constraints": {
-        "maxVelocity": 3.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 2.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -59,10 +59,10 @@
     "rotation": -52.926926682689604
   },
   "reversed": false,
-  "folder": "LEFT START PATHS",
+  "folder": "FROM HP",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.85036528698409
+    "rotation": -60.10868077534298
   },
   "useDefaultConstraints": true
 }
