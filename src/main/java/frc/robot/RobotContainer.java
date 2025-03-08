@@ -185,13 +185,12 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("L4Elevator", elevator.setElevatorPositionL4());
 
-    NamedCommands.registerCommand(
-        "L3ELevator", elevator.setElevatorPositionL3());
-    NamedCommands.registerCommand(
-        "L2Elevator", elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
-    NamedCommands.registerCommand(
-        "Feed", elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
+    NamedCommands.registerCommand("L3ELevator", elevator.setElevatorPositionL3());
+    NamedCommands.registerCommand("L2Elevator", elevator.setElevatorPositionL2());
+    NamedCommands.registerCommand("Feed", elevator.setElevatorPositionFeed());
     NamedCommands.registerCommand("Outtake", intake.runForTime(-.8, .8));
+
+    NamedCommands.registerCommand("Launch", intake.runForTime(.8, .8));
 
     NamedCommands.registerCommand("HPIntake", intake.HPintake());
 

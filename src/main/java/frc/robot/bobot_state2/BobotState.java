@@ -114,6 +114,8 @@ public class BobotState extends VirtualSubsystem {
   @Override
   public void periodic() {
 
+    Logger.recordOutput(logRoot + "Climber limit", climberState);
+
     Logger.recordOutput(logRoot + "Elevator Beam", ElevatorBeam);
 
     {

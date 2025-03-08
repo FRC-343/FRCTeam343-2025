@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.3348011363636365,
-        "y": 5.306349431818182
+        "x": 5.18,
+        "y": 5.45
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.093144861284088,
-        "y": 5.051237103682748
+        "x": 5.0045665272491044,
+        "y": 5.271890211839549
       },
       "isLocked": false,
       "linkedName": "R6 Elevator Point"
     },
     {
       "anchor": {
-        "x": 5.15,
-        "y": 5.16
+        "x": 5.07,
+        "y": 5.21
       },
       "prevControl": {
-        "x": 5.375962615630929,
-        "y": 5.422310713872233
+        "x": 5.221536532129468,
+        "y": 5.408838324852566
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 6.0,
-    "maxAcceleration": 8.0,
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

@@ -40,7 +40,7 @@ public class VisionConstants {
                   "BLeft",
                   new Transform3d(
                       new Translation3d(
-                          Units.inchesToMeters(10.806), // forward+
+                          Units.inchesToMeters(-10.806), // forward+
                           Units.inchesToMeters(11.934), // left+
                           Units.inchesToMeters(7.848)), // up+
                       new Rotation3d(
@@ -83,7 +83,7 @@ public class VisionConstants {
 
   public static final List<AprilTagCameraConfig> aprilTagCamerasConfigs = riptideConfigs;
 
-  public static final double ambiguityCutoff = 0.05;
+  public static final double ambiguityCutoff = 0.08;
   public static final double singleTagPoseCutoffMeters = 4;
 
   // The standard deviations of our vision estimated poses, which affect correction rate

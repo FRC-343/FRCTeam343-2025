@@ -155,15 +155,34 @@ public class Elevator extends SubsystemBase {
   public Command setElevatorPositionL4() {
     System.out.println(elevatorNearL4().getAsBoolean());
 
-    return new RunCommand(() -> setElevatorPosition(Constant.elevatorConstants.L4Level), this)
+    return new RunCommand(
+            () -> this.io.setElevatorPosition(Constant.elevatorConstants.L4Level), this)
         .until(elevatorNearL4());
   }
-  public Command setElevatorPositionL3() {
-    System.out.println(elevatorNearL4().getAsBoolean());
 
-    return new RunCommand(() -> setElevatorPosition(Constant.elevatorConstants.L4Level), this)
-        .until(elevatorNearL4());
+  public Command setElevatorPositionL3() {
+    System.out.println(elevatorNearL3().getAsBoolean());
+
+    return new RunCommand(
+            () -> this.io.setElevatorPosition(Constant.elevatorConstants.L3Level), this)
+        .until(elevatorNearL3());
   }
+
+  public Command setElevatorPositionL2() {
+    System.out.println(elevatorNearL2().getAsBoolean());
+
+    return new RunCommand(
+            () -> this.io.setElevatorPosition(Constant.elevatorConstants.L2Level), this)
+        .until(elevatorNearL2());
+  }
+
+  public Command setElevatorPositionFeed() {
+    System.out.println(elevatorIsDown().getAsBoolean());
+
+    return new RunCommand(() -> this.io.setElevatorPosition(Constant.elevatorConstants.FEED), this)
+        .until(elevatorIsDown());
+  }
+
   public Trigger elevatorNearL4() {
     return new Trigger(
         () ->

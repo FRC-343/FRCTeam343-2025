@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.71,
-        "y": 5.41
+        "x": 7.39263698630137,
+        "y": 3.972410102739726
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.940866447660657,
-        "y": 5.314079807420184
+        "x": 6.670386945138231,
+        "y": 3.974290082663752
       },
       "isLocked": false,
-      "linkedName": "R5 Elevator point"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.8290909090909087,
-        "y": 5.156775568181818
+        "x": 5.844991438356164,
+        "y": 3.972410102739726
       },
       "prevControl": {
-        "x": 3.5862085408348054,
-        "y": 5.239656030861329
+        "x": 6.982996225847094,
+        "y": 3.9683218717534214
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R5 Reef point"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -60.10868077534298
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "FROM HP",
+  "folder": "New Folder",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -58.39249775375109
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
