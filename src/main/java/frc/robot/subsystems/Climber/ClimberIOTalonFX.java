@@ -57,9 +57,9 @@ public class ClimberIOTalonFX implements ClimberIO {
                 .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0))
                 .withMotionMagic(
                     new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(2)
-                        .withMotionMagicCruiseVelocity(5)
-                        .withMotionMagicJerk(5)));
+                        .withMotionMagicAcceleration(25)
+                        .withMotionMagicCruiseVelocity(50)
+                        .withMotionMagicJerk(50)));
     velocityVoltage.Slot = 0;
 
     this.follower
@@ -70,9 +70,9 @@ public class ClimberIOTalonFX implements ClimberIO {
                 .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0))
                 .withMotionMagic(
                     new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(2)
-                        .withMotionMagicCruiseVelocity(5)
-                        .withMotionMagicJerk(5)));
+                        .withMotionMagicAcceleration(25)
+                        .withMotionMagicCruiseVelocity(50)
+                        .withMotionMagicJerk(50)));
     velocityVoltage.Slot = 0;
 
     StatusSignal.setUpdateFrequencyForAll(

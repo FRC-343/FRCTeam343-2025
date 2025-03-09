@@ -414,7 +414,7 @@ public class RobotContainer {
         .whileTrue(climber.setPercentOutputCommand(1))
         .whileFalse(climber.setPercentOutputCommand(0));
 
-    controller2.y().and(controller2.rightBumper()).onTrue(climber.goForRotForward(60));
+    controller2.y().and(controller2.rightBumper()).onTrue(climber.goForRotForward(64));
     controller2.a().and(controller2.rightBumper()).onTrue(climber.goForRotBack(30));
 
     controller2.b().and(controller2.rightBumper()).onTrue(climber.Disengage());
