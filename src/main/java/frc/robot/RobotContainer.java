@@ -309,7 +309,11 @@ public class RobotContainer {
                 () ->
                     PoseUtils.plusRotation(
                         FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.5),
-                        Rotation2d.kPi)));
+                        Rotation2d.kPi)))
+        .whileFalse(
+            new InstantCommand(() -> BobotState.updateWantedParaPose(false))
+                .alongWith(new InstantCommand(() -> BobotState.updateWantedPose(false)))
+                .alongWith(new InstantCommand(() -> BobotState.updateWantedRot(false))));
     // controller.rightTrigger().whileTrue(m_Automation.processor());
 
     // controller.leftTrigger().whileTrue(m_Automation.processorAssist());

@@ -40,10 +40,10 @@ public class VisionConstants {
                   "BLeft",
                   new Transform3d(
                       new Translation3d(
-                          Units.inchesToMeters(2.059), // forward+
+                          Units.inchesToMeters(-6.059), // forward+
                           Units.inchesToMeters(13.09), // left+
-                          Units.inchesToMeters(12.067)), // up+
-                      new Rotation3d(0, Units.degreesToRadians(0), Units.degreesToRadians(40)))),
+                          Units.inchesToMeters(22.067)), // up+
+                      new Rotation3d(0, Units.degreesToRadians(5), Units.degreesToRadians(30)))),
               SimCameraConfig.ARDUCAM_OV9281_70),
           // FLI
           new AprilTagCameraConfig(
@@ -62,11 +62,10 @@ public class VisionConstants {
                   "BRight",
                   new Transform3d(
                       new Translation3d(
-                          Units.inchesToMeters(2.059), // forward+
+                          Units.inchesToMeters(-6.059), // forward+
                           Units.inchesToMeters(-13.09), // left+
-                          Units.inchesToMeters(12.067)), // up+
-                      new Rotation3d(
-                          0, Units.degreesToRadians(0), Units.degreesToRadians(-45)))),
+                          Units.inchesToMeters(22.067)), // up+
+                      new Rotation3d(0, Units.degreesToRadians(5), Units.degreesToRadians(-30)))),
               SimCameraConfig.ARDUCAM_OV9281_70),
           // FRO
           new AprilTagCameraConfig(
