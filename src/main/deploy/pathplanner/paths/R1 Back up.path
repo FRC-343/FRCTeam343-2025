@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.612102343965869,
+        "x": 5.801457272743267,
         "y": 3.99
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.889852302802731,
-        "y": 3.9918799799240263
+        "x": 6.801457272743267,
+        "y": 3.99
       },
       "isLocked": false,
-      "linkedName": "CENTER START"
+      "linkedName": "R1 REEF POINT"
     },
     {
       "anchor": {
-        "x": 6.02,
+        "x": 6.850482954545455,
         "y": 3.99
       },
       "prevControl": {
-        "x": 7.158004787490929,
-        "y": 3.9859117690136956
+        "x": 5.850482954545455,
+        "y": 3.99
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R1 ELEVATOR POINT"
+      "linkedName": "R1 Backed up"
     }
   ],
   "rotationTargets": [],

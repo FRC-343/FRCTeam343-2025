@@ -33,6 +33,12 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean climberState;
 
+  private static boolean atWantedPerpPose;
+
+  private static boolean atWantedRot;
+
+  private static boolean atWantedParaPose;
+
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
@@ -42,6 +48,18 @@ public class BobotState extends VirtualSubsystem {
 
   public static void updateElevatorBeam(boolean beam) {
     BobotState.ElevatorBeam = beam;
+  }
+
+  public static void updateWantedPose(boolean perpPoseWanted) {
+    BobotState.atWantedPerpPose = perpPoseWanted;
+  }
+
+  public static void updateWantedParaPose(boolean paraPoseWanted) {
+    BobotState.atWantedParaPose = paraPoseWanted;
+  }
+
+  public static void updateWantedRot(boolean rotWanted) {
+    BobotState.atWantedRot = rotWanted;
   }
 
   public static void updateClimberState(boolean state) {
@@ -66,6 +84,11 @@ public class BobotState extends VirtualSubsystem {
 
   public static boolean getClimberState() {
     return BobotState.climberState;
+  }
+
+  public static Trigger atWantedPose() {
+    return new Trigger(
+        () -> BobotState.atWantedParaPose && BobotState.atWantedPerpPose && BobotState.atWantedRot);
   }
 
   public static Trigger onTeamSide() {
@@ -117,6 +140,14 @@ public class BobotState extends VirtualSubsystem {
     Logger.recordOutput(logRoot + "Climber limit", climberState);
 
     Logger.recordOutput(logRoot + "Elevator Beam", ElevatorBeam);
+
+    Logger.recordOutput(logRoot + "Wanted Perp Pose", atWantedPerpPose);
+
+    Logger.recordOutput(logRoot + "Wanted Para Pose", atWantedParaPose);
+
+    Logger.recordOutput(logRoot + "Wanted Rot", atWantedRot);
+
+    Logger.recordOutput(logRoot + "Wanted Pose", atWantedPose());
 
     {
       reefTracker.update();

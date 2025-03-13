@@ -7,19 +7,13 @@
         {
           "type": "named",
           "data": {
-            "name": "L2Elevator"
+            "name": "Drive test"
           }
         },
         {
-          "type": "wait",
+          "type": "path",
           "data": {
-            "waitTime": 0.8
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Outtake"
+            "pathName": "TO HPS"
           }
         }
       ]

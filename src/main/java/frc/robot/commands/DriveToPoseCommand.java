@@ -7,6 +7,7 @@ import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.bobot_state2.BobotState;
 import frc.robot.subsystems.drive.Drive;
 import java.util.function.Supplier;
 import org.littletonrobotics.junction.Logger;
@@ -30,6 +31,13 @@ public class DriveToPoseCommand extends Command {
 
   @Override
   public void execute() {
+    Logger.recordOutput(
+        "Commands/" + getName() + "/Accessed", perpendicularController.atSetpoint());
+
+    BobotState.updateWantedParaPose(parallelController.atSetpoint());
+    BobotState.updateWantedPose(perpendicularController.atSetpoint());
+    BobotState.updateWantedRot(angleController.atSetpoint());
+
     Pose2d robotPose = drive.getPose();
     Pose2d targetPose = targetPoseSupplier.get();
     Logger.recordOutput("Commands/" + getName() + "/TargetPose", targetPose);
@@ -49,6 +57,11 @@ public class DriveToPoseCommand extends Command {
     ChassisSpeeds speeds = new ChassisSpeeds(perpendicularSpeed, parallelSpeed * 2, angularSpeed);
 
     drive.runVelocity(speeds);
+  }
+
+  @Override
+  public boolean isFinished() {
+    return BobotState.atWantedPose().getAsBoolean();
   }
 
   public Trigger atSetpoint() {
