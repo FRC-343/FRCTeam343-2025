@@ -30,7 +30,8 @@ public class DriveToPoseCommand extends Command {
   }
 
   @Override
-  public void end(boolean interrupted) {
+  public void initialize() {
+    BobotState.atWantedPose();
     BobotState.updateWantedParaPose(parallelController.atSetpoint());
     BobotState.updateWantedPose(perpendicularController.atSetpoint());
     BobotState.updateWantedRot(angleController.atSetpoint());
@@ -39,7 +40,7 @@ public class DriveToPoseCommand extends Command {
   @Override
   public void execute() {
     Logger.recordOutput(
-        "Commands/" + getName() + "/Accessed", perpendicularController.atSetpoint());
+        "Commands/" + getName() + "/Accessed", BobotState.atWantedPose().getAsBoolean());
 
     BobotState.updateWantedParaPose(parallelController.atSetpoint());
     BobotState.updateWantedPose(perpendicularController.atSetpoint());
@@ -68,14 +69,8 @@ public class DriveToPoseCommand extends Command {
 
   @Override
   public boolean isFinished() {
-    return BobotState.atWantedPose().getAsBoolean();
-  }
 
-  public void Endstate() {
-
-    BobotState.updateWantedParaPose(parallelController.atSetpoint());
-    BobotState.updateWantedPose(perpendicularController.atSetpoint());
-    BobotState.updateWantedRot(angleController.atSetpoint());
+    return perpendicularController.atSetpoint();
   }
 
   public Trigger atSetpoint() {

@@ -57,16 +57,7 @@ public class VisionConstants {
                       new Rotation3d(0, Units.degreesToRadians(-15), Units.degreesToRadians(-30)))),
               SimCameraConfig.ARDUCAM_OV9281_70),
           // FRI
-          new AprilTagCameraConfig(
-              new VisionSource(
-                  "BRight",
-                  new Transform3d(
-                      new Translation3d(
-                          Units.inchesToMeters(-6.059), // forward+
-                          Units.inchesToMeters(-13.09), // left+
-                          Units.inchesToMeters(22.067)), // up+
-                      new Rotation3d(0, Units.degreesToRadians(5), Units.degreesToRadians(-30)))),
-              SimCameraConfig.ARDUCAM_OV9281_70),
+
           // FRO
           new AprilTagCameraConfig(
               new VisionSource(
@@ -77,6 +68,16 @@ public class VisionConstants {
                           Units.inchesToMeters(-11.934), // left+
                           Units.inchesToMeters(7.848)), // up+
                       new Rotation3d(0, Units.degreesToRadians(-15), Units.degreesToRadians(30)))),
+              SimCameraConfig.ARDUCAM_OV9281_70),
+          new AprilTagCameraConfig(
+              new VisionSource(
+                  "BRight",
+                  new Transform3d(
+                      new Translation3d(
+                          Units.inchesToMeters(-6.059), // forward+
+                          Units.inchesToMeters(-13.09), // left+
+                          Units.inchesToMeters(22.067)), // up+
+                      new Rotation3d(0, Units.degreesToRadians(5), Units.degreesToRadians(-30)))),
               SimCameraConfig.ARDUCAM_OV9281_70));
 
   public static final List<AprilTagCameraConfig> aprilTagCamerasConfigs = riptideConfigs;
