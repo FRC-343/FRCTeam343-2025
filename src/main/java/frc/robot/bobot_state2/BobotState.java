@@ -39,12 +39,18 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean atWantedParaPose;
 
+  private static boolean elevatorSlowDown;
+
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
 
   private static List<TargetAngleTracker> autoAlignmentTrackers =
       List.of(BobotState.hpsTracker, BobotState.reefTracker);
+
+  public static void updateElevatorState(boolean state) {
+    BobotState.elevatorSlowDown = state;
+  }
 
   public static void updateElevatorBeam(boolean beam) {
     BobotState.ElevatorBeam = beam;
@@ -134,8 +140,14 @@ public class BobotState extends VirtualSubsystem {
     return new Trigger(() -> BobotState.ElevatorBeam);
   }
 
+  public static Trigger ElevatorSlowdown() {
+    return new Trigger(() -> BobotState.elevatorSlowDown);
+  }
+
   @Override
   public void periodic() {
+
+    Logger.recordOutput(logRoot + "Elevator Slowdown", elevatorSlowDown);
 
     Logger.recordOutput(logRoot + "Climber limit", climberState);
 

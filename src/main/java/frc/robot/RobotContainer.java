@@ -305,11 +305,12 @@ public class RobotContainer {
         .leftTrigger()
         .whileTrue(
             new DriveToPoseCommand(
-                drive,
-                () ->
-                    PoseUtils.plusRotation(
-                        FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.5),
-                        Rotation2d.kPi)));
+                    drive,
+                    () ->
+                        PoseUtils.plusRotation(
+                            FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.45),
+                            Rotation2d.kPi))
+                .andThen(controller2.rumbleOnOff(2, .25, .2, 2)));
     // controller.rightTrigger().whileTrue(m_Automation.processor());
 
     // controller.leftTrigger().whileTrue(m_Automation.processorAssist());
@@ -349,7 +350,10 @@ public class RobotContainer {
         .b()
         .and(controller2.leftBumper().negate())
         .and(controller2.rightBumper().negate())
-        .onTrue(intake.HPintake());
+        .onTrue(
+            intake.HPintake()
+                .andThen(controller.rumbleSeconds(2, .5))
+                .alongWith(controller2.rumbleSeconds(2, .5)));
 
     // Elevator buttons
 

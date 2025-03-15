@@ -110,6 +110,7 @@ public class Elevator extends SubsystemBase {
     // BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
 
     BobotState.updateElevatorBeam(beambreakIsObstructed().getAsBoolean());
+    BobotState.updateElevatorState(higherThanMid().getAsBoolean());
 
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());
@@ -199,6 +200,10 @@ public class Elevator extends SubsystemBase {
     return new Trigger(
         () ->
             MathUtil.isNear(Constant.elevatorConstants.L2Level, this.inputs.masterPositionRad, 1));
+  }
+
+  public Trigger higherThanMid() {
+    return new Trigger(() -> (this.inputs.masterPositionRad > 12));
   }
 
   public Command stopCommand() {

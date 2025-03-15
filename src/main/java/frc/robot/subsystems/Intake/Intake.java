@@ -70,7 +70,7 @@ public class Intake extends SubsystemBase {
         .until(BobotState.ElevatorBeam())
         .andThen(new WaitCommand(.1))
         .andThen(
-            new RunCommand(() -> this.io.setPercentOutput(-.3), this)
+            new RunCommand(() -> this.io.setPercentOutput(-.2), this)
                 .until(BobotState.ElevatorBeam().negate())
                 .andThen(stopCommand()));
   }
