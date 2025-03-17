@@ -64,6 +64,14 @@ public class FieldUtils {
     return closestTag;
   }
 
+  public static ProcessorFace getProcessorFace() {
+    ProcessorFace processorTags =
+        FieldUtils.isBlueAlliance() ? FieldConstants.blueProcessor : FieldConstants.redProcessor;
+    ProcessorFace closestTag = processorTags;
+
+    return closestTag;
+  }
+
   public static AprilTagStruct getBargeTag() {
     return FieldUtils.isBlueAlliance() ? FieldConstants.blueBarge : FieldConstants.redBarge;
   }

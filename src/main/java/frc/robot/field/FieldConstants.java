@@ -29,7 +29,8 @@ public class FieldConstants {
   public static final HPSFace blueHPSDriverLeft =
       new HPSFace(new AprilTagStruct(13, VisionConstants.fieldLayout.getTagPose(13).get()));
 
-  public static final Integer blueProcessor = 16;
+  public static final ProcessorFace blueProcessor =
+      new ProcessorFace(new AprilTagStruct(16, VisionConstants.fieldLayout.getTagPose(16).get()));
   public static final AprilTagStruct blueBarge =
       new AprilTagStruct(14, VisionConstants.fieldLayout.getTagPose(14).get());
 
@@ -52,7 +53,8 @@ public class FieldConstants {
   public static final HPSFace redHPSDriverRight =
       new HPSFace(new AprilTagStruct(2, VisionConstants.fieldLayout.getTagPose(2).get()));
 
-  public static final Integer redProcessor = 3;
+  public static final ProcessorFace redProcessor =
+      new ProcessorFace(new AprilTagStruct(3, VisionConstants.fieldLayout.getTagPose(3).get()));
   public static final AprilTagStruct redBarge =
       new AprilTagStruct(4, VisionConstants.fieldLayout.getTagPose(4).get());
 

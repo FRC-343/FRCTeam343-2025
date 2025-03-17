@@ -311,6 +311,16 @@ public class RobotContainer {
                             FieldUtils.getClosestReef().rightPole.getPerpendicularOffsetPose(.45),
                             Rotation2d.kPi))
                 .andThen(controller2.rumbleOnOff(2, .25, .2, 2)));
+
+    controller
+        .povDown()
+        .whileTrue(
+            new DriveToPoseCommand(
+                drive,
+                () ->
+                    PoseUtils.plusRotation(
+                        FieldUtils.getProcessorFace().processor.getPerpendicularOffsetPose(1),
+                        Rotation2d.kPi)));
     // controller.rightTrigger().whileTrue(m_Automation.processor());
 
     // controller.leftTrigger().whileTrue(m_Automation.processorAssist());

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.bobot_state2.varc.BargeTagTracker;
 import frc.robot.bobot_state2.varc.HPSTagTracker;
+import frc.robot.bobot_state2.varc.ProcessorTagTracker;
 import frc.robot.bobot_state2.varc.ReefTagTracker;
 import frc.robot.bobot_state2.varc.TargetAngleTracker;
 import frc.robot.field.FieldConstants;
@@ -44,9 +45,14 @@ public class BobotState extends VirtualSubsystem {
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
+  private static ProcessorTagTracker processorTracker = new ProcessorTagTracker();
 
   private static List<TargetAngleTracker> autoAlignmentTrackers =
-      List.of(BobotState.hpsTracker, BobotState.reefTracker);
+      List.of(
+          BobotState.hpsTracker,
+          BobotState.reefTracker,
+          BobotState.processorTracker,
+          BobotState.bargeTracker);
 
   public static void updateElevatorState(boolean state) {
     BobotState.elevatorSlowDown = state;
@@ -105,6 +111,10 @@ public class BobotState extends VirtualSubsystem {
                 : getGlobalPose().getX() > FieldConstants.fieldLength / 2.0);
   }
 
+  public static Rotation2d getRotationToProcessor() {
+    return BobotState.processorTracker.getRotationTarget();
+  }
+
   public static Rotation2d getRotationToClosestReef() {
     return BobotState.reefTracker.getRotationTarget();
   }
@@ -160,6 +170,16 @@ public class BobotState extends VirtualSubsystem {
     Logger.recordOutput(logRoot + "Wanted Rot", atWantedRot);
 
     Logger.recordOutput(logRoot + "Wanted Pose", atWantedPose());
+    {
+      processorTracker.update();
+
+      String calLogRoot = logRoot + "Processor";
+      Logger.recordOutput(calLogRoot + "Processor", FieldUtils.getProcessorFace().tag);
+      Logger.recordOutput(
+          calLogRoot + "TargetAngleDeg", processorTracker.getRotationTarget().getDegrees());
+      Logger.recordOutput(
+          calLogRoot + "TargetAngleRad", processorTracker.getRotationTarget().getRadians());
+    }
 
     {
       reefTracker.update();
