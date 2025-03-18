@@ -361,8 +361,12 @@ public class RobotContainer {
         .and(controller2.rightBumper().negate())
         .onTrue(
             intake.HPintake()
-                .andThen(controller.rumbleSeconds(2, .5))
-                .alongWith(controller2.rumbleSeconds(2, .5)));
+                .andThen(
+                    controller
+                        .rumbleSeconds(2, .5)
+                        .alongWith(controller2.rumbleSeconds(2, .5))
+                        .alongWith(new InstantCommand(() -> m_LEDs.HaveNote())))
+                .andThen(new InstantCommand(() -> m_LEDs.Idle())));
 
     // Elevator buttons
 
