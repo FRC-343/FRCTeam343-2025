@@ -42,6 +42,10 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean elevatorSlowDown;
 
+  private static boolean intakeBeam1;
+
+  private static boolean intakeBeam2;
+
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
@@ -53,6 +57,14 @@ public class BobotState extends VirtualSubsystem {
           BobotState.reefTracker,
           BobotState.processorTracker,
           BobotState.bargeTracker);
+
+  public static void updateIntakeBeam1(boolean beam) {
+    BobotState.intakeBeam1 = beam;
+  }
+
+  public static void updateIntakeBeam2(boolean beam) {
+    BobotState.intakeBeam2 = beam;
+  }
 
   public static void updateElevatorState(boolean state) {
     BobotState.elevatorSlowDown = state;
@@ -111,6 +123,10 @@ public class BobotState extends VirtualSubsystem {
                 : getGlobalPose().getX() > FieldConstants.fieldLength / 2.0);
   }
 
+  public static Trigger intakeBeam() {
+    return new Trigger(() -> (BobotState.intakeBeam1 || BobotState.intakeBeam2));
+  }
+
   public static Rotation2d getRotationToProcessor() {
     return BobotState.processorTracker.getRotationTarget();
   }
@@ -156,6 +172,10 @@ public class BobotState extends VirtualSubsystem {
 
   @Override
   public void periodic() {
+
+    Logger.recordOutput(logRoot + "Intake Beam 1", intakeBeam1);
+
+    Logger.recordOutput(logRoot + "Intake Beam 2", intakeBeam2);
 
     Logger.recordOutput(logRoot + "Elevator Slowdown", elevatorSlowDown);
 

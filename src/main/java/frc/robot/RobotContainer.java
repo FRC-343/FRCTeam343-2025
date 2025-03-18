@@ -321,9 +321,8 @@ public class RobotContainer {
                     PoseUtils.plusRotation(
                         FieldUtils.getProcessorFace().processor.getPerpendicularOffsetPose(1),
                         Rotation2d.kPi)));
-    // controller.rightTrigger().whileTrue(m_Automation.processor());
 
-    // controller.leftTrigger().whileTrue(m_Automation.processorAssist());
+
     // Operator Controlls
 
     // "Intake" Controlls
@@ -433,6 +432,14 @@ public class RobotContainer {
 
     controller2.b().and(controller2.rightBumper()).onTrue(climber.Disengage());
     controller2.x().and(controller2.rightBumper()).onTrue(climber.Engage());
+
+    // Auto Intake test
+
+    BobotState.intakeBeam()
+        .onTrue(
+            intake.HPintake()
+                .andThen(controller.rumbleSeconds(2, .5))
+                .alongWith(controller2.rumbleSeconds(2, .5)));
   }
 
   /**

@@ -19,30 +19,30 @@ import org.littletonrobotics.junction.Logger;
 public class Intake extends SubsystemBase {
   private final IntakeIO io;
   private final BeambreakIO beambreak;
-  // private final BeambreakIO beambreak2;
+  private final BeambreakIO beambreak2;
 
   private final IntakeIOInputsAutoLogged inputs = new IntakeIOInputsAutoLogged();
   private final BeambreakIOInputsAutoLogged beambreakInputs = new BeambreakIOInputsAutoLogged();
-  // private final BeambreakIOInputsAutoLogged beambreak2Inputs = new BeambreakIOInputsAutoLogged();
+  private final BeambreakIOInputsAutoLogged beambreak2Inputs = new BeambreakIOInputsAutoLogged();
 
   public Intake() {
     switch (Constants.currentMode) {
       case REAL:
         io = new IntakeIOTalonFX(22, false, 26);
         beambreak = new BeambreakDigitalInput(3);
-        // beambreak2 = new BeambreakDigitalInput(8);
+        beambreak2 = new BeambreakDigitalInput(8);
 
         break;
       case SIM:
         io = new IntakeIOSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
         beambreak = new BeambreakDigitalInput(9);
-        // beambreak2 = new BeambreakDigitalInput(8);
+        beambreak2 = new BeambreakDigitalInput(8);
         break;
       case REPLAY:
       default:
         io = new IntakeIO() {};
         beambreak = new BeambreakIO() {};
-        // beambreak2 = new BeambreakIO() {};
+        beambreak2 = new BeambreakIO() {};
 
         break;
     }
@@ -52,17 +52,20 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     this.io.updateInputs(this.inputs);
     this.io.updateInputs(this.inputs);
-    this.beambreak.updateInputs(this.beambreakInputs);
+    // this.beambreak.updateInputs(this.beambreakInputs);
     // this.beambreak2.updateInputs(this.beambreakInputs);
 
     Logger.processInputs("Intake", this.inputs);
     Logger.processInputs("Intake/Beambreak", this.beambreakInputs);
-    // Logger.processInputs("Intake/Beambreak2", this.beambreak2Inputs);
+    Logger.processInputs("Intake/Beambreak2", this.beambreak2Inputs);
 
     // Make sure the motor actually stops when the robot disabled
     if (DriverStation.isDisabled()) {
       this.io.stop();
     }
+
+    BobotState.updateIntakeBeam1(beambreakIsObstructed().getAsBoolean());
+    BobotState.updateIntakeBeam2(beambreakIsObstructed2().getAsBoolean());
   }
 
   public Command HPintake() {
@@ -73,6 +76,13 @@ public class Intake extends SubsystemBase {
             new RunCommand(() -> this.io.setPercentOutput(-.2), this)
                 .until(BobotState.ElevatorBeam().negate())
                 .andThen(stopCommand()));
+  }
+
+  public Command overrideBeambreakObstructedCommand(boolean value) {
+    return new InstantCommand(
+        () -> {
+          this.beambreak.overrideObstructed(value);
+        });
   }
 
   public Command intakewithstop() {
@@ -139,6 +149,10 @@ public class Intake extends SubsystemBase {
 
   public Trigger beambreakIsObstructed() {
     return new Trigger(() -> this.beambreakInputs.isObstructed);
+  }
+
+  public Trigger beambreakIsObstructed2() {
+    return new Trigger(() -> this.beambreak2Inputs.isObstructed);
   }
 
   public void playMusic() {
