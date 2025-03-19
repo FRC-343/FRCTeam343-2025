@@ -56,7 +56,7 @@ public class FieldConstants {
   public static final ProcessorFace redProcessor =
       new ProcessorFace(new AprilTagStruct(3, VisionConstants.fieldLayout.getTagPose(3).get()));
   public static final AprilTagStruct redBarge =
-      new AprilTagStruct(4, VisionConstants.fieldLayout.getTagPose(4).get());
+      new AprilTagStruct(5, VisionConstants.fieldLayout.getTagPose(5).get());
 
   public static final ReefFace redReefAB =
       new ReefFace(new AprilTagStruct(7, VisionConstants.fieldLayout.getTagPose(7).get()));

@@ -315,14 +315,17 @@ public class RobotContainer {
                 .andThen(controller2.rumbleOnOff(2, .25, .2, 2)));
 
     controller
-        .povDown()
+        .rightBumper()
         .whileTrue(
-            new DriveToPoseCommand(
+            DrivePerpendicularToPoseCommand.withJoystickRumble(
                 drive,
                 () ->
                     PoseUtils.plusRotation(
-                        FieldUtils.getProcessorFace().processor.getPerpendicularOffsetPose(1),
-                        Rotation2d.kPi)));
+                        FieldUtils.getBargeTag().pose().toPose2d(), Rotation2d.kPi),
+                () -> -controller.getLeftYSquared(),
+                Commands.parallel(
+                    controller.rumbleOnOff(1, 0.25, 0.2, 2),
+                    controller2.rumbleOnOff(1, 0.25, 0.2, 2))));
 
     // Operator Controlls
 
@@ -401,17 +404,17 @@ public class RobotContainer {
         .and(controller2.leftBumper())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
 
-    // controller2
-    //     .pov(0)
-    //     .and(controller2.leftBumper())
-    //     .whileTrue(elevator.setPercentOutputCommand(.06))
-    //     .onFalse(elevator.setPercentOutputCommand(0.0));
+    controller2
+        .pov(0)
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setPercentOutputCommand(.06))
+        .onFalse(elevator.setPercentOutputCommand(0.0));
 
-    // controller2
-    //     .pov(180)
-    //     .and(controller2.leftBumper())
-    //     .whileTrue(elevator.setPercentOutputCommand(-.06))
-    //     .onFalse(elevator.setPercentOutputCommand(0.0));
+    controller2
+        .pov(180)
+        .and(controller2.leftBumper())
+        .whileTrue(elevator.setPercentOutputCommand(-.06))
+        .onFalse(elevator.setPercentOutputCommand(0.0));
 
     // Climber Buttons
 
