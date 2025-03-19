@@ -204,6 +204,8 @@ public class RobotContainer {
 
     // TEST COMMANDS
 
+    NamedCommands.registerCommand("Quick Stop", intake.BeamWait());
+
     NamedCommands.registerCommand(
         "Drive test",
         new DriveToPoseCommand(
@@ -322,7 +324,6 @@ public class RobotContainer {
                         FieldUtils.getProcessorFace().processor.getPerpendicularOffsetPose(1),
                         Rotation2d.kPi)));
 
-
     // Operator Controlls
 
     // "Intake" Controlls
@@ -439,11 +440,6 @@ public class RobotContainer {
 
     // Auto Intake test
 
-    BobotState.intakeBeam()
-        .onTrue(
-            intake.HPintake()
-                .andThen(controller.rumbleSeconds(2, .5))
-                .alongWith(controller2.rumbleSeconds(2, .5)));
   }
 
   /**
@@ -463,5 +459,14 @@ public class RobotContainer {
   public void pauseMusic() {
     intake.pauseMusic();
     drive.pauseMusic();
+  }
+
+  public void Automation() {
+
+    BobotState.intakeBeam()
+        .onTrue(
+            intake.HPintake()
+                .alongWith(controller.rumbleSeconds(2, .5))
+                .alongWith(controller2.rumbleSeconds(2, .5)));
   }
 }

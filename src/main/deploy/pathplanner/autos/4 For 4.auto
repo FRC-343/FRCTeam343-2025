@@ -89,13 +89,39 @@
         {
           "type": "named",
           "data": {
-            "name": "HPIntake"
+            "name": "Quick Stop"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "TO R5"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "HPIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "TO R5"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -171,13 +197,39 @@
         {
           "type": "named",
           "data": {
-            "name": "HPIntake"
+            "name": "Quick Stop"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "TO R5"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "HPIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "TO R5"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -253,13 +305,39 @@
         {
           "type": "named",
           "data": {
-            "name": "HPIntake"
+            "name": "Quick Stop"
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "TO R4"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "HPIntake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.1
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "TO R4"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {

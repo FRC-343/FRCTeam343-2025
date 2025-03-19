@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.07,
-        "y": 5.21
+        "x": 5.15,
+        "y": 5.17
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.777982954545457,
-        "y": 5.798323863636362
+        "x": 5.857982954545457,
+        "y": 5.758323863636362
       },
       "isLocked": false,
       "linkedName": "R6 REEF POINT"
     },
     {
       "anchor": {
-        "x": 1.2321061643835618,
-        "y": 7.202932363013699
+        "x": 1.47,
+        "y": 7.15
       },
       "prevControl": {
-        "x": 2.0801814120371653,
-        "y": 6.786151368689171
+        "x": 2.3180752476535984,
+        "y": 6.733219005675473
       },
       "nextControl": null,
       "isLocked": false,
@@ -47,8 +47,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

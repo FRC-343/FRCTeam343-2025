@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj2.command.WaitUntilCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants;
 import frc.robot.beambreak.BeambreakDigitalInput;
@@ -29,14 +30,14 @@ public class Intake extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new IntakeIOTalonFX(22, false, 26);
-        beambreak = new BeambreakDigitalInput(3);
-        beambreak2 = new BeambreakDigitalInput(8);
+        beambreak = new BeambreakDigitalInput(5);
+        beambreak2 = new BeambreakDigitalInput(4);
 
         break;
       case SIM:
         io = new IntakeIOSim(DCMotor.getKrakenX60(1), 3, 1, new PIDConstants(1, 0, 0));
-        beambreak = new BeambreakDigitalInput(9);
-        beambreak2 = new BeambreakDigitalInput(8);
+        beambreak = new BeambreakDigitalInput(5);
+        beambreak2 = new BeambreakDigitalInput(4);
         break;
       case REPLAY:
       default:
@@ -52,8 +53,8 @@ public class Intake extends SubsystemBase {
   public void periodic() {
     this.io.updateInputs(this.inputs);
     this.io.updateInputs(this.inputs);
-    // this.beambreak.updateInputs(this.beambreakInputs);
-    // this.beambreak2.updateInputs(this.beambreakInputs);
+    this.beambreak.updateInputs(this.beambreakInputs);
+    this.beambreak2.updateInputs(this.beambreak2Inputs);
 
     Logger.processInputs("Intake", this.inputs);
     Logger.processInputs("Intake/Beambreak", this.beambreakInputs);
@@ -83,6 +84,10 @@ public class Intake extends SubsystemBase {
         () -> {
           this.beambreak.overrideObstructed(value);
         });
+  }
+
+  public Command BeamWait() {
+    return new WaitUntilCommand(BobotState.intakeBeam());
   }
 
   public Command intakewithstop() {

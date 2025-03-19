@@ -75,9 +75,9 @@ public class LED implements LEDIO {
     // Shift pattern by one pixel each cycle
     for (var i = 0; i < m_ledBuffer.getLength(); i++) {
       if (((i + shift) / 4) % 2 == 0) {
-        m_ledBuffer.setRGB(i, 255, 0, 0); // Red
+        m_ledBuffer.setRGB(i, 80, 0, 0); // Red
       } else {
-        m_ledBuffer.setRGB(i, 255, 255, 255); // White
+        m_ledBuffer.setRGB(i, 80, 80, 80); // White
       }
     }
 
@@ -93,7 +93,7 @@ public class LED implements LEDIO {
       if (isRed) {
         m_ledBuffer.setRGB(i, 255, 0, 0); // Red
       } else {
-        m_ledBuffer.setRGB(i, 255, 255, 255); // White
+        m_ledBuffer.setRGB(i, 80, 80, 80); // White
       }
     }
     // Toggle the color for the next cycle
@@ -109,7 +109,7 @@ public class LED implements LEDIO {
       // shape is a circle so only one value needs to precess
       final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
       // Set the value
-      m_ledBuffer.setHSV(i, hue, 255, 128);
+      m_ledBuffer.setHSV(i, hue, 140, 128);
     }
     // Increase by to make the rainbow "move"
     m_rainbowFirstPixelHue += 3;
@@ -126,7 +126,7 @@ public class LED implements LEDIO {
       // shape is a circle so only one value needs to precess
       final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
       // Set the value
-      m_ledBuffer.setHSV(i, hue, 255, 128);
+      m_ledBuffer.setHSV(i, hue, 140, 128);
     }
 
     for (var i = 72; i >= 72 && i < 144; i++) {
@@ -148,7 +148,7 @@ public class LED implements LEDIO {
 
       final var hue = (m_rainbowFirstPixelHue + (i * 180 / 72)) % 180;
       // Set the value
-      m_ledBuffer.setHSV(i, hue, 255, 128);
+      m_ledBuffer.setHSV(i, hue, 140, 128);
     }
 
     for (var i = 0; i < 72; i++) {

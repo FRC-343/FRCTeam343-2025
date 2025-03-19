@@ -3,24 +3,24 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2321061643835618,
-        "y": 7.202932363013699
+        "x": 1.47,
+        "y": 7.15
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.89642316485607,
-        "y": 6.69593128476593
+        "x": 2.134317000472506,
+        "y": 6.642998921752231
       },
       "isLocked": false,
       "linkedName": "AT HP"
     },
     {
       "anchor": {
-        "x": 3.71,
+        "x": 3.68,
         "y": 5.41
       },
       "prevControl": {
-        "x": 2.9220413100842797,
+        "x": 2.89204131008428,
         "y": 5.965133975008695
       },
       "nextControl": null,
@@ -33,8 +33,8 @@
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 6.0,
+    "maxAcceleration": 6.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
