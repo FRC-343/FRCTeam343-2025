@@ -232,9 +232,9 @@ public class BobotState extends VirtualSubsystem {
 
       String calcLogRoot = logRoot + "Barge/";
       Logger.recordOutput(
-          calcLogRoot + "TargetAngleDeg", hpsTracker.getRotationTarget().getDegrees());
+          calcLogRoot + "TargetAngleDeg", bargeTracker.getRotationTarget().getDegrees());
       Logger.recordOutput(
-          calcLogRoot + "TargetAngleRad", hpsTracker.getRotationTarget().getRadians());
+          calcLogRoot + "TargetAngleRad", bargeTracker.getRotationTarget().getRadians());
     }
 
     {
