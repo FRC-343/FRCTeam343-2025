@@ -8,6 +8,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 // (and post-hoc found the justification that this makes less objects)
 public class PoseUtils {
   public static Pose2d getParallelOffsetPose(Pose2d pose) {
+    // This returns the same Pose, So for our purposes this is useless
+    // For the useful bit add [, Double offsetMeters] into the function reqs and uncomment the .plus
     Translation2d offsetTranslation = pose.getTranslation();
     // .plus(
     //     new Translation2d(
