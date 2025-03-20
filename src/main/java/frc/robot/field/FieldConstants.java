@@ -14,6 +14,10 @@ public class FieldConstants {
 
   public static final double distanceToTag = Units.inchesToMeters(10);
 
+  public static final double tagToCageRight = Units.inchesToMeters(44.18);
+  public static final double tagToCageCenter = Units.inchesToMeters(1.25);
+  public static final double tagToCageLeft = Units.inchesToMeters(-41.7);
+
   public static final double fieldLength = Units.inchesToMeters(690.876);
   public static final double fieldWidth = Units.inchesToMeters(317);
   public static final double startingLineX = Units.inchesToMeters(299.438);
@@ -31,8 +35,8 @@ public class FieldConstants {
 
   public static final ProcessorFace blueProcessor =
       new ProcessorFace(new AprilTagStruct(16, VisionConstants.fieldLayout.getTagPose(16).get()));
-  public static final AprilTagStruct blueBarge =
-      new AprilTagStruct(14, VisionConstants.fieldLayout.getTagPose(14).get());
+  public static final BargeCage blueBarge =
+      new BargeCage(new AprilTagStruct(14, VisionConstants.fieldLayout.getTagPose(14).get()));
 
   // See Allred's sheet for why they're AB/CD/EF/etc
   public static final ReefFace blueReefAB =
@@ -55,8 +59,8 @@ public class FieldConstants {
 
   public static final ProcessorFace redProcessor =
       new ProcessorFace(new AprilTagStruct(3, VisionConstants.fieldLayout.getTagPose(3).get()));
-  public static final AprilTagStruct redBarge =
-      new AprilTagStruct(5, VisionConstants.fieldLayout.getTagPose(5).get());
+  public static final BargeCage redBarge =
+      new BargeCage(new AprilTagStruct(5, VisionConstants.fieldLayout.getTagPose(5).get()));
 
   public static final ReefFace redReefAB =
       new ReefFace(new AprilTagStruct(7, VisionConstants.fieldLayout.getTagPose(7).get()));

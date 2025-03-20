@@ -256,6 +256,15 @@ public class RobotContainer {
     // controller2.b().whileTrue( ledWantNote());
 
     controller
+        .povUp()
+        .whileTrue(
+            new DriveToPoseCommand(
+                drive,
+                () ->
+                    PoseUtils.plusRotation(
+                        FieldUtils.getBargeTag().leftCage.getPose(), Rotation2d.kZero)));
+
+    controller
         .rightTrigger()
         .whileTrue(
             DrivePerpendicularToPoseCommand.withJoystickRumble(
@@ -321,7 +330,7 @@ public class RobotContainer {
                 drive,
                 () ->
                     PoseUtils.plusRotation(
-                        FieldUtils.getBargeTag().pose().toPose2d(), Rotation2d.kPi),
+                        FieldUtils.getBargeTag().leftCage.getPose(), Rotation2d.kPi),
                 () -> -controller.getLeftYSquared(),
                 Commands.parallel(
                     controller.rumbleOnOff(1, 0.25, 0.2, 2),

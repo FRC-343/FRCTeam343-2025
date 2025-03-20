@@ -7,16 +7,17 @@ import edu.wpi.first.math.geometry.Translation2d;
 // We kept these because we could not part with them, it was too sad
 // (and post-hoc found the justification that this makes less objects)
 public class PoseUtils {
-  public static Pose2d getParallelOffsetPose(Pose2d pose) {
+  public static Pose2d getParallelOffsetPose(Pose2d pose, double offsetMeters) {
     // This returns the same Pose, So for our purposes this is useless
     // For the useful bit add [, Double offsetMeters] into the function reqs and uncomment the .plus
-    Translation2d offsetTranslation = pose.getTranslation();
-    // .plus(
-    //     new Translation2d(
-    //         // Add 90 degrees to all trig functions
-    //         // so it is offset parallel to the face of the tag
-    //         -offsetMeters * pose.getRotation().getSin(),
-    //         offsetMeters * pose.getRotation().getCos()));
+    Translation2d offsetTranslation =
+        pose.getTranslation()
+            .plus(
+                new Translation2d(
+                    // Add 90 degrees to all trig functions
+                    // so it is offset parallel to the face of the tag
+                    -offsetMeters * pose.getRotation().getSin(),
+                    offsetMeters * pose.getRotation().getCos()));
 
     return new Pose2d(offsetTranslation, pose.getRotation());
 
@@ -40,7 +41,8 @@ public class PoseUtils {
 
   public static Pose2d getOffsetPose(
       Pose2d pose, double parellelOffsetMeters, double perpendicularOffsetMeters) {
-    return getPerpendicularOffsetPose(getParallelOffsetPose(pose), perpendicularOffsetMeters);
+    return getPerpendicularOffsetPose(
+        getParallelOffsetPose(pose, parellelOffsetMeters), perpendicularOffsetMeters);
   }
 
   /**

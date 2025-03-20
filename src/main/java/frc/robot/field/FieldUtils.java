@@ -4,7 +4,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.bobot_state2.BobotState;
-import frc.robot.field.FieldConstants.AprilTagStruct;
 import java.util.List;
 
 public class FieldUtils {
@@ -72,7 +71,9 @@ public class FieldUtils {
     return closestTag;
   }
 
-  public static AprilTagStruct getBargeTag() {
+  public static BargeCage getBargeTag() {
+    BargeCage test =
+        FieldUtils.isBlueAlliance() ? FieldConstants.blueBarge : FieldConstants.redBarge;
     return FieldUtils.isBlueAlliance() ? FieldConstants.blueBarge : FieldConstants.redBarge;
   }
 }

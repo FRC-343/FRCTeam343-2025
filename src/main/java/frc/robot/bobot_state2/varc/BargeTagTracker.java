@@ -10,7 +10,7 @@ public class BargeTagTracker extends TargetAngleTracker {
   private double distanceMeters = 0;
 
   public void update() {
-    Pose2d closestPose = FieldUtils.getBargeTag().pose().toPose2d();
+    Pose2d closestPose = FieldUtils.getBargeTag().tag.pose().toPose2d();
     rotationTarget = closestPose.getRotation().plus(Rotation2d.kPi);
     distanceMeters =
         closestPose.getTranslation().getDistance(BobotState.getGlobalPose().getTranslation());
