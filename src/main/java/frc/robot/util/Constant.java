@@ -13,7 +13,7 @@ public class Constant {
     public static double L1AlgeaLevel = 12; // Placeholder replace with real value from robot
     public static double L3Level = 13.6; // Placeholder replace with real value from robot
     public static double L2AlgeaLevel = 21; // possibly the real value
-    public static double L4Level = 26.5; // Placeholder replace with real value from robot
+    public static double L4Level = 26.3; // Placeholder replace with real value from robot
 
     public static final double kMaxSpeedMetersPerSecond = 4.6;
 

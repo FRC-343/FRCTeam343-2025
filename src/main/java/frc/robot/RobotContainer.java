@@ -282,7 +282,7 @@ public class RobotContainer {
                 drive,
                 () ->
                     PoseUtils.plusRotation(
-                        FieldUtils.getClosestHPSTag().HPS.getPerpendicularOffsetPose(0.5),
+                        FieldUtils.getClosestHPSTag().HPS.getPerpendicularOffsetPose(0.3),
                         Rotation2d.kZero)));
 
     controller
