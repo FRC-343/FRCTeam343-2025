@@ -14,6 +14,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.units.measure.AngularVelocity;
+import edu.wpi.first.units.measure.Current;
 import edu.wpi.first.units.measure.Voltage;
 import frc.robot.subsystems.Elevator.ElevatorMotorIO.ElevatorMotorIOInputs;
 
@@ -28,11 +29,15 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   private final StatusSignal<Double> dutyCycle;
   private final StatusSignal<AngularVelocity> velocity;
   private final StatusSignal<Angle> position;
+  private final StatusSignal<Current> current;
 
   private final StatusSignal<Voltage> followerVoltage = follower.getMotorVoltage();
   private final StatusSignal<Double> followerDutyCycle = follower.getDutyCycle();
   private final StatusSignal<AngularVelocity> followerVelocity = follower.getVelocity();
   private final StatusSignal<Angle> followerPosition = follower.getPosition();
+  private final StatusSignal<Current> followerCurrent = follower.getStatorCurrent();
+
+
 
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
@@ -47,6 +52,7 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
     dutyCycle = talon.getDutyCycle();
     velocity = talon.getVelocity();
     position = talon.getPosition();
+    current = talon.getStatorCurrent();
 
     // absEnc = encoder.getAbsoluteEncoder();
 
@@ -88,10 +94,12 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
         dutyCycle,
         velocity,
         position,
+        current,
         followerDutyCycle,
         followerPosition,
         followerVelocity,
-        followerVoltage);
+        followerVoltage,
+        followerCurrent);
     talon.optimizeBusUtilization();
     this.follower.optimizeBusUtilization();
 
@@ -109,12 +117,14 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
         followerVelocity,
         followerVoltage);
     inputs.masterAppliedVolts = voltage.getValueAsDouble();
-    inputs.masterVelocityRadPerSec = velocity.getValueAsDouble() / 3.0;
+    inputs.masterVelocityRadPerSec = velocity.getValueAsDouble();
     inputs.masterPositionRad = position.getValueAsDouble();
+    inputs.masterCurrentAmps = current.getValueAsDouble();
 
     inputs.followerAppliedVolts = followerVoltage.getValueAsDouble();
     inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
     inputs.followerPositionRad = followerPosition.getValueAsDouble();
+    inputs.followerCurrentAmps = followerCurrent.getValueAsDouble();
 
     // inputs.extentionAbsPos = absEnc.getPosition();
   }
