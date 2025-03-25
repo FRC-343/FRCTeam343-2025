@@ -6,11 +6,11 @@ import frc.robot.util.PoseUtils;
 
 public class HPSFace {
   public final AprilTagStruct tag;
-  public final HPSLocation HPS;
+  public final HPSLocation hps;
 
   public HPSFace(AprilTagStruct tag) {
     this.tag = tag;
-    this.HPS = new HPSLocation(tag);
+    this.hps = new HPSLocation(tag);
   }
 
   public double getPerpendicularError(Pose2d robotPose) {

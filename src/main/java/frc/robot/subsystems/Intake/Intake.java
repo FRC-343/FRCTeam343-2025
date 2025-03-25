@@ -68,10 +68,15 @@ public class Intake extends SubsystemBase {
     BobotState.updateIntakeBeam1(beambreakIsObstructed().getAsBoolean());
     BobotState.updateIntakeBeam2(beambreakIsObstructed2().getAsBoolean());
   }
+  // Testing DAVE holding>>
+  public Command Hold() {
+    return new RunCommand(() -> runForTimeT2(-.1, .1), this);
+  }
+  // Testing DAVE holding^^^
 
   public Command HPintake() {
     return new RunCommand(() -> this.io.setPercentOutput(-.2), this)
-        .until(BobotState.ElevatorBeam())
+        .until(BobotState.ElevatorBeam().or(BobotState.elevatorAtFeed().negate()))
         .andThen(new WaitCommand(.1))
         .andThen(
             new RunCommand(() -> this.io.setPercentOutput(-.2), this)
@@ -106,6 +111,18 @@ public class Intake extends SubsystemBase {
 
   public Command runForTime(double speed, double time) { // -.5 for out .5 for in
     return new RunCommand(() -> this.io.setPercentOutput(speed), this)
+        .withTimeout(time)
+        .andThen(io::stop);
+  }
+
+  public Command runForTimeT2(double speed, double time) { // -.5 for out .5 for in
+    return new RunCommand(() -> this.io.setPercentOutputT2(speed), this)
+        .withTimeout(time)
+        .andThen(io::stop);
+  }
+
+  public Command runForTimeT1(double speed, double time) { // -.5 for out .5 for in
+    return new RunCommand(() -> this.io.setPercentOutputT1(speed), this)
         .withTimeout(time)
         .andThen(io::stop);
   }

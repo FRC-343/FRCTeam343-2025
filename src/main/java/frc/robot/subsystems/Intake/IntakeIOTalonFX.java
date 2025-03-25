@@ -100,8 +100,16 @@ public class IntakeIOTalonFX implements IntakeIO {
   public void setPercentOutput(double percentDecimal) {
     talon.setControl(dutyCycleOut.withOutput(percentDecimal));
     talon2.setControl(dutyCycleOut.withOutput(-(percentDecimal * 2)));
+  }
 
-    // m_orchestra.play();
+  @Override
+  public void setPercentOutputT2(double percentDecimal) {
+    talon2.setControl(dutyCycleOut.withOutput(-(percentDecimal)));
+  }
+
+  @Override
+  public void setPercentOutputT1(double percentDecimal) {
+    talon.setControl(dutyCycleOut.withOutput(percentDecimal));
   }
 
   @Override

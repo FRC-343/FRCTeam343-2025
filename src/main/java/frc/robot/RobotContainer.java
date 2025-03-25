@@ -35,6 +35,7 @@ import frc.robot.subsystems.vision2.Vision;
 // import frc.robot.subsystems.vision.VisionIOPhotonVisionSim;
 import frc.robot.util.CommandCustomController;
 import frc.robot.util.Constant;
+import frc.robot.util.Constant.elevatorConstants;
 import frc.robot.util.PoseUtils;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
@@ -173,7 +174,10 @@ public class RobotContainer {
     // SmartDashboard.putData(MetalUtils.getQuickReefOne());
 
     // Configure the button bindings
-    configureButtonBindings();
+    configureOperatorButton();
+    configureDefaults();
+    configureDriverButtons();
+
     // configureAutomation();
 
     //     SmartDashboard.putString("QuickReefOne", MetalUtils.getQuickReefOneTAGv());
@@ -225,36 +229,16 @@ public class RobotContainer {
   //   private void configureAutomation() {
   //     // BobotState.nearHumanPlayer().whileTrue(intake.HPintake()).onFalse(intake.stopCommand());
   //   }
-
-  private void configureButtonBindings() {
-    // Default command, normal field-relative drive
+  private void configureDefaults() {
     drive.setDefaultCommand(
         DriveCommands.joystickDrive(
             drive,
             () -> -controller.getLeftY(),
             () -> -controller.getLeftX(),
             () -> -controller.getRightX()));
+  }
 
-    // intake.setDefaultCommand(getAutonomousCommand());
-
-    // elevator.setVelocityCommand(controller2.getLeftY());
-    // Lock to 0° when A button is held
-    // controller
-    //     .a()
-    //     .whileTrue(
-    //         DriveCommands.joystickDriveAtAngle(
-    //             drive,
-    //             () -> -controller.getLeftY(),
-    //             () -> -controller.getLeftX(),
-    //             () -> new Rotation2d()));
-
-    // Switch to X pattern when X button is pressed
-    // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
-
-    // Reset gyro to 0° when B button is pressed
-    // new POVButton(m_driverControlle  r, 0).whileTrue(new Wantnote());
-    // controller2.b().whileTrue( ledWantNote());
-
+  private void configureDriverButtons() {
     controller
         .povUp()
         .whileTrue(
@@ -282,7 +266,7 @@ public class RobotContainer {
                 drive,
                 () ->
                     PoseUtils.plusRotation(
-                        FieldUtils.getClosestHPSTag().HPS.getPerpendicularOffsetPose(0.3),
+                        FieldUtils.getClosestHPSTag().hps.getPerpendicularOffsetPose(0.3),
                         Rotation2d.kZero)));
 
     controller
@@ -292,7 +276,7 @@ public class RobotContainer {
                 drive,
                 () ->
                     PoseUtils.plusRotation(
-                        FieldUtils.getClosestHPSTag().HPS.getPose(), Rotation2d.kPi),
+                        FieldUtils.getClosestHPSTag().hps.getPose(), Rotation2d.kPi),
                 () -> -controller.getLeftYSquared(),
                 Commands.parallel(
                     controller.rumbleOnOff(1, 0.25, 0.2, 2),
@@ -308,9 +292,6 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
-
-    // controller.x().onTrue(intake.HPintake()).onFalse(intake.stopCommand());
-    // controller
 
     controller
         .leftTrigger()
@@ -335,9 +316,20 @@ public class RobotContainer {
                 Commands.parallel(
                     controller.rumbleOnOff(1, 0.25, 0.2, 2),
                     controller2.rumbleOnOff(1, 0.25, 0.2, 2))));
+  }
 
-    // Operator Controlls
+  private void configureOperatorButton() {
 
+    // Test Controlls
+
+    controller2.leftTrigger().and(BobotState.elevatorAtFeed())
+    .debounce(.5)
+    .onTrue(intake.HPintake().until(BobotState.elevatorAtFeed().negate()));
+
+    controller2
+        .leftTrigger()
+        .and(BobotState.elevatorAtFeed().negate())
+        .whileTrue(elevator.setElevatorPosition(elevatorConstants.FEED));
     // "Intake" Controlls
 
     controller2
@@ -475,10 +467,6 @@ public class RobotContainer {
 
   public void Automation() {
 
-    BobotState.intakeBeam()
-        .onTrue(
-            intake.HPintake()
-                .alongWith(controller.rumbleSeconds(2, .5))
-                .alongWith(controller2.rumbleSeconds(2, .5)));
+    BobotState.intakeBeam().onTrue(intake.Hold());
   }
 }

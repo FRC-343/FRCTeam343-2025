@@ -46,6 +46,8 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean intakeBeam2;
 
+  private static double elevatorPose;
+
   private static ReefTagTracker reefTracker = new ReefTagTracker();
   private static HPSTagTracker hpsTracker = new HPSTagTracker();
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
@@ -57,6 +59,10 @@ public class BobotState extends VirtualSubsystem {
           BobotState.reefTracker,
           BobotState.processorTracker,
           BobotState.bargeTracker);
+
+  public static void updateElevatorPose(double pose) {
+    BobotState.elevatorPose = pose;
+  }
 
   public static void updateIntakeBeam1(boolean beam) {
     BobotState.intakeBeam1 = beam;
@@ -170,6 +176,14 @@ public class BobotState extends VirtualSubsystem {
     return new Trigger(() -> BobotState.elevatorSlowDown);
   }
 
+  public static double ElevatorPose() {
+    return BobotState.elevatorPose;
+  }
+
+  public static Trigger elevatorAtFeed() {
+    return new Trigger(() -> (BobotState.elevatorPose < .5));
+  }
+
   @Override
   public void periodic() {
 
@@ -190,6 +204,10 @@ public class BobotState extends VirtualSubsystem {
     Logger.recordOutput(logRoot + "Wanted Rot", atWantedRot);
 
     Logger.recordOutput(logRoot + "Wanted Pose", atWantedPose());
+
+    Logger.recordOutput(logRoot + "Elevator pose", elevatorPose);
+
+    Logger.recordOutput(logRoot + "Elevator at feed", elevatorAtFeed());
     {
       processorTracker.update();
 
@@ -218,7 +236,7 @@ public class BobotState extends VirtualSubsystem {
       hpsTracker.update();
 
       String calcLogRoot = logRoot + "HPS/";
-      Logger.recordOutput(calcLogRoot + "Closest Tag", FieldUtils.getClosestHPSTag().HPS);
+      Logger.recordOutput(calcLogRoot + "Closest Tag", FieldUtils.getClosestHPSTag().hps);
       Logger.recordOutput(calcLogRoot + "Distance", BobotState.hpsTracker.getDistanceMeters());
       Logger.recordOutput(calcLogRoot + "IsClose", BobotState.nearHumanPlayer());
       Logger.recordOutput(

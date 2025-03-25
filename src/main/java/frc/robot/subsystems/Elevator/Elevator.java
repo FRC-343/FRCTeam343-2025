@@ -111,6 +111,7 @@ public class Elevator extends SubsystemBase {
 
     BobotState.updateElevatorBeam(beambreakIsObstructed().getAsBoolean());
     BobotState.updateElevatorState(higherThanMid().getAsBoolean());
+    BobotState.updateElevatorPose(this.inputs.masterPositionRad);
 
     // limitIsTriggered().onTrue(resetEncoder());
     // BackupLimitIsTriggerd().onTrue(resetEncoder());
@@ -242,4 +243,10 @@ public class Elevator extends SubsystemBase {
     setpointInches = velocityRotPerSecond * 1000;
     return new RunCommand(() -> this.io.setPercentOutput(velocityRotPerSecond), this);
   }
+
+  /* Adding new commands down here to ease readability,
+   * at some point the above commands will be reorganized.
+   * Triggers might also be separated at a later date, potentially added to BobotState
+   */
+
 }

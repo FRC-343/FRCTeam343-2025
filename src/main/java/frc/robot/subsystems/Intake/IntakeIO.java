@@ -24,6 +24,10 @@ public interface IntakeIO {
 
   public default void setVoltage(double voltage) {}
 
+  public default void setPercentOutputT1(double percentDecimal) {}
+
+  public default void setPercentOutputT2(double percentDecimal) {}
+
   public default void playMusic() {}
 
   public default void pauseMusic() {}

@@ -37,8 +37,6 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
   private final StatusSignal<Angle> followerPosition = follower.getPosition();
   private final StatusSignal<Current> followerCurrent = follower.getStatorCurrent();
 
-
-
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
 

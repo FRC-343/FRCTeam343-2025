@@ -10,7 +10,7 @@ public class HPSTagTracker extends TargetAngleTracker {
   private double distanceMeters = 0.0;
 
   public void update() {
-    Pose2d closestPose = FieldUtils.getClosestHPSTag().HPS.getPose();
+    Pose2d closestPose = FieldUtils.getClosestHPSTag().hps.getPose();
     rotationTarget = closestPose.getRotation();
     distanceMeters =
         closestPose.getTranslation().getDistance(BobotState.getGlobalPose().getTranslation());
