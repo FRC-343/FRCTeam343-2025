@@ -322,9 +322,11 @@ public class RobotContainer {
 
     // Test Controlls
 
-    controller2.leftTrigger().and(BobotState.elevatorAtFeed())
-    .debounce(.5)
-    .onTrue(intake.HPintake().until(BobotState.elevatorAtFeed().negate()));
+    controller2
+        .leftTrigger()
+        .and(BobotState.elevatorAtFeed())
+        .debounce(.5)
+        .onTrue(intake.HPintake().until(BobotState.elevatorAtFeed().negate()));
 
     controller2
         .leftTrigger()
