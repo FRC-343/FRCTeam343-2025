@@ -53,12 +53,18 @@ public class BobotState extends VirtualSubsystem {
   private static BargeTagTracker bargeTracker = new BargeTagTracker();
   private static ProcessorTagTracker processorTracker = new ProcessorTagTracker();
 
+  private static String wantNearWhat = "";
+
   private static List<TargetAngleTracker> autoAlignmentTrackers =
       List.of(
           BobotState.hpsTracker,
           BobotState.reefTracker,
           BobotState.processorTracker,
           BobotState.bargeTracker);
+
+  public static void updateNearness(String test) {
+    BobotState.wantNearWhat = test;
+  }
 
   public static void updateElevatorPose(double pose) {
     BobotState.elevatorPose = pose;
@@ -110,6 +116,10 @@ public class BobotState extends VirtualSubsystem {
 
   public static Pose2d getGlobalPose() {
     return BobotState.globalPose;
+  }
+
+  public static String getNearWhat() {
+    return BobotState.wantNearWhat;
   }
 
   public static boolean getClimberState() {
@@ -186,6 +196,8 @@ public class BobotState extends VirtualSubsystem {
 
   @Override
   public void periodic() {
+
+    Logger.recordOutput(logRoot + "Wanted to be near", wantNearWhat);
 
     Logger.recordOutput(logRoot + "Intake Beam 1", intakeBeam1);
 

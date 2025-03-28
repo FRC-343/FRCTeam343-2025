@@ -38,7 +38,6 @@ public class FieldConstants {
   public static final BargeCage blueBarge =
       new BargeCage(new AprilTagStruct(14, VisionConstants.fieldLayout.getTagPose(14).get()));
 
-  // See Allred's sheet for why they're AB/CD/EF/etc
   public static final ReefFace blueReefAB =
       new ReefFace(new AprilTagStruct(18, VisionConstants.fieldLayout.getTagPose(18).get()));
   public static final ReefFace blueReefCD =

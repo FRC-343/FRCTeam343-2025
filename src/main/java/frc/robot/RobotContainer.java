@@ -239,6 +239,9 @@ public class RobotContainer {
   }
 
   private void configureDriverButtons() {
+    controller.povLeft().onTrue(new InstantCommand(() -> BobotState.updateNearness("HPS")));
+    controller.povRight().onTrue(new InstantCommand(() -> BobotState.updateNearness("Reef")));
+    controller.povDown().onTrue(new InstantCommand(() -> BobotState.updateNearness("")));
     controller
         .povUp()
         .whileTrue(
