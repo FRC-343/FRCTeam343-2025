@@ -64,12 +64,12 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
                 .withSlot0(
-                    new Slot0Configs().withKV(0.12).withKA(.01).withKP(1.5).withKI(0).withKD(0))
+                    new Slot0Configs().withKV(0.12).withKA(.01).withKP(2).withKI(0).withKD(0))
                 .withMotionMagic(
                     new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(28)
-                        .withMotionMagicCruiseVelocity(15)
-                        .withMotionMagicJerk(160)));
+                        .withMotionMagicAcceleration(25)
+                        .withMotionMagicCruiseVelocity(25)
+                        .withMotionMagicJerk(200)));
     velocityVoltage.Slot = 0;
 
     this.follower
@@ -78,12 +78,12 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
             new TalonFXConfiguration()
                 .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
                 .withSlot0(
-                    new Slot0Configs().withKV(0.12).withKA(.01).withKP(1.5).withKI(0).withKD(0))
+                    new Slot0Configs().withKV(0.12).withKA(.01).withKP(2).withKI(0).withKD(0))
                 .withMotionMagic(
                     new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(28)
-                        .withMotionMagicCruiseVelocity(15)
-                        .withMotionMagicJerk(160)));
+                        .withMotionMagicAcceleration(25)
+                        .withMotionMagicCruiseVelocity(25)
+                        .withMotionMagicJerk(200)));
     velocityVoltage.Slot = 0;
 
     StatusSignal.setUpdateFrequencyForAll(

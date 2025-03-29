@@ -58,7 +58,7 @@ public class Elevator extends SubsystemBase {
     switch (Constants.currentMode) {
       case REAL:
         io = new ElevatorMotorTalonFX(21);
-        beambreak = new BeambreakDigitalInput(2); // 3 and 2
+        beambreak = new BeambreakDigitalInput(9); // 3 and 2
         LimitSwitch = new LimitSwitchDigitalInput(0);
         LimitSwitchBackup = new LimitSwitchDigitalInput(1);
 
@@ -204,7 +204,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public Trigger higherThanMid() {
-    return new Trigger(() -> (this.inputs.masterPositionRad > 12));
+    return new Trigger(() -> (this.inputs.masterPositionRad > 20));
   }
 
   public Command stopCommand() {

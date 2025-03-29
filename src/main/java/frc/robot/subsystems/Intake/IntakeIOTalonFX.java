@@ -104,7 +104,7 @@ public class IntakeIOTalonFX implements IntakeIO {
 
   @Override
   public void setPercentOutputT2(double percentDecimal) {
-    talon2.setControl(dutyCycleOut.withOutput(-(percentDecimal)));
+    talon2.setControl(dutyCycleOut.withOutput(-percentDecimal));
   }
 
   @Override

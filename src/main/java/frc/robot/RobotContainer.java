@@ -329,7 +329,7 @@ public class RobotContainer {
         .leftTrigger()
         .and(BobotState.elevatorAtFeed())
         .debounce(.5)
-        .onTrue(intake.HPintake().until(BobotState.elevatorAtFeed().negate()));
+        .onTrue(intake.HPintake());
 
     controller2
         .leftTrigger()
@@ -348,79 +348,42 @@ public class RobotContainer {
         .onFalse(new InstantCommand(() -> m_LEDs.cycleRedWhitePattern()));
 
     controller2
-        .a()
-        .and(controller2.leftBumper().negate())
-        .and(controller2.rightBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(-.1));
-
-    controller2
-        .y()
-        .and(controller2.leftBumper().negate())
+        .leftBumper()
         .and(controller2.rightBumper().negate())
         .whileTrue(intake.setPercentOutputThenStopCommand(.8));
 
     controller2
-        .x()
+        .rightTrigger()
         .and(controller2.leftBumper().negate())
         .and(controller2.rightBumper().negate())
-        .whileTrue(intake.setPercentOutputThenStopCommand(-.8));
-
-    controller2
-        .b()
-        .and(controller2.leftBumper().negate())
-        .and(controller2.rightBumper().negate())
-        .onTrue(
-            intake.HPintake()
-                .andThen(
-                    controller
-                        .rumbleSeconds(2, .5)
-                        .alongWith(controller2.rumbleSeconds(2, .5))
-                        .alongWith(new InstantCommand(() -> m_LEDs.HaveNote())))
-                .andThen(new InstantCommand(() -> m_LEDs.Idle())));
+        .whileTrue(intake.setPercentOutputThenStopCommandT1(-.8));
 
     // Elevator buttons
 
     controller2
-        .leftTrigger()
-        .and(controller2.leftBumper())
-        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L1AlgeaLevel));
+        .y()
+        .and(controller2.rightBumper().negate())
+        .whileTrue(elevator.setElevatorPosition(elevatorConstants.Barge));
 
     controller2
-        .rightTrigger()
-        .and(controller2.leftBumper())
+        .rightStick()
+        .and(controller2.rightBumper().negate())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L2AlgeaLevel));
 
     controller2
         .a()
-        .and(controller2.leftBumper())
+        .and(controller2.rightBumper().negate())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L3Level));
 
     controller2
         .x()
-        .and(controller2.leftBumper())
+        .and(controller2.rightBumper().negate())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L4Level));
 
     controller2
         .b()
-        .and(controller2.leftBumper())
+        .and(controller2.rightBumper().negate())
         .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.L2Level));
-
-    controller2
-        .y()
-        .and(controller2.leftBumper())
-        .whileTrue(elevator.setElevatorPosition(Constant.elevatorConstants.FEED));
-
-    controller2
-        .pov(0)
-        .and(controller2.leftBumper())
-        .whileTrue(elevator.setPercentOutputCommand(.06))
-        .onFalse(elevator.setPercentOutputCommand(0.0));
-
-    controller2
-        .pov(180)
-        .and(controller2.leftBumper())
-        .whileTrue(elevator.setPercentOutputCommand(-.06))
-        .onFalse(elevator.setPercentOutputCommand(0.0));
 
     // Climber Buttons
 
@@ -442,7 +405,7 @@ public class RobotContainer {
         .whileFalse(climber.setPercentOutputCommand(0));
 
     controller2.y().and(controller2.rightBumper()).onTrue(climber.goForRotForward(64));
-    controller2.a().and(controller2.rightBumper()).onTrue(climber.goForRotBack(30));
+    controller2.a().and(controller2.rightBumper()).onTrue(climber.goForRotBack(28));
 
     controller2.b().and(controller2.rightBumper()).onTrue(climber.Disengage());
     controller2.x().and(controller2.rightBumper()).onTrue(climber.Engage());
@@ -471,7 +434,6 @@ public class RobotContainer {
   }
 
   public void Automation() {
-
-    BobotState.intakeBeam().onTrue(intake.Hold());
+    BobotState.intakeBeam().onTrue(intake.HPintake());
   }
 }

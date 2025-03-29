@@ -18,22 +18,22 @@ import frc.robot.subsystems.Climber.ClimberIO.ClimberIOInputs;
 
 public class ClimberIOTalonFX implements ClimberIO {
   private final TalonFX talon;
-  private final TalonFX follower = new TalonFX(20);
+  // private final TalonFX follower = new TalonFX(20);
 
   // private final SparkBase encoder = new SparkMax(26, MotorType.kBrushed);
   // private final AbsoluteEncoder absEnc;
 
-  private final Servo Servo = new Servo(1);
+  private final Servo Servo = new Servo(5);
 
   private final StatusSignal<Voltage> voltage;
   private final StatusSignal<Double> dutyCycle;
   private final StatusSignal<AngularVelocity> velocity;
   private final StatusSignal<Angle> position;
 
-  private final StatusSignal<Voltage> followerVoltage = follower.getMotorVoltage();
-  private final StatusSignal<Double> followerDutyCycle = follower.getDutyCycle();
-  private final StatusSignal<AngularVelocity> followerVelocity = follower.getVelocity();
-  private final StatusSignal<Angle> followerPosition = follower.getPosition();
+  // private final StatusSignal<Voltage> followerVoltage = follower.getMotorVoltage();
+  // private final StatusSignal<Double> followerDutyCycle = follower.getDutyCycle();
+  // private final StatusSignal<AngularVelocity> followerVelocity = follower.getVelocity();
+  // private final StatusSignal<Angle> followerPosition = follower.getPosition();
 
   private final VelocityVoltage velocityVoltage = new VelocityVoltage(0);
   private final DutyCycleOut dutyCycleOut = new DutyCycleOut(0);
@@ -62,75 +62,52 @@ public class ClimberIOTalonFX implements ClimberIO {
                         .withMotionMagicJerk(50)));
     velocityVoltage.Slot = 0;
 
-    this.follower
-        .getConfigurator()
-        .apply(
-            new TalonFXConfiguration()
-                .withMotorOutput(new MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
-                .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0))
-                .withMotionMagic(
-                    new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(25)
-                        .withMotionMagicCruiseVelocity(50)
-                        .withMotionMagicJerk(50)));
+    // this.follower
+    //     .getConfigurator()
+    //     .apply(
+    //         new TalonFXConfiguration()
+    //             .withMotorOutput(new
+    // MotorOutputConfigs().withNeutralMode(NeutralModeValue.Brake))
+    //             .withSlot0(new Slot0Configs().withKV(0.12).withKP(1).withKI(0).withKD(0))
+    //             .withMotionMagic(
+    //                 new MotionMagicConfigs()
+    //                     .withMotionMagicAcceleration(25)
+    //                     .withMotionMagicCruiseVelocity(50)
+    //                     .withMotionMagicJerk(50)));
     velocityVoltage.Slot = 0;
 
-    StatusSignal.setUpdateFrequencyForAll(
-        10,
-        voltage,
-        dutyCycle,
-        velocity,
-        position,
-        followerDutyCycle,
-        followerPosition,
-        followerVelocity,
-        followerVoltage);
+    StatusSignal.setUpdateFrequencyForAll(10, voltage, dutyCycle, velocity, position);
     talon.optimizeBusUtilization();
-    this.follower.optimizeBusUtilization();
+    // this.follower.optimizeBusUtilization();
   }
 
   public void updateInputs(ClimberIOInputs inputs) {
-    StatusSignal.refreshAll(
-        velocity,
-        dutyCycle,
-        voltage,
-        position,
-        followerDutyCycle,
-        followerPosition,
-        followerVelocity,
-        followerVoltage);
+    StatusSignal.refreshAll(velocity, dutyCycle, voltage, position);
     inputs.masterAppliedVolts = voltage.getValueAsDouble();
     inputs.masterVelocityRadPerSec = velocity.getValueAsDouble() / 3.0;
     inputs.masterPositionRad = position.getValueAsDouble();
-
-    inputs.followerAppliedVolts = followerVoltage.getValueAsDouble();
-    inputs.followerVelocityRadPerSec = followerVelocity.getValueAsDouble();
-    inputs.followerPositionRad = followerPosition.getValueAsDouble();
 
     // inputs.extentionAbsPos = absEnc.getPosition();
   }
 
   @Override
   public void setClimberVelocity(double velocityRotPerSecond) {
-    talon.setControl(dutyCycleOut.withOutput(velocityRotPerSecond));
-    this.follower.setControl(dutyCycleOut.withOutput(-velocityRotPerSecond));
+    talon.setControl(dutyCycleOut.withOutput(-velocityRotPerSecond));
   }
 
   @Override
   public void setPercentOutput(double percentDecimal) {
-    talon.setControl(dutyCycleOut.withOutput(percentDecimal));
-    this.follower.setControl(dutyCycleOut.withOutput(-percentDecimal));
+    talon.setControl(dutyCycleOut.withOutput(-percentDecimal));
   }
 
   @Override
   public void setSetpoint(double setpoint) {
-    talon.setControl(dutyCycleOut.withOutput(setpoint));
-    this.follower.setControl(dutyCycleOut.withOutput(-setpoint));
+    talon.setControl(dutyCycleOut.withOutput(-setpoint));
   }
 
   @Override
   public void setVoltage(double voltage) {
-    talon.setControl(dutyCycleOut.withOutput(voltage));
+    talon.setControl(dutyCycleOut.withOutput(-voltage));
   }
 
   @Override
@@ -147,13 +124,11 @@ public class ClimberIOTalonFX implements ClimberIO {
 
   @Override
   public void goForRotForward(double voltage) {
-    talon.setControl(Vrequest.withPosition(voltage));
-    this.follower.setControl(Vrequest.withPosition(-voltage));
+    talon.setControl(Vrequest.withPosition(-voltage));
   }
 
   @Override
   public void goForRotBack(double voltage) {
-    talon.setControl(Vrequest.withPosition(voltage));
-    this.follower.setControl(Vrequest.withPosition(-voltage));
+    talon.setControl(Vrequest.withPosition(-voltage));
   }
 }

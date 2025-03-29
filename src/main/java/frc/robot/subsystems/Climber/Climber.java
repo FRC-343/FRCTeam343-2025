@@ -39,7 +39,7 @@ public class Climber extends SubsystemBase {
   public Climber() {
     switch (Constants.currentMode) {
       case REAL:
-        io = new ClimberIOTalonFX(24);
+        io = new ClimberIOTalonFX(20);
         LimitSwitch = new LimitSwitchDigitalInput(6);
 
         break;

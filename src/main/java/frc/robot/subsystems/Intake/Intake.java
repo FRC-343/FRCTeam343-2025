@@ -68,11 +68,6 @@ public class Intake extends SubsystemBase {
     BobotState.updateIntakeBeam1(beambreakIsObstructed().getAsBoolean());
     BobotState.updateIntakeBeam2(beambreakIsObstructed2().getAsBoolean());
   }
-  // Testing DAVE holding>>
-  public Command Hold() {
-    return new RunCommand(() -> runForTimeT2(-.1, .1), this);
-  }
-  // Testing DAVE holding^^^
 
   public Command HPintake() {
     return new RunCommand(() -> this.io.setPercentOutput(-.2), this)
@@ -143,6 +138,18 @@ public class Intake extends SubsystemBase {
     return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this).finallyDo(io::stop);
   }
 
+  public Command setPercentOutputThenStopCommandT1(double percentDecimal) {
+    // playMusic();
+    return new RunCommand(() -> this.io.setPercentOutputT1(percentDecimal), this)
+        .finallyDo(io::stop);
+  }
+
+  public Command setPercentOutputThenStopCommandT2(double percentDecimal) {
+    // playMusic();
+    return new RunCommand(() -> this.io.setPercentOutputT2(percentDecimal), this)
+        .finallyDo(io::stop);
+  }
+
   public Command setPercentOutputBeambreakCommand(double percentDecimal, Trigger test) {
     return new RunCommand(() -> this.io.setPercentOutput(percentDecimal), this)
         .onlyWhile(test)
@@ -176,6 +183,12 @@ public class Intake extends SubsystemBase {
   public Trigger beambreakIsObstructed2() {
     return new Trigger(() -> this.beambreak2Inputs.isObstructed);
   }
+
+  // Testing DAVE holding>>
+  public Command Hold() {
+    return new RunCommand(() -> runForTimeT2(-.1, .1));
+  }
+  // Testing DAVE holding^^^
 
   public void playMusic() {
     this.io.playMusic();
