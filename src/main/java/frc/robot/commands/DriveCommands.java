@@ -72,7 +72,7 @@ public class DriveCommands {
           omega = Math.copySign(omega * omega, omega);
 
           // Convert to field relative speeds & send command
-          if (!BobotState.ElevatorSlowdown().getAsBoolean()) {
+          if (!BobotState.ElevatorSlowdown1().getAsBoolean() && !BobotState.ElevatorSlowdown2().getAsBoolean()) {
 
             ChassisSpeeds speeds =
                 new ChassisSpeeds(
@@ -88,11 +88,11 @@ public class DriveCommands {
                     isFlipped
                         ? drive.getRotation().plus(new Rotation2d(Math.PI))
                         : drive.getRotation()));
-          } else {
+          } else if (BobotState.ElevatorSlowdown1().getAsBoolean() && !BobotState.ElevatorSlowdown2().getAsBoolean()){
             ChassisSpeeds speeds =
                 new ChassisSpeeds(
-                    (linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec()) / 2.5,
-                    (linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec()) / 2.5,
+                    (linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec()) / 1.5,
+                    (linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec()) / 1.5,
                     (omega * drive.getMaxAngularSpeedRadPerSec()) / 2.5);
             boolean isFlipped =
                 DriverStation.getAlliance().isPresent()
@@ -103,6 +103,21 @@ public class DriveCommands {
                     isFlipped
                         ? drive.getRotation().plus(new Rotation2d(Math.PI))
                         : drive.getRotation()));
+          } else{
+            ChassisSpeeds speeds =
+            new ChassisSpeeds(
+                (linearVelocity.getX() * drive.getMaxLinearSpeedMetersPerSec()) / 2.5,
+                (linearVelocity.getY() * drive.getMaxLinearSpeedMetersPerSec()) / 2.5,
+                (omega * drive.getMaxAngularSpeedRadPerSec()) / 2.5);
+        boolean isFlipped =
+            DriverStation.getAlliance().isPresent()
+                && DriverStation.getAlliance().get() == Alliance.Red;
+        drive.runVelocity(
+            ChassisSpeeds.fromFieldRelativeSpeeds(
+                speeds,
+                isFlipped
+                    ? drive.getRotation().plus(new Rotation2d(Math.PI))
+                    : drive.getRotation()));
           }
         },
         drive);

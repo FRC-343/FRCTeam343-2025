@@ -40,7 +40,9 @@ public class BobotState extends VirtualSubsystem {
 
   private static boolean atWantedParaPose;
 
-  private static boolean elevatorSlowDown;
+  private static boolean elevatorHigherThanL3;
+
+  private static boolean elevatorHigherThanL4;
 
   private static boolean intakeBeam1;
 
@@ -79,7 +81,11 @@ public class BobotState extends VirtualSubsystem {
   }
 
   public static void updateElevatorState(boolean state) {
-    BobotState.elevatorSlowDown = state;
+    BobotState.elevatorHigherThanL3 = state;
+  }
+
+  public static void updateElevatorState2(boolean state) {
+    BobotState.elevatorHigherThanL4 = state;
   }
 
   public static void updateElevatorBeam(boolean beam) {
@@ -182,9 +188,14 @@ public class BobotState extends VirtualSubsystem {
     return new Trigger(() -> BobotState.ElevatorBeam);
   }
 
-  public static Trigger ElevatorSlowdown() {
-    return new Trigger(() -> BobotState.elevatorSlowDown);
+  public static Trigger ElevatorSlowdown1() {
+    return new Trigger(() -> BobotState.elevatorHigherThanL3);
   }
+
+  public static Trigger ElevatorSlowdown2() {
+    return new Trigger(() -> BobotState.elevatorHigherThanL4);
+  }
+
 
   public static double ElevatorPose() {
     return BobotState.elevatorPose;
@@ -203,7 +214,7 @@ public class BobotState extends VirtualSubsystem {
 
     Logger.recordOutput(logRoot + "Intake Beam 2", intakeBeam2);
 
-    Logger.recordOutput(logRoot + "Elevator Slowdown", elevatorSlowDown);
+    Logger.recordOutput(logRoot + "Elevator Slowdown", elevatorHigherThanL3 || elevatorHigherThanL4);
 
     Logger.recordOutput(logRoot + "Climber limit", climberState);
 

@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.47,
-        "y": 7.15
+        "x": 1.2048148978417834,
+        "y": 0.980974583497258
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.134317000472506,
-        "y": 6.642998921752231
+        "x": 1.6470731210601484,
+        "y": 1.2989383061242192
       },
       "isLocked": false,
-      "linkedName": "AT HP"
+      "linkedName": "At HP2"
     },
     {
       "anchor": {
-        "x": 3.68,
-        "y": 5.41
+        "x": 3.644272484534903,
+        "y": 2.6506115808057507
       },
       "prevControl": {
-        "x": 2.89204131008428,
-        "y": 5.965133975008695
+        "x": 2.8056345504962694,
+        "y": 2.1317041938632975
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "R5 Elevator point"
+      "linkedName": "R3 Elevator point"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -58.39249775375109
+    "rotation": 59.598372701852924
   },
   "reversed": false,
-  "folder": "FROM HP",
+  "folder": "FROM HP2",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -52.926926682689604
+    "rotation": 54.1780790001624
   },
   "useDefaultConstraints": true
 }

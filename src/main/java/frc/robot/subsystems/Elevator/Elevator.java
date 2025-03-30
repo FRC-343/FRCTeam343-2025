@@ -20,6 +20,8 @@ import frc.robot.beambreak.BeambreakIO;
 import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.bobot_state2.BobotState;
 import frc.robot.util.Constant;
+import frc.robot.util.Constant.elevatorConstants;
+
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -110,7 +112,8 @@ public class Elevator extends SubsystemBase {
     // BobotState.setElevatorUp(this.inputs.masterPositionRad >= 1.0);
 
     BobotState.updateElevatorBeam(beambreakIsObstructed().getAsBoolean());
-    BobotState.updateElevatorState(higherThanMid().getAsBoolean());
+    BobotState.updateElevatorState(higherThanL3().getAsBoolean());
+    BobotState.updateElevatorState2(higherThanL4().getAsBoolean());
     BobotState.updateElevatorPose(this.inputs.masterPositionRad);
 
     // limitIsTriggered().onTrue(resetEncoder());
@@ -203,8 +206,12 @@ public class Elevator extends SubsystemBase {
             MathUtil.isNear(Constant.elevatorConstants.L2Level, this.inputs.masterPositionRad, 1));
   }
 
-  public Trigger higherThanMid() {
+  public Trigger higherThanL4() {
     return new Trigger(() -> (this.inputs.masterPositionRad > 20));
+  }
+
+  public Trigger higherThanL3(){
+    return new Trigger(() -> (this.inputs.masterPositionRad > elevatorConstants.L3Level));
   }
 
   public Command stopCommand() {
