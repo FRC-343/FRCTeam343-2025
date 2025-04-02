@@ -196,7 +196,6 @@ public class BobotState extends VirtualSubsystem {
     return new Trigger(() -> BobotState.elevatorHigherThanL4);
   }
 
-
   public static double ElevatorPose() {
     return BobotState.elevatorPose;
   }
@@ -214,7 +213,8 @@ public class BobotState extends VirtualSubsystem {
 
     Logger.recordOutput(logRoot + "Intake Beam 2", intakeBeam2);
 
-    Logger.recordOutput(logRoot + "Elevator Slowdown", elevatorHigherThanL3 || elevatorHigherThanL4);
+    Logger.recordOutput(
+        logRoot + "Elevator Slowdown", elevatorHigherThanL3 || elevatorHigherThanL4);
 
     Logger.recordOutput(logRoot + "Climber limit", climberState);
 

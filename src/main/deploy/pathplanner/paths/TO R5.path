@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 3.68,
-        "y": 5.41
+        "x": 3.64,
+        "y": 5.49
       },
       "prevControl": {
-        "x": 2.89204131008428,
-        "y": 5.965133975008695
+        "x": 2.85204131008428,
+        "y": 6.045133975008695
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -58.39249775375109
+    "rotation": -59.33163701523138
   },
   "reversed": false,
   "folder": "FROM HP",

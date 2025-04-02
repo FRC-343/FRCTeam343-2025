@@ -11,7 +11,7 @@ public class Constant {
     public static double L1Level = 0.0; // Placeholder replace with real value from robot
     public static double L2Level = 4.8; // Placeholder replace with real value from robot
     public static double L1AlgeaLevel = 4; // Placeholder replace with real value from robot
-    public static double L3Level = 10; // Placeholder replace with real value from robot
+    public static double L3Level = 9.9; // Placeholder replace with real value from robot
     public static double L2AlgeaLevel = 15; // possibly the real value
     public static double L4Level = 18; // Placeholder replace with real value from robot
     public static double Barge = 28.4;

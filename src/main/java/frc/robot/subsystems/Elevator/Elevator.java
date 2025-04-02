@@ -21,7 +21,6 @@ import frc.robot.beambreak.BeambreakIOInputsAutoLogged;
 import frc.robot.bobot_state2.BobotState;
 import frc.robot.util.Constant;
 import frc.robot.util.Constant.elevatorConstants;
-
 import org.littletonrobotics.junction.Logger;
 
 /*
@@ -210,7 +209,7 @@ public class Elevator extends SubsystemBase {
     return new Trigger(() -> (this.inputs.masterPositionRad > 20));
   }
 
-  public Trigger higherThanL3(){
+  public Trigger higherThanL3() {
     return new Trigger(() -> (this.inputs.masterPositionRad > elevatorConstants.L3Level));
   }
 

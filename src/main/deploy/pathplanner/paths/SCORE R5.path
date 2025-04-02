@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.68,
-        "y": 5.41
+        "x": 3.64,
+        "y": 5.49
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.9108664476606574,
-        "y": 5.314079807420184
+        "x": 3.8542382899367547,
+        "y": 5.343301210849632
       },
       "isLocked": false,
       "linkedName": "R5 Elevator point"
@@ -20,8 +20,8 @@
         "y": 5.156775568181818
       },
       "prevControl": {
-        "x": 3.5862085408348054,
-        "y": 5.239656030861329
+        "x": 3.590206999451645,
+        "y": 5.230494478343729
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "FROM HP",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -58.39249775375109
+    "rotation": -59.33163701523138
   },
   "useDefaultConstraints": false
 }

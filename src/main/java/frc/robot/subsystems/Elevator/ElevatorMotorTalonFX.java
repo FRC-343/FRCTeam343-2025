@@ -67,8 +67,8 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
                     new Slot0Configs().withKV(0.12).withKA(.01).withKP(2).withKI(0).withKD(0))
                 .withMotionMagic(
                     new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(25)
-                        .withMotionMagicCruiseVelocity(25)
+                        .withMotionMagicAcceleration(45)
+                        .withMotionMagicCruiseVelocity(45)
                         .withMotionMagicJerk(200)));
     velocityVoltage.Slot = 0;
 
@@ -81,8 +81,8 @@ public class ElevatorMotorTalonFX implements ElevatorMotorIO {
                     new Slot0Configs().withKV(0.12).withKA(.01).withKP(2).withKI(0).withKD(0))
                 .withMotionMagic(
                     new MotionMagicConfigs()
-                        .withMotionMagicAcceleration(25)
-                        .withMotionMagicCruiseVelocity(25)
+                        .withMotionMagicAcceleration(45)
+                        .withMotionMagicCruiseVelocity(45)
                         .withMotionMagicJerk(200)));
     velocityVoltage.Slot = 0;
 

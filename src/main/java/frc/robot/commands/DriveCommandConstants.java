@@ -17,7 +17,7 @@ public class DriveCommandConstants {
   }
 
   public static PIDController makeTranslationController() {
-    PIDController translationController = new PIDController(5, 0.0, 0);
+    PIDController translationController = new PIDController(3.5, 0.0, 0);
     translationController.setTolerance(Units.inchesToMeters(1));
 
     return translationController;
