@@ -17,7 +17,7 @@ public class LED implements LEDIO {
   private static LED m_instance = new LED();
   // PWM port 9
   // Must be a PWM header, not MXP or DIO
-  private final AddressableLED m_led = new AddressableLED(0);
+  private final AddressableLED m_led = new AddressableLED(3);
   private final AddressableLEDBuffer m_ledBuffer = new AddressableLEDBuffer(144);
 
   // Reuse buffer
