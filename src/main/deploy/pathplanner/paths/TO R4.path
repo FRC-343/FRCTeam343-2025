@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.47,
-        "y": 7.15
+        "x": 1.34,
+        "y": 7.21
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.6802286337840127,
-        "y": 6.725419681732486
+        "x": 1.5502286337840128,
+        "y": 6.785419681732486
       },
       "isLocked": false,
       "linkedName": "AT HP"
